@@ -1,11 +1,12 @@
 /*
- *  $Id: main.cc,v 1.1.1.1 2008-06-16 03:15:08 ueshiba Exp $
+ *  $Id: main.cc,v 1.2 2008-09-08 08:09:38 ueshiba Exp $
  */
 #include <fstream>
 #include <exception>
 #include <unistd.h>
 #include <vector>
 #include "TU/Image++.h"
+#include "TU/Camera.h"
 
 namespace TU
 {

@@ -1,5 +1,5 @@
 #
-#  $Id: Makefile,v 1.1.1.1 2008-06-16 03:15:08 ueshiba Exp $
+#  $Id: Makefile,v 1.2 2008-09-08 08:09:38 ueshiba Exp $
 #
 #################################
 #  User customizable macros	#
@@ -29,11 +29,12 @@ LINKER		= $(CCC)
 #########################
 SUFFIX		= .cc:sC
 EXTHDRS		= /home/ueshiba/include/TU/Array++.h \
+		/home/ueshiba/include/TU/Camera.h \
 		/home/ueshiba/include/TU/Geometry++.h \
 		/home/ueshiba/include/TU/Image++.h \
-		/home/ueshiba/include/TU/Minimize++.h \
 		/home/ueshiba/include/TU/Thread++.h \
 		/home/ueshiba/include/TU/Vector++.h \
+		/home/ueshiba/include/TU/Warp.h \
 		/home/ueshiba/include/TU/types.h \
 		/home/ueshiba/include/TU/utility.h \
 		/home/ueshiba/stereo/corrStereo/Rectify.h
@@ -46,7 +47,7 @@ OBJS		= Rectify.o \
 #########################
 #  Macros used by RCS	#
 #########################
-REV		= $(shell echo $Revision: 1.1.1.1 $	|		\
+REV		= $(shell echo $Revision: 1.2 $	|		\
 		  sed 's/evision://'		|		\
 		  awk -F"."					\
 		  '{						\
@@ -60,17 +61,14 @@ include $(PROJECT)/lib/p.mk
 ###
 Rectify.o: /home/ueshiba/include/TU/utility.h \
 	/home/ueshiba/stereo/corrStereo/Rectify.h \
-	/home/ueshiba/include/TU/Image++.h \
+	/home/ueshiba/include/TU/Warp.h /home/ueshiba/include/TU/Image++.h \
 	/home/ueshiba/include/TU/Geometry++.h \
-	/home/ueshiba/include/TU/Minimize++.h \
 	/home/ueshiba/include/TU/Vector++.h \
 	/home/ueshiba/include/TU/Array++.h /home/ueshiba/include/TU/types.h \
-	/home/ueshiba/include/TU/Thread++.h
+	/home/ueshiba/include/TU/Camera.h /home/ueshiba/include/TU/Thread++.h
 main.o: /home/ueshiba/stereo/corrStereo/Rectify.h \
-	/home/ueshiba/include/TU/Image++.h \
+	/home/ueshiba/include/TU/Warp.h /home/ueshiba/include/TU/Image++.h \
 	/home/ueshiba/include/TU/Geometry++.h \
-	/home/ueshiba/include/TU/utility.h \
-	/home/ueshiba/include/TU/Minimize++.h \
 	/home/ueshiba/include/TU/Vector++.h \
 	/home/ueshiba/include/TU/Array++.h /home/ueshiba/include/TU/types.h \
-	/home/ueshiba/include/TU/Thread++.h
+	/home/ueshiba/include/TU/Camera.h /home/ueshiba/include/TU/Thread++.h
