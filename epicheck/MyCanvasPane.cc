@@ -1,5 +1,5 @@
 /*
- *  $Id: MyCanvasPane.cc,v 1.2 2008-09-08 08:09:37 ueshiba Exp $
+ *  $Id: MyCanvasPane.cc,v 1.3 2008-09-09 05:50:05 ueshiba Exp $
  */
 #include "epicheck.h"
 
@@ -18,11 +18,11 @@ inline u_int	min(u_int x, u_int y)	{return (x < y ? x : y);}
 /************************************************************************
 *  MyCanvasPane								*
 ************************************************************************/
-MyCanvasPane::MyCanvasPane(Window&			 parentWindow,
-			   int				 view,
-			   const Array<Matrix<double> >& F,
-			   const Image<u_char>&		 image,
-			   u_int			 lineWidth)
+MyCanvasPane::MyCanvasPane(Window&			parentWindow,
+			   int				view,
+			   const Array<Matrix33d>&	F,
+			   const Image<u_char>&		image,
+			   u_int			lineWidth)
     :CanvasPane(parentWindow,
 		min(image.width(),  MaxCanvasWidth),
 		min(image.height(), MaxCanvasHeight)),
@@ -37,7 +37,7 @@ MyCanvasPane::MyCanvasPane(Window&			 parentWindow,
 }
 
 void
-MyCanvasPane::drawEpipolarLine(const Point2<double>& p, u_int otherView)
+MyCanvasPane::drawEpipolarLine(const Point2d& p, u_int otherView)
 {
     if (otherView != _view)
     {
@@ -47,7 +47,7 @@ MyCanvasPane::drawEpipolarLine(const Point2<double>& p, u_int otherView)
 }
 
 void
-MyCanvasPane::drawSelfEpipolarLine(const Point2<double>& p, u_int otherView)
+MyCanvasPane::drawSelfEpipolarLine(const Point2d& p, u_int otherView)
 {
     if (otherView != _view)
     {

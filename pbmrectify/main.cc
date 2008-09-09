@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.1.1.1 2008-06-16 03:15:08 ueshiba Exp $
+ *  $Id: main.cc,v 1.2 2008-09-09 05:50:18 ueshiba Exp $
  */
 #include <fstream>
 #include <exception>
@@ -70,7 +70,7 @@ main(int argc, char* argv[])
 	  {
 	    CameraWithDistortion calib(image[0].P, image[0].d1, image[0].d2);
 	    Warp		 warp;
-	    warp.initialize(Matrix<double>::I(3), calib.intrinsic(),
+	    warp.initialize(Matrix33d::I(3), calib.intrinsic(),
 			    image[0].width(), image[0].height(),
 			    image[0].width(), image[0].height());
 	    warp(image[0], rectifiedImage[0]);

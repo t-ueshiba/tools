@@ -1,5 +1,5 @@
 /*
- *  $Id: epicheck.h,v 1.1.1.1 2008-06-16 03:15:08 ueshiba Exp $
+ *  $Id: epicheck.h,v 1.2 2008-09-09 05:50:06 ueshiba Exp $
  */
 #include "TU/v/CmdWindow.h"
 #include "TU/v/CmdPane.h"
@@ -20,25 +20,23 @@ class MyCanvasPane : public CanvasPane
     
     MyCanvasPane(Window&			parentWindow,
 		 int				view,
-		 const Array<Matrix<double> >&	F,
+		 const Array<Matrix33d>&	F,
 		 const Image<u_char>&		image,
 		 u_int				lineWidth)		;
 
     CanvasPaneDC&	dc()						;
 
-    void	drawEpipolarLine(const Point2<double>&	p,
-				 u_int			otherView)	;
-    void	drawSelfEpipolarLine(const Point2<double>& p,
-				     u_int		   otherView)	;
+    void	drawEpipolarLine(const Point2d&	p, u_int otherView)	;
+    void	drawSelfEpipolarLine(const Point2d& p, u_int otherView)	;
 
     virtual void	callback(CmdId, CmdVal)				;
     virtual void	repaintUnderlay()				;
     
   private:
-    const int				_view;
-    const Array<Matrix<double> >	_F;
-    const Image<u_char>&		_image;
-    CanvasPaneDC			_dc;
+    const int			_view;
+    const Array<Matrix33d>	_F;
+    const Image<u_char>&	_image;
+    CanvasPaneDC		_dc;
 };
 
 inline CanvasPaneDC&		MyCanvasPane::dc()	{return _dc;}
@@ -65,7 +63,7 @@ class MyCmdWindow : public CmdWindow
 
     CmdPane			_cmd;
     Array<MyCanvasPane*>	_canvas;
-    Point2<double>		_q;		// previous cursor location.
+    Point2d			_q;		// previous cursor location.
     Matrix<double>		_pair;
     BGR				_bgr[8];
 };

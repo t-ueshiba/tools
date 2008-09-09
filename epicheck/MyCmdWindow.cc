@@ -1,5 +1,5 @@
 /*
- *  $Id: MyCmdWindow.cc,v 1.1.1.1 2008-06-16 03:15:08 ueshiba Exp $
+ *  $Id: MyCmdWindow.cc,v 1.2 2008-09-09 05:50:05 ueshiba Exp $
  */
 #include "TU/v/App.h"
 #include "epicheck.h"
@@ -57,16 +57,16 @@ MyCmdWindow::MyCmdWindow(App&			parentApp,
     for (int i = 0; i < nframes(); ++i)
     {
       // Compute F-matrices and create child canvases.
-	const Matrix<double>&	P0 = image[index[i]].P;
+	const Matrix34d&	P0 = image[index[i]].P;
 	SVDecomposition<double>	svd(P0);
 	Vector<double>		c = svd.Ut()[3];
 	Matrix<double>		P0inv = svd.Ut()[0]%svd.Vt()[0]/svd[0]
 					      + svd.Ut()[1]%svd.Vt()[1]/svd[1]
 					      + svd.Ut()[2]%svd.Vt()[2]/svd[2];
-	Array<Matrix<double> >	F(nframes());
+	Array<Matrix33d>	F(nframes());
 	for (int j = 0; j < nframes(); ++j)
 	{
-	    const Matrix<double>&	P1 = image[index[j]].P;
+	    const Matrix34d&	P1 = image[index[j]].P;
 	    F[j] = (P1 * c).skew() * P1 * P0inv;
 	}
 	_canvas[i] = new MyCanvasPane(*this, i, F, image[index[i]], lineWidth);
@@ -106,10 +106,10 @@ MyCmdWindow::~MyCmdWindow()
 void
 MyCmdWindow::callback(CmdId id, CmdVal val)
 {
-    u_int		view = id / MyCanvasPane::NEVENTS,
-			event = id % MyCanvasPane::NEVENTS;
-    Point2<double>	p(_canvas[view]->dc().dev2logU(val.u),
-			  _canvas[view]->dc().dev2logU(val.v));
+    u_int	view  = id / MyCanvasPane::NEVENTS,
+		event = id % MyCanvasPane::NEVENTS;
+    Point2d	p(_canvas[view]->dc().dev2logU(val.u),
+		  _canvas[view]->dc().dev2logU(val.v));
 
     switch (event)
     {
@@ -159,7 +159,7 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 	  _canvas[view]->dc() << foreground(Color_RED) << cross;
 	  for (int j = 0; j < npairs(); ++j)
 	  {
-	      _canvas[view]->dc() << Point2<double>(_pair[j](3*view, 3));
+	      _canvas[view]->dc() << Point2d(_pair[j](3*view, 3));
 	      char	s[32];
 	      sprintf(s, "%d", j);
 	      _canvas[view]->dc().draw(s, _pair[j][3*view] + 5,
@@ -211,7 +211,7 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 	  }
 	  _canvas[view]->dc() << foreground(_bgr[Color_GREEN]) << cross;
 	  for (int j = 0; j < npairs(); ++j)
-	      _canvas[view]->dc() << Point2<double>(_pair[j](3*view, 3));
+	      _canvas[view]->dc() << Point2d(_pair[j](3*view, 3));
       }
         break;
     }
