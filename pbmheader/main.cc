@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.2 2008-09-08 08:09:38 ueshiba Exp $
+ *  $Id: main.cc,v 1.3 2009-01-10 09:02:09 ueshiba Exp $
  */
 #include <fstream>
 #include <exception>
@@ -18,11 +18,12 @@ usage(const char* s)
 {
     using namespace	std;
     
-    cerr << "\nRead images from stdin and show write headers to stdout.\n"
+    cerr << "\nRead images from stdin and write headers to stdout.\n"
 	 << endl;
     cerr << " Usage: " << s << "\n"
 	 << endl;
     cerr << " options.\n"
+	 << "  -m:        write in a matrix form\n"
 	 << "  -h:        print this\n"
 	 << endl;
 }
@@ -37,11 +38,16 @@ main(int argc, char* argv[])
     using namespace	std;
     using namespace	TU;
 
+    bool	matrixForm = false;
     extern char	*optarg;
     extern int	optind;
-    for (int c; (c =getopt(argc, argv, "h")) != EOF; )
+    for (int c; (c =getopt(argc, argv, "mh")) != EOF; )
 	switch (c)
 	{
+	  case 'm':
+	    matrixForm = true;
+	    break;
+	    
 	  case 'h':
 	    usage(argv[0]);
 	    return 1;
@@ -54,7 +60,21 @@ main(int argc, char* argv[])
 	{
 	    CameraWithDistortion	calib(image.P, image.d1, image.d2);
 	    cerr << "--- " << n++ << "-th camera ---" << endl;
-	    cout << calib;
+	    if (matrixForm)
+	    {
+		cerr << "[Position: t]" << endl;
+		cout << calib.t() << endl;
+		cerr << "[Orientation: Rt]" << endl;
+		cout << calib.Rt();
+		cerr << "[Intrinsic: K]" << endl;
+		cout << calib.K();
+		cerr << "[Distortion: d1, d2]" << endl;
+		cout << calib.d1() << ' ' << calib.d2() << '\n' << endl;
+	    }
+	    else
+	    {
+		cout << calib;
+	    }
 	}
     }
     catch (exception& err)
