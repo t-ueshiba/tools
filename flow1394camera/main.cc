@@ -1,5 +1,5 @@
 /*
- *  $Id
+ *  $Id: main.cc,v 1.2 2009-04-13 04:14:00 ueshiba Exp $
  */
 #include <stdlib.h>
 #include <signal.h>
