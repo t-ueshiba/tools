@@ -1,5 +1,5 @@
 #
-#  $Id: Makefile,v 1.3 2009-01-10 09:02:09 ueshiba Exp $
+#  $Id: Makefile,v 1.4 2009-04-13 04:12:01 ueshiba Exp $
 #
 #################################
 #  User customizable macros	#
@@ -32,6 +32,7 @@ EXTHDRS		= /home/ueshiba/include/TU/Array++.h \
 		/home/ueshiba/include/TU/Camera.h \
 		/home/ueshiba/include/TU/Geometry++.h \
 		/home/ueshiba/include/TU/Image++.h \
+		/home/ueshiba/include/TU/Normalize.h \
 		/home/ueshiba/include/TU/Vector++.h \
 		/home/ueshiba/include/TU/types.h
 HDRS		=
@@ -41,7 +42,7 @@ OBJS		= main.o
 #########################
 #  Macros used by RCS	#
 #########################
-REV		= $(shell echo $Revision: 1.3 $	|		\
+REV		= $(shell echo $Revision: 1.4 $	|		\
 		  sed 's/evision://'		|		\
 		  awk -F"."					\
 		  '{						\
@@ -57,4 +58,5 @@ main.o: /home/ueshiba/include/TU/Image++.h \
 	/home/ueshiba/include/TU/Geometry++.h \
 	/home/ueshiba/include/TU/Vector++.h \
 	/home/ueshiba/include/TU/Array++.h /home/ueshiba/include/TU/types.h \
+	/home/ueshiba/include/TU/Normalize.h \
 	/home/ueshiba/include/TU/Camera.h

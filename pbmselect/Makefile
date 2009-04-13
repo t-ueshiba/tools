@@ -1,5 +1,5 @@
 #
-#  $Id: Makefile,v 1.2 2008-09-08 08:09:39 ueshiba Exp $
+#  $Id: Makefile,v 1.3 2009-04-13 04:12:17 ueshiba Exp $
 #
 #################################
 #  User customizable macros	#
@@ -13,10 +13,11 @@ LIBS		= -lTUTools++
 CPPFLAGS	=
 CFLAGS		= -g
 ifeq ($(CCC), icpc)
+  CFLAGS	= -O3
   ifeq ($(OSTYPE), darwin)
-    CFLAGS	= -O3 -axP -parallel -ip
+    CPPFLAGS   += -DSSE3 -axP -ip -parallel
   else
-    CFLAGS	= -O3 -tpp7 -xW -parallel -ip
+    CPPFLAGS   += -DSSE2 -xN -ip
   endif
 endif
 CCFLAGS		= $(CFLAGS)
@@ -31,6 +32,7 @@ SUFFIX		= .cc:sC
 EXTHDRS		= /home/ueshiba/include/TU/Array++.h \
 		/home/ueshiba/include/TU/Geometry++.h \
 		/home/ueshiba/include/TU/Image++.h \
+		/home/ueshiba/include/TU/Normalize.h \
 		/home/ueshiba/include/TU/Vector++.h \
 		/home/ueshiba/include/TU/types.h
 HDRS		=
@@ -40,7 +42,7 @@ OBJS		= main.o
 #########################
 #  Macros used by RCS	#
 #########################
-REV		= $(shell echo $Revision: 1.2 $	|		\
+REV		= $(shell echo $Revision: 1.3 $	|		\
 		  sed 's/evision://'		|		\
 		  awk -F"."					\
 		  '{						\
@@ -55,4 +57,5 @@ include $(PROJECT)/lib/p.mk
 main.o: /home/ueshiba/include/TU/Image++.h \
 	/home/ueshiba/include/TU/Geometry++.h \
 	/home/ueshiba/include/TU/Vector++.h \
-	/home/ueshiba/include/TU/Array++.h /home/ueshiba/include/TU/types.h
+	/home/ueshiba/include/TU/Array++.h /home/ueshiba/include/TU/types.h \
+	/home/ueshiba/include/TU/Normalize.h
