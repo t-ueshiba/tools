@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.1 2009-04-13 04:15:04 ueshiba Exp $
+ *  $Id: main.cc,v 1.2 2009-05-07 04:24:14 ueshiba Exp $
  */
 #include <stdlib.h>
 #include "TU/v/App.h"
@@ -8,12 +8,34 @@
 #include "TU/v/CanvasPaneDC.h"
 #include "TU/v/Timer.h"
 
-#define PIXEL_TYPE		ImageBase::U_CHAR
-
 namespace TU
 {
-typedef u_char	PixelType;
-    
+/************************************************************************
+*  static functions							*
+************************************************************************/
+template <class T> ImageBase::Type	pixelType();
+
+template <> inline ImageBase::Type	pixelType<u_char>()
+					{
+					    return ImageBase::U_CHAR;
+					}
+template <> inline ImageBase::Type	pixelType<RGBA>()
+					{
+					    return ImageBase::RGB_24;
+					}
+template <> inline ImageBase::Type	pixelType<YUV444>()
+					{
+					    return ImageBase::YUV_444;
+					}
+template <> inline ImageBase::Type	pixelType<YUV422>()
+					{
+					    return ImageBase::YUV_422;
+					}
+template <> inline ImageBase::Type	pixelType<YUV411>()
+					{
+					    return ImageBase::YUV_411;
+					}
+
 namespace v
 {
 /************************************************************************
@@ -39,7 +61,6 @@ MyCanvasPane<T>::repaintUnderlay()
 {
     _dc << _image;
 }
-
 
 /************************************************************************
 *  class MyCmdWindow<T>							*
@@ -84,13 +105,27 @@ MyCmdWindow<T>::tick()
     using namespace	std;
 
     for (int i = 0; i < _images.dim(); ++i)
-	_images[i].restoreData(cin, PIXEL_TYPE);
+	_images[i].restoreData(cin, pixelType<T>());
     _canvas0.repaintUnderlay();
     _canvas1.repaintUnderlay();
     _canvas2.repaintUnderlay();
 }
 
 }
+
+template <class T> static void
+doJob(v::App& vapp, const Array<GenericImage>& headers)
+{
+  // ヘッダ情報に基づいて画像サイズを設定．
+    Array<Image<T> >	images(std::max(headers.dim(), 3u));
+    for (int i = 0; i < headers.dim(); ++i)
+	images[i].resize(headers[i].height(), headers[i].width());
+	
+  // GUIオブジェクトを作り，イベントループを起動．
+    v::MyCmdWindow<T>	myWin(vapp, "Real-time image viewer", images);
+    vapp.run();
+}
+    
 }
 /************************************************************************
 *  global functions							*
@@ -109,17 +144,34 @@ main(int argc, char* argv[])
     cerr << nviews << " views." << endl;
 
   // 画像列を確保し，ヘッダ情報を読み込む．
-    Array<Image<PixelType> >	images(std::max(nviews, 3u));
-    for (int i = 0; i < nviews; ++i)
+    Array<GenericImage>		headers(nviews);
+    ImageBase::Type		type;
+    for (int i = 0; i < headers.dim(); ++i)
     {
-	images[i].restoreHeader(cin);
+	type = headers[i].restoreHeader(cin);
 	cerr << i << "-th image: "
-	     << images[i].width() << 'x' << images[i].height() << endl;
+	     << headers[i].width() << 'x' << headers[i].height() << endl;
     }
 
-  // GUIオブジェクトを作り，イベントループを起動．
-    v::MyCmdWindow<PixelType>	myWin(vapp, "Real-time image viewer", images);
-    vapp.run();
+  // 画素のタイプに応じて処理を行う．
+    switch (type)
+    {
+      case ImageBase::U_CHAR:
+	doJob<u_char>(vapp, headers);
+	break;
+      case ImageBase::RGB_24:
+	doJob<RGBA>(vapp, headers);
+	break;
+      case ImageBase::YUV_444:
+	doJob<YUV444>(vapp, headers);
+	break;
+      case ImageBase::YUV_422:
+	doJob<YUV422>(vapp, headers);
+	break;
+      case ImageBase::YUV_411:
+	doJob<YUV411>(vapp, headers);
+	break;
+    }
     
     return 0;
 }

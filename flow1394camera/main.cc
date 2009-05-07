@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.2 2009-04-13 04:14:00 ueshiba Exp $
+ *  $Id: main.cc,v 1.3 2009-05-07 04:23:55 ueshiba Exp $
  */
 #include <stdlib.h>
 #include <signal.h>
@@ -12,8 +12,6 @@
 
 #define DEFAULT_CONFIG_DIRS	".:/usr/local/etc/cameras"
 #define DEFAULT_CAMERA_NAME	"IEEE1394Camera"
-
-#define PIXEL_TYPE		ImageBase::U_CHAR
 
 namespace TU
 {
@@ -117,6 +115,29 @@ handler(int sig)
     active = false;
 }
 
+template <class T> ImageBase::Type	pixelType();
+
+template <> inline ImageBase::Type	pixelType<u_char>()
+					{
+					    return ImageBase::U_CHAR;
+					}
+template <> inline ImageBase::Type	pixelType<RGBA>()
+					{
+					    return ImageBase::RGB_24;
+					}
+template <> inline ImageBase::Type	pixelType<YUV444>()
+					{
+					    return ImageBase::YUV_444;
+					}
+template <> inline ImageBase::Type	pixelType<YUV422>()
+					{
+					    return ImageBase::YUV_422;
+					}
+template <> inline ImageBase::Type	pixelType<YUV411>()
+					{
+					    return ImageBase::YUV_411;
+					}
+
 template <class T> static void
 doJob(const CameraArray& cameras)
 {
@@ -132,7 +153,7 @@ doJob(const CameraArray& cameras)
     for (int i = 0; i < images.dim(); ++i)
     {
 	images[i].resize(cameras[i]->height(), cameras[i]->width());
-	images[i].saveHeader(cout, PIXEL_TYPE);
+	images[i].saveHeader(cout, pixelType<T>());
     }
 
   // カメラ出力の開始．
@@ -160,7 +181,7 @@ doJob(const CameraArray& cameras)
 	for (int i = 0; i < cameras.dim(); ++i)
 	    *cameras[i] >> images[i];			// 画像領域への転送
 	for (int i = 0; i < images.dim(); ++i)
-	    if (!images[i].saveData(cout, PIXEL_TYPE))	// stdoutへの出力
+	    if (!images[i].saveData(cout, pixelType<T>()))  // stdoutへの出力
 		active = false;
     }
 
@@ -210,14 +231,36 @@ main(int argc, char* argv[])
 	ifstream	in;
 	openFile(in, configDirs, cameraName + ".conf");
 	CameraArray	cameras(in, i1394b, ncammax);
-
+	if (cameras.dim() == 0)
+	    return 0;
+	
 	for (int i = 0; i < cameras.dim(); ++i)
 	    cerr << "camera " << i << ": uniqId = "
 		 << hex << setw(16) << setfill('0')
 		 << cameras[i]->globalUniqueId() << dec << endl;
 
       // 画像のキャプチャと出力．
-	doJob<u_char>(cameras);
+	switch (cameras[0]->pixelFormat())
+	{
+	  case Ieee1394Camera::MONO_8:
+	    doJob<u_char>(cameras);
+	    break;
+	  case Ieee1394Camera::YUV_411:
+	    doJob<YUV411>(cameras);
+	    break;
+	  case Ieee1394Camera::YUV_422:
+	    doJob<YUV422>(cameras);
+	    break;
+	  case Ieee1394Camera::YUV_444:
+	    doJob<YUV444>(cameras);
+	    break;
+	  case Ieee1394Camera::RGB_24:
+	    doJob<RGBA>(cameras);
+	    break;
+	  default:
+	    throw runtime_error("Unsupported pixel format!!");
+	    break;
+	}
     }
     catch (exception& err)
     {
