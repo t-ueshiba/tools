@@ -1,11 +1,11 @@
 /*
- *  $Id: main.cc,v 1.2 2009-05-07 04:24:14 ueshiba Exp $
+ *  $Id: main.cc,v 1.3 2009-05-07 06:37:49 ueshiba Exp $
  */
 #include <stdlib.h>
 #include "TU/v/App.h"
 #include "TU/v/CmdWindow.h"
 #include "TU/v/CanvasPane.h"
-#include "TU/v/CanvasPaneDC.h"
+#include "TU/v/XvDC.h"
 #include "TU/v/Timer.h"
 
 namespace TU
@@ -52,7 +52,11 @@ class MyCanvasPane : public CanvasPane
     virtual void	repaintUnderlay()				;
     
   private:
-    CanvasPaneDC	_dc;
+#ifdef USE_XVDC
+    XvDC		_dc;
+#else
+    ShmDC		_dc;
+#endif
     const Image<T>&	_image;
 };
 
