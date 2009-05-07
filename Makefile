@@ -2,7 +2,9 @@ SUBDIR	= embedCalib		\
 	  epicheck		\
 	  pbmheader		\
 	  pbmrectify		\
-	  pbmselect
+	  pbmselect		\
+	  flow1394camera	\
+	  flowview
 
 TARGETS	= all install clean depend
 

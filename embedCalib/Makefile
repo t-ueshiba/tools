@@ -1,5 +1,5 @@
 #
-#  $Id: Makefile,v 1.3 2009-04-13 04:11:46 ueshiba Exp $
+#  $Id: Makefile,v 1.4 2009-05-07 06:47:57 ueshiba Exp $
 #
 #################################
 #  User customizable macros	#
@@ -12,22 +12,27 @@ LIBS		= -lTUTools++
 
 CPPFLAGS	=
 CFLAGS		= -g
+NVCCFLAGS	= -g
 ifeq ($(CCC), icpc)
+  CFLAGS	= -O3
+  NVCCFLAGS	= -O		# -O2以上にするとコンパイルエラーになる．
   ifeq ($(OSTYPE), darwin)
-    CFLAGS	= -O3 -axP -ip
+    CPPFLAGS   += -DSSE3
+    CFLAGS     += -axP
   else
-    CFLAGS	= -O3 -xN -ip
+    CPPFLAGS   += -DSSSE3
+    CFLAGS     += -xN
   endif
 endif
 CCFLAGS		= $(CFLAGS)
-LDFLAGS		= -L$(LIBDIR)
 
 LINKER		= $(CCC)
 
 #########################
 #  Macros set by mkmf	#
 #########################
-SUFFIX		= .cc:sC
+.SUFFIXES:	.cu
+SUFFIX		= .cc:sC .cu:sC
 EXTHDRS		= /home/ueshiba/include/TU/Array++.h \
 		/home/ueshiba/include/TU/Geometry++.h \
 		/home/ueshiba/include/TU/Image++.h \
@@ -41,7 +46,7 @@ OBJS		= main.o
 #########################
 #  Macros used by RCS	#
 #########################
-REV		= $(shell echo $Revision: 1.3 $	|		\
+REV		= $(shell echo $Revision: 1.4 $	|		\
 		  sed 's/evision://'		|		\
 		  awk -F"."					\
 		  '{						\
