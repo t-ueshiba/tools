@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.3 2009-05-07 06:37:49 ueshiba Exp $
+ *  $Id: main.cc,v 1.4 2009-05-10 23:40:49 ueshiba Exp $
  */
 #include <stdlib.h>
 #include "TU/v/App.h"
@@ -10,32 +10,6 @@
 
 namespace TU
 {
-/************************************************************************
-*  static functions							*
-************************************************************************/
-template <class T> ImageBase::Type	pixelType();
-
-template <> inline ImageBase::Type	pixelType<u_char>()
-					{
-					    return ImageBase::U_CHAR;
-					}
-template <> inline ImageBase::Type	pixelType<RGBA>()
-					{
-					    return ImageBase::RGB_24;
-					}
-template <> inline ImageBase::Type	pixelType<YUV444>()
-					{
-					    return ImageBase::YUV_444;
-					}
-template <> inline ImageBase::Type	pixelType<YUV422>()
-					{
-					    return ImageBase::YUV_422;
-					}
-template <> inline ImageBase::Type	pixelType<YUV411>()
-					{
-					    return ImageBase::YUV_411;
-					}
-
 namespace v
 {
 /************************************************************************
@@ -79,11 +53,11 @@ class MyCmdWindow : public CmdWindow
     void		tick()						;
 
   private:
-    Array<Image<T> >&	_images;
-    MyCanvasPane<T>	_canvas0;
-    MyCanvasPane<T>	_canvas1;
-    MyCanvasPane<T>	_canvas2;
-    Timer		_timer;
+    Array<Image<T> >&		_images;
+    MyCanvasPane<T>		_canvas0;
+    MyCanvasPane<T>		_canvas1;
+    MyCanvasPane<T>		_canvas2;
+    Timer			_timer;
 };
 
 template <class T>
@@ -109,7 +83,7 @@ MyCmdWindow<T>::tick()
     using namespace	std;
 
     for (int i = 0; i < _images.dim(); ++i)
-	_images[i].restoreData(cin, pixelType<T>());
+	_images[i].restoreData(cin);
     _canvas0.repaintUnderlay();
     _canvas1.repaintUnderlay();
     _canvas2.repaintUnderlay();
@@ -117,6 +91,9 @@ MyCmdWindow<T>::tick()
 
 }
 
+/************************************************************************
+*  static functions							*
+************************************************************************/
 template <class T> static void
 doJob(v::App& vapp, const Array<GenericImage>& headers)
 {
@@ -146,19 +123,20 @@ main(int argc, char* argv[])
     u_int	nviews = 0;
     cin >> nviews >> skipl;
     cerr << nviews << " views." << endl;
-
+    if (nviews == 0)
+	return 0;
+    
   // 画像列を確保し，ヘッダ情報を読み込む．
     Array<GenericImage>		headers(nviews);
-    ImageBase::Type		type;
     for (int i = 0; i < headers.dim(); ++i)
     {
-	type = headers[i].restoreHeader(cin);
+	headers[i].restoreHeader(cin);
 	cerr << i << "-th image: "
 	     << headers[i].width() << 'x' << headers[i].height() << endl;
     }
 
   // 画素のタイプに応じて処理を行う．
-    switch (type)
+    switch (headers[0].type())
     {
       case ImageBase::U_CHAR:
 	doJob<u_char>(vapp, headers);

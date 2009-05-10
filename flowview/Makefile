@@ -1,5 +1,5 @@
 #
-#  $Id: Makefile,v 1.2 2009-05-07 06:37:49 ueshiba Exp $
+#  $Id: Makefile,v 1.3 2009-05-10 23:40:49 ueshiba Exp $
 #
 #################################
 #  User customizable macros	#
@@ -37,10 +37,12 @@ EXTHDRS		= /home/ueshiba/include/TU/Array++.h \
 		/home/ueshiba/include/TU/v/Colormap.h \
 		/home/ueshiba/include/TU/v/DC.h \
 		/home/ueshiba/include/TU/v/Menu.h \
+		/home/ueshiba/include/TU/v/ShmDC.h \
 		/home/ueshiba/include/TU/v/TUv++.h \
 		/home/ueshiba/include/TU/v/Timer.h \
 		/home/ueshiba/include/TU/v/Widget-Xaw.h \
-		/home/ueshiba/include/TU/v/XDC.h
+		/home/ueshiba/include/TU/v/XDC.h \
+		/home/ueshiba/include/TU/v/XvDC.h
 HDRS		=
 SRCS		= main.cc
 OBJS		= main.o
@@ -48,7 +50,7 @@ OBJS		= main.o
 #########################
 #  Macros used by RCS	#
 #########################
-REV		= $(shell echo $Revision: 1.2 $	|		\
+REV		= $(shell echo $Revision: 1.3 $	|		\
 		  sed 's/evision://'		|		\
 		  awk -F"."					\
 		  '{						\
@@ -71,6 +73,7 @@ main.o: /home/ueshiba/include/TU/v/App.h \
 	/home/ueshiba/include/TU/v/Widget-Xaw.h \
 	/home/ueshiba/include/TU/v/CmdWindow.h \
 	/home/ueshiba/include/TU/v/CanvasPane.h \
+	/home/ueshiba/include/TU/v/XvDC.h /home/ueshiba/include/TU/v/ShmDC.h \
 	/home/ueshiba/include/TU/v/CanvasPaneDC.h \
 	/home/ueshiba/include/TU/v/XDC.h /home/ueshiba/include/TU/v/DC.h \
 	/home/ueshiba/include/TU/Manip.h /home/ueshiba/include/TU/v/Menu.h \
