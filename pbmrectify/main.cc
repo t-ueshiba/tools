@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.2 2008-09-09 05:50:18 ueshiba Exp $
+ *  $Id: main.cc,v 1.3 2009-05-10 23:41:05 ueshiba Exp $
  */
 #include <fstream>
 #include <exception>
@@ -92,13 +92,13 @@ main(int argc, char* argv[])
 	if (nimages == 1)
 	{
 	    rectifiedImage[0].P = image[0].P;
-	    rectifiedImage[0].save(cout, ImageBase::U_CHAR);
+	    rectifiedImage[0].save(cout);
 	}
 	else
 	    for (int i = 0; i < nimages; ++i)
 	    {
 		rectifiedImage[i].P = rectify.H(i) * image[i].P;
-		rectifiedImage[i].save(cout, ImageBase::U_CHAR);
+		rectifiedImage[i].save(cout);
 	    }
     }
     catch (exception& err)

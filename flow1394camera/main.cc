@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.3 2009-05-07 04:23:55 ueshiba Exp $
+ *  $Id: main.cc,v 1.4 2009-05-10 23:40:07 ueshiba Exp $
  */
 #include <stdlib.h>
 #include <signal.h>
@@ -8,52 +8,13 @@
 #include <string>
 #include <fstream>
 #include <stdexcept>
-#include "TU/Ieee1394++.h"
+#include "TU/Ieee1394CameraArray.h"
 
 #define DEFAULT_CONFIG_DIRS	".:/usr/local/etc/cameras"
 #define DEFAULT_CAMERA_NAME	"IEEE1394Camera"
 
 namespace TU
 {
-/************************************************************************
-*  class CameraArray							*
-************************************************************************/
-class CameraArray : public Array<Ieee1394Camera*>
-{
-  public:
-    CameraArray(std::istream& in, bool i1394b, u_int ncammax)		;
-    ~CameraArray()							;
-};
-
-CameraArray::CameraArray(std::istream& in, bool i1394b, u_int ncammax)
-    :Array<Ieee1394Camera*>()
-{
-    using namespace	std;
-
-    u_int	delay, ncameras;
-    in >> delay >> ncameras;		// Read delay value and #cameras.
-    if (ncammax != 0 && ncammax < ncameras)
-	ncameras = ncammax;
-    resize(ncameras);
-    
-    for (int i = 0; i < dim(); ++i)
-    {
-	string	s;
-	in >> s;			// Read global unique ID.
-	u_int64	uniqId = strtoull(s.c_str(), 0, 0);
-	(*this)[i] = new Ieee1394Camera(Ieee1394Camera::Monocular,
-					i1394b, uniqId, delay);
-
-	in >> *(*this)[i];		// Read camera parameters.
-    }
-}
-
-CameraArray::~CameraArray()
-{
-    for (int i = 0; i < dim(); ++i)
-	delete (*this)[i];
-}
- 
 /************************************************************************
 *  static functions							*
 ************************************************************************/
@@ -78,7 +39,7 @@ usage(const char* s)
 	 << "  -B:               IEEE1394b mode. (default: off)\n"
 	 << endl;
     cerr << " Other options.\n"
-	 << "  -n ncammax:       # of cameras used. (default: all cameras)\n"
+	 << "  -n ncameras:      # of cameras. (default: use all cameras)\n"
 	 << "  -h:               print this.\n"
 	 << endl;
 }
@@ -115,31 +76,8 @@ handler(int sig)
     active = false;
 }
 
-template <class T> ImageBase::Type	pixelType();
-
-template <> inline ImageBase::Type	pixelType<u_char>()
-					{
-					    return ImageBase::U_CHAR;
-					}
-template <> inline ImageBase::Type	pixelType<RGBA>()
-					{
-					    return ImageBase::RGB_24;
-					}
-template <> inline ImageBase::Type	pixelType<YUV444>()
-					{
-					    return ImageBase::YUV_444;
-					}
-template <> inline ImageBase::Type	pixelType<YUV422>()
-					{
-					    return ImageBase::YUV_422;
-					}
-template <> inline ImageBase::Type	pixelType<YUV411>()
-					{
-					    return ImageBase::YUV_411;
-					}
-
 template <class T> static void
-doJob(const CameraArray& cameras)
+doJob(const Ieee1394CameraArray& cameras)
 {
     using namespace	std;
     
@@ -148,12 +86,12 @@ doJob(const CameraArray& cameras)
     signal(SIGPIPE, handler);
 
   // 1フレームあたりの画像数とそのフォーマットを出力．
-    Array<Image<T> >	images(cameras.dim());
+    Array<Image<T> >		images(cameras.dim());
     cout << images.dim() << endl;
     for (int i = 0; i < images.dim(); ++i)
     {
 	images[i].resize(cameras[i]->height(), cameras[i]->width());
-	images[i].saveHeader(cout, pixelType<T>());
+	images[i].saveHeader(cout);
     }
 
   // カメラ出力の開始．
@@ -181,7 +119,7 @@ doJob(const CameraArray& cameras)
 	for (int i = 0; i < cameras.dim(); ++i)
 	    *cameras[i] >> images[i];			// 画像領域への転送
 	for (int i = 0; i < images.dim(); ++i)
-	    if (!images[i].saveData(cout, pixelType<T>()))  // stdoutへの出力
+	    if (!images[i].saveData(cout))		// stdoutへの出力
 		active = false;
     }
 
@@ -203,7 +141,7 @@ main(int argc, char* argv[])
     string		configDirs = DEFAULT_CONFIG_DIRS;
     string		cameraName = DEFAULT_CAMERA_NAME;
     bool		i1394b	   = false;
-    u_int		ncammax	   = 0;
+    int			ncameras   = -1;
     extern char*	optarg;
     for (int c; (c = getopt(argc, argv, "d:c:Bn:h")) != EOF; )
 	switch (c)
@@ -218,7 +156,7 @@ main(int argc, char* argv[])
 	    i1394b = true;
 	    break;
 	  case 'n':
-	    ncammax = atoi(optarg);
+	    ncameras = atoi(optarg);
 	    break;
 	  case 'h':
 	    usage(argv[0]);
@@ -228,9 +166,9 @@ main(int argc, char* argv[])
     try
     {
       // IEEE1394カメラのオープン．
-	ifstream	in;
+	ifstream		in;
 	openFile(in, configDirs, cameraName + ".conf");
-	CameraArray	cameras(in, i1394b, ncammax);
+	Ieee1394CameraArray	cameras(in, i1394b, ncameras);
 	if (cameras.dim() == 0)
 	    return 0;
 	

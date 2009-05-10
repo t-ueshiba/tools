@@ -1,5 +1,5 @@
 #
-#  $Id: Makefile,v 1.3 2009-04-13 04:12:11 ueshiba Exp $
+#  $Id: Makefile,v 1.4 2009-05-10 23:41:05 ueshiba Exp $
 #
 #################################
 #  User customizable macros	#
@@ -36,6 +36,7 @@ EXTHDRS		= /home/ueshiba/include/TU/Array++.h \
 		/home/ueshiba/include/TU/Thread++.h \
 		/home/ueshiba/include/TU/Vector++.h \
 		/home/ueshiba/include/TU/Warp.h \
+		/home/ueshiba/include/TU/mmInstructions.h \
 		/home/ueshiba/include/TU/types.h \
 		/home/ueshiba/include/TU/utility.h \
 		/home/ueshiba/stereo/corrStereo/Rectify.h
@@ -48,7 +49,7 @@ OBJS		= Rectify.o \
 #########################
 #  Macros used by RCS	#
 #########################
-REV		= $(shell echo $Revision: 1.3 $	|		\
+REV		= $(shell echo $Revision: 1.4 $	|		\
 		  sed 's/evision://'		|		\
 		  awk -F"."					\
 		  '{						\
@@ -67,11 +68,15 @@ Rectify.o: /home/ueshiba/include/TU/utility.h \
 	/home/ueshiba/include/TU/Vector++.h \
 	/home/ueshiba/include/TU/Array++.h /home/ueshiba/include/TU/types.h \
 	/home/ueshiba/include/TU/Normalize.h \
-	/home/ueshiba/include/TU/Camera.h /home/ueshiba/include/TU/Thread++.h
+	/home/ueshiba/include/TU/Camera.h \
+	/home/ueshiba/include/TU/mmInstructions.h \
+	/home/ueshiba/include/TU/Thread++.h
 main.o: /home/ueshiba/stereo/corrStereo/Rectify.h \
 	/home/ueshiba/include/TU/Warp.h /home/ueshiba/include/TU/Image++.h \
 	/home/ueshiba/include/TU/Geometry++.h \
 	/home/ueshiba/include/TU/Vector++.h \
 	/home/ueshiba/include/TU/Array++.h /home/ueshiba/include/TU/types.h \
 	/home/ueshiba/include/TU/Normalize.h \
-	/home/ueshiba/include/TU/Camera.h /home/ueshiba/include/TU/Thread++.h
+	/home/ueshiba/include/TU/Camera.h \
+	/home/ueshiba/include/TU/mmInstructions.h \
+	/home/ueshiba/include/TU/Thread++.h
