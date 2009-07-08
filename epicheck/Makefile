@@ -1,11 +1,11 @@
 #
-#  $Id: Makefile,v 1.3 2009-04-13 04:11:55 ueshiba Exp $
+#  $Id: Makefile,v 1.4 2009-07-08 04:21:57 ueshiba Exp $
 #
 #################################
 #  User customizable macros	#
 #################################
-DEST		= $(BINDIR)
-INCDIRS		= -I$(HOME)/include
+DEST		= $(PREFIX)/bin
+INCDIRS		= -I$(PREFIX)/include
 
 PROGRAM		= epicheck
 LIBS		= -lTUv++ -lTUCalib++ -lTUTools++ \
@@ -29,29 +29,29 @@ LINKER		= $(CCC)
 #  Macros set by mkmf	#
 #########################
 SUFFIX		= .cc:sC
-EXTHDRS		= /home/ueshiba/include/TU/Array++.h \
-		/home/ueshiba/include/TU/BlockMatrix++.h \
-		/home/ueshiba/include/TU/Calib++.h \
-		/home/ueshiba/include/TU/Camera.h \
-		/home/ueshiba/include/TU/Geometry++.h \
-		/home/ueshiba/include/TU/Image++.h \
-		/home/ueshiba/include/TU/List.h \
-		/home/ueshiba/include/TU/Manip.h \
-		/home/ueshiba/include/TU/Minimize.h \
-		/home/ueshiba/include/TU/Normalize.h \
-		/home/ueshiba/include/TU/Vector++.h \
-		/home/ueshiba/include/TU/types.h \
-		/home/ueshiba/include/TU/v/App.h \
-		/home/ueshiba/include/TU/v/CanvasPane.h \
-		/home/ueshiba/include/TU/v/CanvasPaneDC.h \
-		/home/ueshiba/include/TU/v/CmdPane.h \
-		/home/ueshiba/include/TU/v/CmdWindow.h \
-		/home/ueshiba/include/TU/v/Colormap.h \
-		/home/ueshiba/include/TU/v/DC.h \
-		/home/ueshiba/include/TU/v/Menu.h \
-		/home/ueshiba/include/TU/v/TUv++.h \
-		/home/ueshiba/include/TU/v/Widget-Xaw.h \
-		/home/ueshiba/include/TU/v/XDC.h
+EXTHDRS		= /usr/local/include/TU/Array++.h \
+		/usr/local/include/TU/BlockMatrix++.h \
+		/usr/local/include/TU/Calib++.h \
+		/usr/local/include/TU/Camera.h \
+		/usr/local/include/TU/Geometry++.h \
+		/usr/local/include/TU/Image++.h \
+		/usr/local/include/TU/List.h \
+		/usr/local/include/TU/Manip.h \
+		/usr/local/include/TU/Minimize.h \
+		/usr/local/include/TU/Normalize.h \
+		/usr/local/include/TU/Vector++.h \
+		/usr/local/include/TU/types.h \
+		/usr/local/include/TU/v/App.h \
+		/usr/local/include/TU/v/CanvasPane.h \
+		/usr/local/include/TU/v/CanvasPaneDC.h \
+		/usr/local/include/TU/v/CmdPane.h \
+		/usr/local/include/TU/v/CmdWindow.h \
+		/usr/local/include/TU/v/Colormap.h \
+		/usr/local/include/TU/v/DC.h \
+		/usr/local/include/TU/v/Menu.h \
+		/usr/local/include/TU/v/TUv++.h \
+		/usr/local/include/TU/v/Widget-Xaw.h \
+		/usr/local/include/TU/v/XDC.h
 HDRS		= epicheck.h
 SRCS		= MyCanvasPane.cc \
 		MyCmdWindow.cc \
@@ -65,7 +65,7 @@ OBJS		= MyCanvasPane.o \
 #########################
 #  Macros used by RCS	#
 #########################
-REV		= $(shell echo $Revision: 1.3 $	|		\
+REV		= $(shell echo $Revision: 1.4 $	|		\
 		  sed 's/evision://'		|		\
 		  awk -F"."					\
 		  '{						\
@@ -77,50 +77,39 @@ REV		= $(shell echo $Revision: 1.3 $	|		\
 include $(PROJECT)/lib/p.mk
 
 ###
-MyCanvasPane.o: epicheck.h /home/ueshiba/include/TU/v/CmdWindow.h \
-	/home/ueshiba/include/TU/v/TUv++.h \
-	/home/ueshiba/include/TU/v/Colormap.h \
-	/home/ueshiba/include/TU/Image++.h \
-	/home/ueshiba/include/TU/Geometry++.h \
-	/home/ueshiba/include/TU/Vector++.h \
-	/home/ueshiba/include/TU/Array++.h /home/ueshiba/include/TU/types.h \
-	/home/ueshiba/include/TU/Normalize.h /home/ueshiba/include/TU/List.h \
-	/home/ueshiba/include/TU/v/Widget-Xaw.h \
-	/home/ueshiba/include/TU/v/CmdPane.h \
-	/home/ueshiba/include/TU/v/CanvasPane.h \
-	/home/ueshiba/include/TU/v/CanvasPaneDC.h \
-	/home/ueshiba/include/TU/v/XDC.h /home/ueshiba/include/TU/v/DC.h \
-	/home/ueshiba/include/TU/Manip.h /home/ueshiba/include/TU/v/Menu.h
-MyCmdWindow.o: /home/ueshiba/include/TU/v/App.h \
-	/home/ueshiba/include/TU/v/TUv++.h \
-	/home/ueshiba/include/TU/v/Colormap.h \
-	/home/ueshiba/include/TU/Image++.h \
-	/home/ueshiba/include/TU/Geometry++.h \
-	/home/ueshiba/include/TU/Vector++.h \
-	/home/ueshiba/include/TU/Array++.h /home/ueshiba/include/TU/types.h \
-	/home/ueshiba/include/TU/Normalize.h /home/ueshiba/include/TU/List.h \
-	/home/ueshiba/include/TU/v/Widget-Xaw.h epicheck.h \
-	/home/ueshiba/include/TU/v/CmdWindow.h \
-	/home/ueshiba/include/TU/v/CmdPane.h \
-	/home/ueshiba/include/TU/v/CanvasPane.h \
-	/home/ueshiba/include/TU/v/CanvasPaneDC.h \
-	/home/ueshiba/include/TU/v/XDC.h /home/ueshiba/include/TU/v/DC.h \
-	/home/ueshiba/include/TU/Manip.h /home/ueshiba/include/TU/v/Menu.h
-main.o: /home/ueshiba/include/TU/v/App.h \
-	/home/ueshiba/include/TU/v/TUv++.h \
-	/home/ueshiba/include/TU/v/Colormap.h \
-	/home/ueshiba/include/TU/Image++.h \
-	/home/ueshiba/include/TU/Geometry++.h \
-	/home/ueshiba/include/TU/Vector++.h \
-	/home/ueshiba/include/TU/Array++.h /home/ueshiba/include/TU/types.h \
-	/home/ueshiba/include/TU/Normalize.h /home/ueshiba/include/TU/List.h \
-	/home/ueshiba/include/TU/v/Widget-Xaw.h \
-	/home/ueshiba/include/TU/Calib++.h /home/ueshiba/include/TU/Camera.h \
-	/home/ueshiba/include/TU/BlockMatrix++.h \
-	/home/ueshiba/include/TU/Minimize.h epicheck.h \
-	/home/ueshiba/include/TU/v/CmdWindow.h \
-	/home/ueshiba/include/TU/v/CmdPane.h \
-	/home/ueshiba/include/TU/v/CanvasPane.h \
-	/home/ueshiba/include/TU/v/CanvasPaneDC.h \
-	/home/ueshiba/include/TU/v/XDC.h /home/ueshiba/include/TU/v/DC.h \
-	/home/ueshiba/include/TU/Manip.h /home/ueshiba/include/TU/v/Menu.h
+MyCanvasPane.o: epicheck.h /usr/local/include/TU/v/CmdWindow.h \
+	/usr/local/include/TU/v/TUv++.h /usr/local/include/TU/v/Colormap.h \
+	/usr/local/include/TU/Image++.h /usr/local/include/TU/Geometry++.h \
+	/usr/local/include/TU/Vector++.h /usr/local/include/TU/Array++.h \
+	/usr/local/include/TU/types.h /usr/local/include/TU/Normalize.h \
+	/usr/local/include/TU/List.h /usr/local/include/TU/v/Widget-Xaw.h \
+	/usr/local/include/TU/v/CmdPane.h \
+	/usr/local/include/TU/v/CanvasPane.h \
+	/usr/local/include/TU/v/CanvasPaneDC.h /usr/local/include/TU/v/XDC.h \
+	/usr/local/include/TU/v/DC.h /usr/local/include/TU/Manip.h \
+	/usr/local/include/TU/v/Menu.h
+MyCmdWindow.o: /usr/local/include/TU/v/App.h \
+	/usr/local/include/TU/v/TUv++.h /usr/local/include/TU/v/Colormap.h \
+	/usr/local/include/TU/Image++.h /usr/local/include/TU/Geometry++.h \
+	/usr/local/include/TU/Vector++.h /usr/local/include/TU/Array++.h \
+	/usr/local/include/TU/types.h /usr/local/include/TU/Normalize.h \
+	/usr/local/include/TU/List.h /usr/local/include/TU/v/Widget-Xaw.h \
+	epicheck.h /usr/local/include/TU/v/CmdWindow.h \
+	/usr/local/include/TU/v/CmdPane.h \
+	/usr/local/include/TU/v/CanvasPane.h \
+	/usr/local/include/TU/v/CanvasPaneDC.h /usr/local/include/TU/v/XDC.h \
+	/usr/local/include/TU/v/DC.h /usr/local/include/TU/Manip.h \
+	/usr/local/include/TU/v/Menu.h
+main.o: /usr/local/include/TU/v/App.h /usr/local/include/TU/v/TUv++.h \
+	/usr/local/include/TU/v/Colormap.h /usr/local/include/TU/Image++.h \
+	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/Vector++.h \
+	/usr/local/include/TU/Array++.h /usr/local/include/TU/types.h \
+	/usr/local/include/TU/Normalize.h /usr/local/include/TU/List.h \
+	/usr/local/include/TU/v/Widget-Xaw.h /usr/local/include/TU/Calib++.h \
+	/usr/local/include/TU/Camera.h /usr/local/include/TU/BlockMatrix++.h \
+	/usr/local/include/TU/Minimize.h epicheck.h \
+	/usr/local/include/TU/v/CmdWindow.h /usr/local/include/TU/v/CmdPane.h \
+	/usr/local/include/TU/v/CanvasPane.h \
+	/usr/local/include/TU/v/CanvasPaneDC.h /usr/local/include/TU/v/XDC.h \
+	/usr/local/include/TU/v/DC.h /usr/local/include/TU/Manip.h \
+	/usr/local/include/TU/v/Menu.h

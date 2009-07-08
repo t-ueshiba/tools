@@ -1,18 +1,18 @@
 #
-#  $Id: Makefile,v 1.4 2009-06-08 06:14:15 ueshiba Exp $
+#  $Id: Makefile,v 1.5 2009-07-08 04:21:58 ueshiba Exp $
 #
 #################################
 #  User customizable macros	#
 #################################
-DEST		= $(BINDIR)
-INCDIRS		= -I$(HOME)/include -I/usr/local/include
+DEST		= $(PREFIX)/bin
+INCDIRS		= -I$(PREFIX)/include
 
 PROGRAM		= flow1394camera
 LIBS		= -lTUIeee1394++ -lTUTools++ -lraw1394
 ifeq ($(OSTYPE), darwin)
   LIBS	       += -framework IOKit -framework CoreFoundation
 endif
-CPPFLAGS	= -DHAVE_LIBTUTOOLS__ -DMONO_IMAGE
+CPPFLAGS	= -DHAVE_LIBTUTOOLS__
 CFLAGS		= -O3
 CCFLAGS		= -O3
 LDFLAGS		= -L$(LIBDIR)
@@ -23,14 +23,14 @@ LINKER		= $(CCC)
 #  Macros set by mkmf	#
 #########################
 SUFFIX		= .cc:sC
-EXTHDRS		= /home/ueshiba/include/TU/Array++.h \
-		/home/ueshiba/include/TU/Geometry++.h \
-		/home/ueshiba/include/TU/Ieee1394++.h \
-		/home/ueshiba/include/TU/Ieee1394CameraArray.h \
-		/home/ueshiba/include/TU/Image++.h \
-		/home/ueshiba/include/TU/Normalize.h \
-		/home/ueshiba/include/TU/Vector++.h \
-		/home/ueshiba/include/TU/types.h
+EXTHDRS		= /usr/local/include/TU/Array++.h \
+		/usr/local/include/TU/Geometry++.h \
+		/usr/local/include/TU/Ieee1394++.h \
+		/usr/local/include/TU/Ieee1394CameraArray.h \
+		/usr/local/include/TU/Image++.h \
+		/usr/local/include/TU/Normalize.h \
+		/usr/local/include/TU/Vector++.h \
+		/usr/local/include/TU/types.h
 HDRS		=
 SRCS		= main.cc
 OBJS		= main.o
@@ -38,7 +38,7 @@ OBJS		= main.o
 #########################
 #  Macros used by RCS	#
 #########################
-REV		= $(shell echo $Revision: 1.4 $	|		\
+REV		= $(shell echo $Revision: 1.5 $	|		\
 		  sed 's/evision://'		|		\
 		  awk -F"."					\
 		  '{						\
@@ -50,10 +50,8 @@ REV		= $(shell echo $Revision: 1.4 $	|		\
 include $(PROJECT)/lib/p.mk
 include $(PROJECT)/lib/RCS.mk
 ###
-main.o: /home/ueshiba/include/TU/Ieee1394CameraArray.h \
-	/home/ueshiba/include/TU/Array++.h /home/ueshiba/include/TU/types.h \
-	/home/ueshiba/include/TU/Ieee1394++.h \
-	/home/ueshiba/include/TU/Image++.h \
-	/home/ueshiba/include/TU/Geometry++.h \
-	/home/ueshiba/include/TU/Vector++.h \
-	/home/ueshiba/include/TU/Normalize.h
+main.o: /usr/local/include/TU/Ieee1394CameraArray.h \
+	/usr/local/include/TU/Array++.h /usr/local/include/TU/types.h \
+	/usr/local/include/TU/Ieee1394++.h /usr/local/include/TU/Image++.h \
+	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/Vector++.h \
+	/usr/local/include/TU/Normalize.h

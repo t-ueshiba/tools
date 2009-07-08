@@ -1,45 +1,50 @@
 #
-#  $Id: Makefile,v 1.4 2009-05-10 23:41:05 ueshiba Exp $
+#  $Id: Makefile,v 1.5 2009-07-08 04:21:58 ueshiba Exp $
 #
 #################################
 #  User customizable macros	#
 #################################
-DEST		= $(BINDIR)
-INCDIRS		= -I$(HOME)/include -I$(HOME)/stereo/corrStereo
+DEST		= $(PREFIX)/bin
+INCDIRS		= -I$(PREFIX)/include -I$(HOME)/stereo/corrStereo
 
 PROGRAM		= pbmrectify
 LIBS		= -lTUTools++
 
 CPPFLAGS	=
 CFLAGS		= -g
+NVCCFLAGS	= -g
 ifeq ($(CCC), icpc)
+  CFLAGS	= -O3
+  NVCCFLAGS	= -O		# -O2以上にするとコンパイルエラーになる．
   ifeq ($(OSTYPE), darwin)
-    CFLAGS	= -O3 -axP -ip
+    CPPFLAGS   += -DSSE3
+    CFLAGS     += -axP
   else
-    CFLAGS	= -O3 -xN -ip
+    CPPFLAGS   += -DSSSE3
+    CFLAGS     += -xN
   endif
 endif
 CCFLAGS		= $(CFLAGS)
-LDFLAGS		= -L$(LIBDIR)
 
 LINKER		= $(CCC)
 
 #########################
 #  Macros set by mkmf	#
 #########################
-SUFFIX		= .cc:sC
-EXTHDRS		= /home/ueshiba/include/TU/Array++.h \
-		/home/ueshiba/include/TU/Camera.h \
-		/home/ueshiba/include/TU/Geometry++.h \
-		/home/ueshiba/include/TU/Image++.h \
-		/home/ueshiba/include/TU/Normalize.h \
-		/home/ueshiba/include/TU/Thread++.h \
-		/home/ueshiba/include/TU/Vector++.h \
-		/home/ueshiba/include/TU/Warp.h \
-		/home/ueshiba/include/TU/mmInstructions.h \
-		/home/ueshiba/include/TU/types.h \
-		/home/ueshiba/include/TU/utility.h \
-		/home/ueshiba/stereo/corrStereo/Rectify.h
+.SUFFIXES:	.cu
+SUFFIX		= .cc:sC .cu:sC
+EXTHDRS		= /home/ueshiba/stereo/corrStereo/Rectify.h \
+		/usr/local/include/TU/Array++.h \
+		/usr/local/include/TU/Camera.h \
+		/usr/local/include/TU/Geometry++.h \
+		/usr/local/include/TU/Image++.h \
+		/usr/local/include/TU/Normalize.h \
+		/usr/local/include/TU/Thread++.h \
+		/usr/local/include/TU/Vector++.h \
+		/usr/local/include/TU/Warp.h \
+		/usr/local/include/TU/mmInstructions.h \
+		/usr/local/include/TU/types.h \
+		/usr/local/include/TU/utility.h
 HDRS		=
 SRCS		= Rectify.cc \
 		main.cc
@@ -49,7 +54,7 @@ OBJS		= Rectify.o \
 #########################
 #  Macros used by RCS	#
 #########################
-REV		= $(shell echo $Revision: 1.4 $	|		\
+REV		= $(shell echo $Revision: 1.5 $	|		\
 		  sed 's/evision://'		|		\
 		  awk -F"."					\
 		  '{						\
@@ -61,22 +66,18 @@ REV		= $(shell echo $Revision: 1.4 $	|		\
 include $(PROJECT)/lib/p.mk
 
 ###
-Rectify.o: /home/ueshiba/include/TU/utility.h \
+Rectify.o: /usr/local/include/TU/utility.h \
 	/home/ueshiba/stereo/corrStereo/Rectify.h \
-	/home/ueshiba/include/TU/Warp.h /home/ueshiba/include/TU/Image++.h \
-	/home/ueshiba/include/TU/Geometry++.h \
-	/home/ueshiba/include/TU/Vector++.h \
-	/home/ueshiba/include/TU/Array++.h /home/ueshiba/include/TU/types.h \
-	/home/ueshiba/include/TU/Normalize.h \
-	/home/ueshiba/include/TU/Camera.h \
-	/home/ueshiba/include/TU/mmInstructions.h \
-	/home/ueshiba/include/TU/Thread++.h
+	/usr/local/include/TU/Warp.h /usr/local/include/TU/Image++.h \
+	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/Vector++.h \
+	/usr/local/include/TU/Array++.h /usr/local/include/TU/types.h \
+	/usr/local/include/TU/Normalize.h /usr/local/include/TU/Camera.h \
+	/usr/local/include/TU/mmInstructions.h \
+	/usr/local/include/TU/Thread++.h
 main.o: /home/ueshiba/stereo/corrStereo/Rectify.h \
-	/home/ueshiba/include/TU/Warp.h /home/ueshiba/include/TU/Image++.h \
-	/home/ueshiba/include/TU/Geometry++.h \
-	/home/ueshiba/include/TU/Vector++.h \
-	/home/ueshiba/include/TU/Array++.h /home/ueshiba/include/TU/types.h \
-	/home/ueshiba/include/TU/Normalize.h \
-	/home/ueshiba/include/TU/Camera.h \
-	/home/ueshiba/include/TU/mmInstructions.h \
-	/home/ueshiba/include/TU/Thread++.h
+	/usr/local/include/TU/Warp.h /usr/local/include/TU/Image++.h \
+	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/Vector++.h \
+	/usr/local/include/TU/Array++.h /usr/local/include/TU/types.h \
+	/usr/local/include/TU/Normalize.h /usr/local/include/TU/Camera.h \
+	/usr/local/include/TU/mmInstructions.h \
+	/usr/local/include/TU/Thread++.h
