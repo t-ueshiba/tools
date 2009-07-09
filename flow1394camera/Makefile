@@ -1,5 +1,5 @@
 #
-#  $Id: Makefile,v 1.5 2009-07-08 04:21:58 ueshiba Exp $
+#  $Id: Makefile,v 1.6 2009-07-09 06:42:38 ueshiba Exp $
 #
 #################################
 #  User customizable macros	#
@@ -15,7 +15,6 @@ endif
 CPPFLAGS	= -DHAVE_LIBTUTOOLS__
 CFLAGS		= -O3
 CCFLAGS		= -O3
-LDFLAGS		= -L$(LIBDIR)
 
 LINKER		= $(CCC)
 
@@ -38,7 +37,7 @@ OBJS		= main.o
 #########################
 #  Macros used by RCS	#
 #########################
-REV		= $(shell echo $Revision: 1.5 $	|		\
+REV		= $(shell echo $Revision: 1.6 $	|		\
 		  sed 's/evision://'		|		\
 		  awk -F"."					\
 		  '{						\
