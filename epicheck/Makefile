@@ -1,23 +1,31 @@
 #
-#  $Id: Makefile,v 1.5 2009-07-09 06:42:35 ueshiba Exp $
+#  $Id: Makefile,v 1.6 2009-07-14 05:26:53 ueshiba Exp $
 #
 #################################
 #  User customizable macros	#
 #################################
 DEST		= $(PREFIX)/bin
-INCDIRS		= -I$(PREFIX)/include
+INCDIRS		= -I$(PREFIX)/include -I$(X11HOME)/include
 
-PROGRAM		= epicheck
-LIBS		= -lTUv++ -lTUCalib++ -lTUTools++ \
-		  -lXaw3d -lXt -lXext -lXmu -lX11
+PROGRAM		= $(shell basename $(PWD))
+LIBS		= -lTUv++ -lTUTools++ -lXaw3d -lXt -lXext -lXmu -lX11
+ifeq ($(OSTYPE), darwin)
+  LIBS	       +=
+#  LIBS	       += -framework IOKit -framework CoreFoundation
+endif
 
 CPPFLAGS	=
 CFLAGS		= -g
+NVCCFLAGS	= -g
 ifeq ($(CCC), icpc)
+  CFLAGS	= -O3
+  NVCCFLAGS	= -O		# -O2以上にするとコンパイルエラーになる．
   ifeq ($(OSTYPE), darwin)
-    CFLAGS	= -O3 -axP -ip
+    CPPFLAGS   += -DSSE3
+    CFLAGS     += -xSSE3
   else
-    CFLAGS	= -O3 -xN -ip
+    CPPFLAGS   += -DSSE3
+    CFLAGS     += -xSSE3
   endif
 endif
 CCFLAGS		= $(CFLAGS)
@@ -27,7 +35,8 @@ LINKER		= $(CCC)
 #########################
 #  Macros set by mkmf	#
 #########################
-SUFFIX		= .cc:sC
+.SUFFIXES:	.cu
+SUFFIX		= .cc:sC .cu:sC
 EXTHDRS		= /usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/BlockMatrix++.h \
 		/usr/local/include/TU/Calib++.h \
@@ -64,7 +73,7 @@ OBJS		= MyCanvasPane.o \
 #########################
 #  Macros used by RCS	#
 #########################
-REV		= $(shell echo $Revision: 1.5 $	|		\
+REV		= $(shell echo $Revision: 1.6 $	|		\
 		  sed 's/evision://'		|		\
 		  awk -F"."					\
 		  '{						\

@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.1.1.1 2008-06-16 03:15:08 ueshiba Exp $
+ *  $Id: main.cc,v 1.2 2009-07-14 05:26:53 ueshiba Exp $
  */
 #include <fstream>
 #include <exception>
@@ -61,7 +61,7 @@ main(int argc, char* argv[])
     u_int		nimages = 0;
     if (imagefile != 0)
     {
-	ifstream		in(imagefile);
+	ifstream	in(imagefile);
 	if (!in)
 	{
 	    cerr << "Cannot open the input image file (" << imagefile << ")!"
@@ -81,13 +81,30 @@ main(int argc, char* argv[])
     Matrix<double>	pair;
     if (pairfile != 0)
     {
-	pair = get_HomogeneousMatrix(pairfile, 0);
+	ifstream	in(pairfile);
+	if (!in)
+	{
+	    cerr << "Cannot open the input pair file (" << pairfile << ")!"
+		 << endl;
+	    return 1;
+	}
+
+	Matrix<double>	tmp;
+	in >> tmp;
+	pair.resize(tmp.nrow(), 3*tmp.ncol() / 2);
 	if (pair.ncol() != 3*nimages)
 	{
 	    cerr << "# of frames in pair file is not equal to # of epbms!!"
 		 << endl;
 	    return 1;
 	}
+	for (int i = 0; i < pair.nrow(); ++i)
+	    for (int j = 0; j < pair.ncol()/3; ++j)
+	    {
+		pair[i][3*j]	 = tmp[i][2*j];
+		pair[i][3*j + 1] = tmp[i][2*j + 1];
+		pair[i][3*j + 2] = 1.0;
+	    }
     }
 
   /* Set # of frames and check indices. */
