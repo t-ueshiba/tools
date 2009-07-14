@@ -1,5 +1,5 @@
 #
-#  $Id: Makefile,v 1.5 2009-07-08 04:21:58 ueshiba Exp $
+#  $Id: Makefile,v 1.6 2009-07-14 05:27:07 ueshiba Exp $
 #
 #################################
 #  User customizable macros	#
@@ -7,8 +7,12 @@
 DEST		= $(PREFIX)/bin
 INCDIRS		= -I$(PREFIX)/include
 
-PROGRAM		= pbmheader
+PROGRAM		= $(shell basename $(PWD))
 LIBS		= -lTUTools++
+ifeq ($(OSTYPE), darwin)
+  LIBS	       +=
+#  LIBS	       += -framework IOKit -framework CoreFoundation
+endif
 
 CPPFLAGS	=
 CFLAGS		= -g
@@ -18,10 +22,10 @@ ifeq ($(CCC), icpc)
   NVCCFLAGS	= -O		# -O2以上にするとコンパイルエラーになる．
   ifeq ($(OSTYPE), darwin)
     CPPFLAGS   += -DSSE3
-    CFLAGS     += -axP
+    CFLAGS     += -xSSE3
   else
-    CPPFLAGS   += -DSSSE3
-    CFLAGS     += -xN
+    CPPFLAGS   += -DSSE3
+    CFLAGS     += -xSSE3
   endif
 endif
 CCFLAGS		= $(CFLAGS)
@@ -47,7 +51,7 @@ OBJS		= main.o
 #########################
 #  Macros used by RCS	#
 #########################
-REV		= $(shell echo $Revision: 1.5 $	|		\
+REV		= $(shell echo $Revision: 1.6 $	|		\
 		  sed 's/evision://'		|		\
 		  awk -F"."					\
 		  '{						\

@@ -1,26 +1,42 @@
 #
-#  $Id: Makefile,v 1.5 2009-07-09 06:42:38 ueshiba Exp $
+#  $Id: Makefile,v 1.6 2009-07-14 05:27:07 ueshiba Exp $
 #
 #################################
 #  User customizable macros	#
 #################################
 DEST		= $(PREFIX)/bin
-INCDIRS		= -I$(PREFIX)/include
+INCDIRS		= -I$(PREFIX)/include -I$(X11HOME)/include
 
-PROGRAM		= flowview
-LIBS		= -lTUXv++ -lTUv++ -lTUTools++ \
-		  -lXaw3d -lXv -lXt -lXext -lXmu -lX11
+PROGRAM		= $(shell basename $(PWD))
+LIBS		= -lTUv++ -lTUTools++ -lXaw3d -lXt -lXext -lXmu -lX11
+ifeq ($(OSTYPE), darwin)
+  LIBS	       +=
+#  LIBS	       += -framework IOKit -framework CoreFoundation
+endif
 
-CPPFLAGS	= -DHAVE_LIBTUTOOLS__ #-DUSE_XVDC
-CFLAGS		= 
-CCFLAGS		= -O3
+CPPFLAGS	=
+CFLAGS		= -g
+NVCCFLAGS	= -g
+ifeq ($(CCC), icpc)
+  CFLAGS	= -O3
+  NVCCFLAGS	= -O		# -O2以上にするとコンパイルエラーになる．
+  ifeq ($(OSTYPE), darwin)
+    CPPFLAGS   += -DSSE3
+    CFLAGS     += -xSSE3
+  else
+    CPPFLAGS   += -DSSE3
+    CFLAGS     += -xSSE3
+  endif
+endif
+CCFLAGS		= $(CFLAGS)
 
 LINKER		= $(CCC)
 
 #########################
 #  Macros set by mkmf	#
 #########################
-SUFFIX		= .cc:sC
+.SUFFIXES:	.cu
+SUFFIX		= .cc:sC .cu:sC
 EXTHDRS		= /usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/Geometry++.h \
 		/usr/local/include/TU/Image++.h \
@@ -49,7 +65,7 @@ OBJS		= main.o
 #########################
 #  Macros used by RCS	#
 #########################
-REV		= $(shell echo $Revision: 1.5 $	|		\
+REV		= $(shell echo $Revision: 1.6 $	|		\
 		  sed 's/evision://'		|		\
 		  awk -F"."					\
 		  '{						\
@@ -59,7 +75,7 @@ REV		= $(shell echo $Revision: 1.5 $	|		\
 		  }')
 
 include $(PROJECT)/lib/p.mk
-include $(PROJECT)/lib/RCS.mk
+
 ###
 main.o: /usr/local/include/TU/v/App.h /usr/local/include/TU/v/TUv++.h \
 	/usr/local/include/TU/v/Colormap.h /usr/local/include/TU/Image++.h \
