@@ -1,11 +1,10 @@
 /*
- *  $Id: main.cc,v 1.2 2009-07-14 05:26:53 ueshiba Exp $
+ *  $Id: main.cc,v 1.3 2009-07-14 05:29:57 ueshiba Exp $
  */
 #include <fstream>
 #include <exception>
 #include <unistd.h>
 #include "TU/v/App.h"
-#include "TU/Calib++.h"
 #include "epicheck.h"
 
 static const int	NFRAMES_MAX = 10;
