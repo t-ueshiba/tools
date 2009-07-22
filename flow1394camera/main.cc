@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.4 2009-05-10 23:40:07 ueshiba Exp $
+ *  $Id: main.cc,v 1.5 2009-07-22 07:25:51 ueshiba Exp $
  */
 #include <stdlib.h>
 #include <signal.h>
@@ -77,7 +77,7 @@ handler(int sig)
 }
 
 template <class T> static void
-doJob(const Ieee1394CameraArray& cameras)
+doJob(const Ieee1394CameraArray& cameras, const std::string& cameraBase)
 {
     using namespace	std;
     
@@ -85,8 +85,17 @@ doJob(const Ieee1394CameraArray& cameras)
     signal(SIGINT,  handler);
     signal(SIGPIPE, handler);
 
+    Array<Image<T> >	images(cameras.dim());
+
+  // キャリブレーションデータを読み込む．
+    ifstream	in((cameraBase + ".calib").c_str());
+    if (in)
+    {
+	for (int i = 0; i < images.dim(); ++i)
+	    in >> images[i].P >> images[i].d1 >> images[i].d2;
+    }
+	
   // 1フレームあたりの画像数とそのフォーマットを出力．
-    Array<Image<T> >		images(cameras.dim());
     cout << images.dim() << endl;
     for (int i = 0; i < images.dim(); ++i)
     {
@@ -167,8 +176,11 @@ main(int argc, char* argv[])
     {
       // IEEE1394カメラのオープン．
 	ifstream		in;
-	openFile(in, configDirs, cameraName + ".conf");
+	string			cameraBase = openFile(in, configDirs,
+						      cameraName + ".conf");
+	cameraBase.erase(cameraBase.rfind(".conf"));
 	Ieee1394CameraArray	cameras(in, i1394b, ncameras);
+	in.close();
 	if (cameras.dim() == 0)
 	    return 0;
 	
@@ -181,19 +193,19 @@ main(int argc, char* argv[])
 	switch (cameras[0]->pixelFormat())
 	{
 	  case Ieee1394Camera::MONO_8:
-	    doJob<u_char>(cameras);
+	    doJob<u_char>(cameras, cameraBase);
 	    break;
 	  case Ieee1394Camera::YUV_411:
-	    doJob<YUV411>(cameras);
+	    doJob<YUV411>(cameras, cameraBase);
 	    break;
 	  case Ieee1394Camera::YUV_422:
-	    doJob<YUV422>(cameras);
+	    doJob<YUV422>(cameras, cameraBase);
 	    break;
 	  case Ieee1394Camera::YUV_444:
-	    doJob<YUV444>(cameras);
+	    doJob<YUV444>(cameras, cameraBase);
 	    break;
 	  case Ieee1394Camera::RGB_24:
-	    doJob<RGBA>(cameras);
+	    doJob<RGBA>(cameras, cameraBase);
 	    break;
 	  default:
 	    throw runtime_error("Unsupported pixel format!!");
