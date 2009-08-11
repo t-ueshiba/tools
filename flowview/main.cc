@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.4 2009-05-10 23:40:49 ueshiba Exp $
+ *  $Id: main.cc,v 1.5 2009-08-11 00:45:53 ueshiba Exp $
  */
 #include <stdlib.h>
 #include "TU/v/App.h"
@@ -120,6 +120,9 @@ main(int argc, char* argv[])
     v::App	vapp(argc, argv);
 
   // 1フレームあたりの画像数を取得．
+    char	c;
+    if (!cin.get(c) || (c != 'M'))
+	return 1;
     u_int	nviews = 0;
     cin >> nviews >> skipl;
     cerr << nviews << " views." << endl;
