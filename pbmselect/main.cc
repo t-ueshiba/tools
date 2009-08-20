@@ -1,10 +1,8 @@
 /*
- *  $Id: main.cc,v 1.1.1.1 2008-06-16 03:15:08 ueshiba Exp $
+ *  $Id: main.cc,v 1.2 2009-08-20 00:55:46 ueshiba Exp $
  */
 #include <fstream>
-#include <exception>
 #include <unistd.h>
-#include <vector>
 #include "TU/Image++.h"
 
 namespace TU
@@ -53,9 +51,6 @@ main(int argc, char* argv[])
     using namespace	std;
     using namespace	TU;
 
-    const char*	imgnum = "";
-    extern int	optind;
-
     for (int c; (c =getopt(argc, argv, "h")) != EOF; )
 	switch (c)
 	{
@@ -68,6 +63,8 @@ main(int argc, char* argv[])
     {
 	Array<GenericImage>	images;
 	restoreImages(cin, images);
+
+	extern int	optind;
 	for (int i = optind; i < argc; ++i)
 	{
 	    int	n = atoi(argv[i]);
