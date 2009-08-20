@@ -1,5 +1,5 @@
 /*
- *  $Id: MyCanvasPane.cc,v 1.3 2008-09-09 05:50:05 ueshiba Exp $
+ *  $Id: MyCanvasPane.cc,v 1.4 2009-08-20 00:55:09 ueshiba Exp $
  */
 #include "epicheck.h"
 
@@ -8,26 +8,19 @@ namespace TU
 namespace v
 {
 /************************************************************************
-*  static data/functions						*
-************************************************************************/
-static const u_int	MaxCanvasWidth  = 512;
-static const u_int	MaxCanvasHeight = 480;
-
-inline u_int	min(u_int x, u_int y)	{return (x < y ? x : y);}
-
-/************************************************************************
 *  MyCanvasPane								*
 ************************************************************************/
 MyCanvasPane::MyCanvasPane(Window&			parentWindow,
 			   int				view,
 			   const Array<Matrix33d>&	F,
 			   const Image<u_char>&		image,
-			   u_int			lineWidth)
-    :CanvasPane(parentWindow,
-		min(image.width(),  MaxCanvasWidth),
-		min(image.height(), MaxCanvasHeight)),
+			   u_int			lineWidth,
+			   u_int			mul,
+			   u_int			div)
+    :CanvasPane(parentWindow, (image.width()  * mul) / div,
+			      (image.height() * mul) / div),
      _view(view), _F(F), _image(image),
-     _dc(*this, image.width(), image.height())
+     _dc(*this, image.width(), image.height(), mul, div)
 
 {
     _dc << thickness(lineWidth);

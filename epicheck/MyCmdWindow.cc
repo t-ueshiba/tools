@@ -1,5 +1,5 @@
 /*
- *  $Id: MyCmdWindow.cc,v 1.2 2008-09-09 05:50:05 ueshiba Exp $
+ *  $Id: MyCmdWindow.cc,v 1.3 2009-08-20 00:55:09 ueshiba Exp $
  */
 #include "TU/v/App.h"
 #include "epicheck.h"
@@ -37,12 +37,13 @@ view2color(u_int view)
 /************************************************************************
 *  class MyCmdWindow							*
 ************************************************************************/
-MyCmdWindow::MyCmdWindow(App&			parentApp,
-			 const Image<u_char>	image[],
-			 const Matrix<double>&	pair,
-			 const u_int		index[],
-			 u_int			nfrms,
-			 u_int			lineWidth)
+MyCmdWindow::MyCmdWindow(App&				parentApp,
+			 const Array<Image<u_char> >&	images,
+			 const Array2<Array<Point2d> >&	pairs,
+			 u_int				lineWidth,
+			 u_int				ncol,
+			 u_int				mul,
+			 u_int				div)
     :CmdWindow(parentApp, "epicheck",
 #ifdef USE_OVERLAY
 	       Colormap::IndexedColor, 16, 8, 3
@@ -50,33 +51,28 @@ MyCmdWindow::MyCmdWindow(App&			parentApp,
 	       Colormap::RGBColor, 16, 0, 0
 #endif
 	      ),
-     _cmd(*this, cmds), _canvas(nfrms), _q(0, 0), _pair(pair.nrow(), 3*nfrms)
+     _cmd(*this, cmds), _canvases(images.dim()), _q(0, 0), _pairs(pairs)
 {
     _cmd.place(0, 0, 2, 1);
     
-    for (int i = 0; i < nframes(); ++i)
+    for (int i = 0; i < nviews(); ++i)
     {
       // Compute F-matrices and create child canvases.
-	const Matrix34d&	P0 = image[index[i]].P;
+	const Matrix34d&	P0 = images[i].P;
 	SVDecomposition<double>	svd(P0);
 	Vector<double>		c = svd.Ut()[3];
 	Matrix<double>		P0inv = svd.Ut()[0]%svd.Vt()[0]/svd[0]
 					      + svd.Ut()[1]%svd.Vt()[1]/svd[1]
 					      + svd.Ut()[2]%svd.Vt()[2]/svd[2];
-	Array<Matrix33d>	F(nframes());
-	for (int j = 0; j < nframes(); ++j)
+	Array<Matrix33d>	F(nviews());
+	for (int j = 0; j < nviews(); ++j)
 	{
-	    const Matrix34d&	P1 = image[index[j]].P;
+	    const Matrix34d&	P1 = images[j].P;
 	    F[j] = (P1 * c).skew() * P1 * P0inv;
 	}
-	_canvas[i] = new MyCanvasPane(*this, i, F, image[index[i]], lineWidth);
-	_canvas[i]->place(i%2, 1 + i/2, 1, 1);
-
-      // Extract pairs.
-	for (int n = 0; n < npairs(); ++n)
-	{
-	    _pair[n](3*i, 3) = pair[n](3*index[i], 3);
-	}
+	_canvases[i] = new MyCanvasPane(*this, i, F, images[i],
+					lineWidth, mul, div);
+	_canvases[i]->place(i % ncol, 1 + i / ncol, 1, 1);
     }
 
     _bgr[Color_BG]	= BGR(  0,   0,   0);	// black
@@ -99,8 +95,8 @@ MyCmdWindow::MyCmdWindow(App&			parentApp,
 
 MyCmdWindow::~MyCmdWindow()
 {
-    for (int i = 0; i < _canvas.dim(); ++i)
-	delete _canvas[i];
+    for (int i = 0; i < _canvases.dim(); ++i)
+	delete _canvases[i];
 }
 
 void
@@ -108,32 +104,32 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 {
     u_int	view  = id / MyCanvasPane::NEVENTS,
 		event = id % MyCanvasPane::NEVENTS;
-    Point2d	p(_canvas[view]->dc().dev2logU(val.u),
-		  _canvas[view]->dc().dev2logU(val.v));
+    Point2d	p(_canvases[view]->dc().dev2logU(val.u),
+		  _canvases[view]->dc().dev2logU(val.v));
 
     switch (event)
     {
 #ifdef USE_OVERLAY
       case 1:		// MouseButton1Drag.
       {			// Erase previously drawn epipolar lines.
-	for (int i = 0; i < nframes(); ++i)
+	for (int i = 0; i < nviews(); ++i)
 	{
-	    _canvas[i]->dc() << foreground(0);
-	    _canvas[i]->drawEpipolarLine(_q, view);
-	    _canvas[view]->dc() << foreground(0);
-	    _canvas[view]->drawSelfEpipolarLine(_q, i);
+	    _canvases[i]->dc() << foreground(0);
+	    _canvases[i]->drawEpipolarLine(_q, view);
+	    _canvases[view]->dc() << foreground(0);
+	    _canvases[view]->drawSelfEpipolarLine(_q, i);
 	}
       }
     // Fall down to the next "case" block.
       
       case 0:		// MouseButton1Press.
       {			// Draw epipolar lines.
-	for (int i = 0; i < nframes(); ++i)
+	for (int i = 0; i < nviews(); ++i)
 	{
-	    _canvas[i]->dc() << foreground(view2color(i));
-	    _canvas[i]->drawEpipolarLine(p, view);
-	    _canvas[view]->dc() << foreground(view2color(i));
-	    _canvas[view]->drawSelfEpipolarLine(p, i);
+	    _canvases[i]->dc() << foreground(view2color(i));
+	    _canvases[i]->drawEpipolarLine(p, view);
+	    _canvases[view]->dc() << foreground(view2color(i));
+	    _canvases[view]->drawSelfEpipolarLine(p, i);
 	}
 	_q = p;
       }
@@ -149,21 +145,21 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 
       case 2:		// MouseButton1Release.
       {
-	  for (int i = 0; i < nframes(); ++i)
-	      _canvas[i]->dc() << clear;
+	  for (int i = 0; i < nviews(); ++i)
+	      _canvases[i]->dc() << clear;
       }
         break;
 
       case 4:		// repaintUnderlay.
       {
-	  _canvas[view]->dc() << foreground(Color_RED) << cross;
+	  _canvases[view]->dc() << foreground(Color_RED) << cross;
 	  for (int j = 0; j < npairs(); ++j)
 	  {
-	      _canvas[view]->dc() << Point2d(_pair[j](3*view, 3));
+	      const Point2d&	q = _pairs[j][view];
+	      _canvases[view]->dc() << q;
 	      char	s[32];
 	      sprintf(s, "%d", j);
-	      _canvas[view]->dc().draw(s, _pair[j][3*view] + 5,
-				       _pair[j][3*view+1]);
+	      _canvases[view]->dc().draw(s, q[0] + 5, q[1]);
 	  }
       }
         break;
@@ -172,8 +168,8 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
       case 2:		// MouseButton1Release.
       case 1:		// MouseButton1Drag.
       {
-	for (int i = 0; i < nframes(); ++i)
-	    _canvas[i]->repaintUnderlay();
+	for (int i = 0; i < nviews(); ++i)
+	    _canvases[i]->repaintUnderlay();
       }
         if (event == 2)
 	    break;
@@ -182,12 +178,12 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
       
       case 0:		// MouseButton1Press.
       {			// Draw epipolar lines.
-	for (int i = 0; i < nframes(); ++i)
+	for (int i = 0; i < nviews(); ++i)
 	{
-	    _canvas[i]->dc() << foreground(_bgr[view2color(i)]);
-	    _canvas[i]->drawEpipolarLine(p, view);
-	    _canvas[view]->dc() << foreground(_bgr[view2color(i)]);
-	    _canvas[view]->drawSelfEpipolarLine(p, i);
+	    _canvases[i]->dc() << foreground(_bgr[view2color(i)]);
+	    _canvases[i]->drawEpipolarLine(p, view);
+	    _canvases[view]->dc() << foreground(_bgr[view2color(i)]);
+	    _canvases[view]->drawSelfEpipolarLine(p, i);
 	}
 	_q = p;
       }
@@ -203,15 +199,15 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
     
       case 4:		// repaintUnderlay.
       {
-	  for (int i = 0; i < nframes(); ++i)
+	  for (int i = 0; i < nviews(); ++i)
 	  {
-	      _canvas[view]->dc() << foreground(_bgr[Color_WHITE]);
+	      _canvases[view]->dc() << foreground(_bgr[Color_WHITE]);
 	      for (int j = 0; j < npairs(); ++j)
-		  _canvas[view]->drawEpipolarLine(_pair[j](3*i, 3), i);
+		  _canvases[view]->drawEpipolarLine(_pairs[j][i], i);
 	  }
-	  _canvas[view]->dc() << foreground(_bgr[Color_GREEN]) << cross;
+	  _canvases[view]->dc() << foreground(_bgr[Color_GREEN]) << cross;
 	  for (int j = 0; j < npairs(); ++j)
-	      _canvas[view]->dc() << Point2d(_pair[j](3*view, 3));
+	      _canvases[view]->dc() << _pairs[j][view];
       }
         break;
     }
