@@ -1,7 +1,6 @@
 /*
- *  $Id: main.cc,v 1.2 2009-08-20 00:55:46 ueshiba Exp $
+ *  $Id: main.cc,v 1.3 2009-09-04 05:50:33 ueshiba Exp $
  */
-#include <fstream>
 #include <unistd.h>
 #include "TU/Image++.h"
 

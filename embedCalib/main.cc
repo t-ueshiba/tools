@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.1.1.1 2008-06-16 03:15:08 ueshiba Exp $
+ *  $Id: main.cc,v 1.2 2009-09-04 05:50:25 ueshiba Exp $
  */
 #include <unistd.h>
 #include <fstream>

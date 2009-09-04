@@ -1,10 +1,8 @@
 /*
- *  $Id: main.cc,v 1.3 2009-01-10 09:02:09 ueshiba Exp $
+ *  $Id: main.cc,v 1.4 2009-09-04 05:50:33 ueshiba Exp $
  */
-#include <fstream>
-#include <exception>
 #include <unistd.h>
-#include <vector>
+#include <exception>
 #include "TU/Image++.h"
 #include "TU/Camera.h"
 
