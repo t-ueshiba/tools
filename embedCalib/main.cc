@@ -1,7 +1,11 @@
 /*
- *  $Id: main.cc,v 1.2 2009-09-04 05:50:25 ueshiba Exp $
+ *  $Id: main.cc,v 1.3 2009-09-09 07:18:18 ueshiba Exp $
  */
 #include <unistd.h>
+#ifdef WIN32
+#  include <io.h>
+#  include <fcntl.h>
+#endif
 #include <fstream>
 #include "TU/Image++.h"
 
@@ -57,6 +61,12 @@ main(int argc, char* argv[])
     
     try
     {
+#ifdef WIN32
+	if (_setmode(_fileno(stdin), _O_BINARY) == -1)
+	    throw runtime_error("Cannot set stdin to binary mode!!"); 
+	if (_setmode(_fileno(stdout), _O_BINARY) == -1)
+	    throw runtime_error("Cannot set stdout to binary mode!!"); 
+#endif
 	ifstream	in(calibFile);
 
 	for (GenericImage image; image.restore(cin); )

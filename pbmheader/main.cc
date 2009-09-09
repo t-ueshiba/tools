@@ -1,8 +1,11 @@
 /*
- *  $Id: main.cc,v 1.4 2009-09-04 05:50:33 ueshiba Exp $
+ *  $Id: main.cc,v 1.5 2009-09-09 07:18:28 ueshiba Exp $
  */
 #include <unistd.h>
-#include <exception>
+#ifdef WIN32
+#  include <io.h>
+#  include <fcntl.h>
+#endif
 #include "TU/Image++.h"
 #include "TU/Camera.h"
 
@@ -53,6 +56,12 @@ main(int argc, char* argv[])
 
     try
     {
+#ifdef WIN32
+	if (_setmode(_fileno(stdin), _O_BINARY) == -1)
+	    throw runtime_error("Cannot set stdin to binary mode!!"); 
+	if (_setmode(_fileno(stdout), _O_BINARY) == -1)
+	    throw runtime_error("Cannot set stdout to binary mode!!"); 
+#endif
 	int	n = 0;
 	for (GenericImage image; image.restore(cin); )
 	{
