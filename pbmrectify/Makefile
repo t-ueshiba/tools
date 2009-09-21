@@ -1,5 +1,5 @@
 #
-#  $Id: Makefile,v 1.6 2009-07-14 05:27:07 ueshiba Exp $
+#  $Id: Makefile,v 1.7 2009-09-21 07:09:39 ueshiba Exp $
 #
 #################################
 #  User customizable macros	#
@@ -22,7 +22,6 @@ ifeq ($(CCC), icpc)
   NVCCFLAGS	= -O		# -O2以上にするとコンパイルエラーになる．
   ifeq ($(OSTYPE), darwin)
     CPPFLAGS   += -DSSE3
-    CFLAGS     += -xSSE3
   else
     CPPFLAGS   += -DSSE3
     CFLAGS     += -xSSE3
@@ -37,7 +36,7 @@ LINKER		= $(CCC)
 #########################
 .SUFFIXES:	.cu
 SUFFIX		= .cc:sC .cu:sC
-EXTHDRS		= /home/ueshiba/stereo/corrStereo/Rectify.h \
+EXTHDRS		= /Users/ueshiba/stereo/corrStereo/Rectify.h \
 		/usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/Camera.h \
 		/usr/local/include/TU/Geometry++.h \
@@ -58,7 +57,7 @@ OBJS		= Rectify.o \
 #########################
 #  Macros used by RCS	#
 #########################
-REV		= $(shell echo $Revision: 1.6 $	|		\
+REV		= $(shell echo $Revision: 1.7 $	|		\
 		  sed 's/evision://'		|		\
 		  awk -F"."					\
 		  '{						\
@@ -71,14 +70,14 @@ include $(PROJECT)/lib/p.mk
 
 ###
 Rectify.o: /usr/local/include/TU/utility.h \
-	/home/ueshiba/stereo/corrStereo/Rectify.h \
+	/Users/ueshiba/stereo/corrStereo/Rectify.h \
 	/usr/local/include/TU/Warp.h /usr/local/include/TU/Image++.h \
 	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/Vector++.h \
 	/usr/local/include/TU/Array++.h /usr/local/include/TU/types.h \
 	/usr/local/include/TU/Normalize.h /usr/local/include/TU/Camera.h \
 	/usr/local/include/TU/mmInstructions.h \
 	/usr/local/include/TU/Thread++.h
-main.o: /home/ueshiba/stereo/corrStereo/Rectify.h \
+main.o: /Users/ueshiba/stereo/corrStereo/Rectify.h \
 	/usr/local/include/TU/Warp.h /usr/local/include/TU/Image++.h \
 	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/Vector++.h \
 	/usr/local/include/TU/Array++.h /usr/local/include/TU/types.h \

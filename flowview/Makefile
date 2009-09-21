@@ -1,5 +1,5 @@
 #
-#  $Id: Makefile,v 1.6 2009-07-14 05:27:07 ueshiba Exp $
+#  $Id: Makefile,v 1.7 2009-09-21 07:09:39 ueshiba Exp $
 #
 #################################
 #  User customizable macros	#
@@ -22,7 +22,6 @@ ifeq ($(CCC), icpc)
   NVCCFLAGS	= -O		# -O2以上にするとコンパイルエラーになる．
   ifeq ($(OSTYPE), darwin)
     CPPFLAGS   += -DSSE3
-    CFLAGS     += -xSSE3
   else
     CPPFLAGS   += -DSSE3
     CFLAGS     += -xSSE3
@@ -65,7 +64,7 @@ OBJS		= main.o
 #########################
 #  Macros used by RCS	#
 #########################
-REV		= $(shell echo $Revision: 1.6 $	|		\
+REV		= $(shell echo $Revision: 1.7 $	|		\
 		  sed 's/evision://'		|		\
 		  awk -F"."					\
 		  '{						\
