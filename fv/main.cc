@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.10 2009-10-07 04:17:27 ueshiba Exp $
+ *  $Id: main.cc,v 1.1 2009-10-09 01:03:42 ueshiba Exp $
  */
 #include <stdlib.h>
 #include "TU/v/App.h"
@@ -15,11 +15,40 @@ namespace TU
 *  static functions							*
 ************************************************************************/
 static void
+restoreImages(std::istream& in, Array<GenericImage>& images)
+{
+    static u_int	n = 0;
+
+    GenericImage	image;
+    if (!image.restore(in))
+	images.resize(n);
+    else
+    {
+	++n;
+	restoreImages(in, images);
+	images[--n] = image;
+    }
+}
+
+static void
+restoreHeaders(std::istream& in, Array<GenericImage>& images)
+{
+  // 1フレームあたりの画像数を取得．
+    u_int	nviews = 0;
+    in >> nviews >> skipl;
+
+  // 画像列を確保し，ヘッダ情報を読み込む．
+    images.resize(nviews);
+    for (u_int i = 0; i < images.dim(); ++i)
+	images[i].restoreHeader(in);
+}
+    
+static void
 usage(const char* s)
 {
     using namespace	std;
     
-    cerr << "\nRead an image stream with multiple views from stdin and display it.\n"
+    cerr << "\nRead a set of multi-view images or image streams from stdin and display it.\n"
 	 << endl;
 cerr << " Usage: " << s << " [-n #images] [-[QH24]] [-s saturation] < imageStreamFile\n"
 	 << endl;
@@ -54,17 +83,17 @@ static CmdDef	Cmds[] =
 class MyCanvasPaneBase : public CanvasPane
 {
   public:
-    MyCanvasPaneBase(Window& parentWin, const GenericImage& header,
+    MyCanvasPaneBase(Window& parentWin, const GenericImage& image,
 		     u_int mul, u_int div)				;
 
     virtual std::istream&	restoreData(std::istream& in)		= 0;
 };
 
 MyCanvasPaneBase::MyCanvasPaneBase(Window& parentWin,
-				   const GenericImage& header,
+				   const GenericImage& image,
 				   u_int mul, u_int div)
-    :CanvasPane(parentWin, (header.width()  * mul) / div,
-			   (header.height() * mul) / div)
+    :CanvasPane(parentWin, (image.width()  * mul) / div,
+			   (image.height() * mul) / div)
 {
 }
 
@@ -75,7 +104,7 @@ template <class T>
 class MyCanvasPane : public MyCanvasPaneBase
 {
   public:
-    MyCanvasPane(Window& parentWin, const GenericImage& header,
+    MyCanvasPane(Window& parentWin, GenericImage& image,
 		 u_int mul, u_int div)					;
     
     virtual std::istream&	restoreData(std::istream& in)		;
@@ -91,11 +120,11 @@ class MyCanvasPane : public MyCanvasPaneBase
 };
 
 template <class T>
-MyCanvasPane<T>::MyCanvasPane(Window& parentWin, const GenericImage& header,
+MyCanvasPane<T>::MyCanvasPane(Window& parentWin, GenericImage& image,
 			      u_int mul, u_int div)
-    :MyCanvasPaneBase(parentWin, header, mul, div),
-     _dc(*this, header.width(), header.height(), mul, div),
-     _image(header.width(), header.height())
+    :MyCanvasPaneBase(parentWin, image, mul, div),
+     _dc(*this, image.width(), image.height(), mul, div),
+     _image((T*)(u_char*)image, image.width(), image.height())
 {
 }
 
@@ -118,7 +147,7 @@ class MyCmdWindow : public CmdWindow
 {
   public:
     MyCmdWindow(App& parentApp, const char* name,
-		const Array<GenericImage>& headers,
+		Array<GenericImage>& images, bool movie,
 		u_int ncol, u_int mul, u_int div, u_int saturation)	;
     ~MyCmdWindow()							;
     
@@ -132,46 +161,51 @@ class MyCmdWindow : public CmdWindow
 };
 
 MyCmdWindow::MyCmdWindow(App& parentApp, const char* name,
-			 const Array<GenericImage>& headers,
+			 Array<GenericImage>& images, bool movie,
 			 u_int ncol, u_int mul, u_int div, u_int saturation)
     :CmdWindow(parentApp, name, 0, Colormap::RGBColor, 16, 0, 0),
      _cmd(*this, Cmds),
-     _canvases(headers.dim()),
-     _timer(*this, 10)
+     _canvases(images.dim()),
+     _timer(*this, 0)
 {
+    using namespace	std;
+    
     _cmd.place(0, 0, ncol, 1);
 
     for (u_int i = 0; i < _canvases.dim(); ++i)
     {
-	switch (headers[i].type())
+	switch (images[i].type())
 	{
+	  case ImageBase::U_CHAR:
+	    _canvases[i] = new MyCanvasPane<u_char>(*this,
+						    images[i], mul, div);
+	    break;
 	  case ImageBase::RGB_24:
-	    _canvases[i] = new MyCanvasPane<RGBA>(*this,
-						  headers[i], mul, div);
+	    _canvases[i] = new MyCanvasPane<RGB>(*this,
+						 images[i], mul, div);
 	    break;
 	  case ImageBase::SHORT:
 	    _canvases[i] = new MyCanvasPane<short>(*this,
-						   headers[i], mul, div);
+						   images[i], mul, div);
 	    break;
 	  case ImageBase::FLOAT:
 	    _canvases[i] = new MyCanvasPane<float>(*this,
-						   headers[i], mul, div);
+						   images[i], mul, div);
 	    break;
 	  case ImageBase::YUV_444:
 	    _canvases[i] = new MyCanvasPane<YUV444>(*this,
-						    headers[i], mul, div);
+						    images[i], mul, div);
 	    break;
 	  case ImageBase::YUV_422:
 	    _canvases[i] = new MyCanvasPane<YUV422>(*this,
-						    headers[i], mul, div);
+						    images[i], mul, div);
 	    break;
 	  case ImageBase::YUV_411:
 	    _canvases[i] = new MyCanvasPane<YUV411>(*this,
-						    headers[i], mul, div);
+						    images[i], mul, div);
 	    break;
 	  default:
-	    _canvases[i] = new MyCanvasPane<u_char>(*this,
-						    headers[i], mul, div);
+	    throw runtime_error("Unknwon image type!!");
 	    break;
 	}
 	
@@ -183,6 +217,9 @@ MyCmdWindow::MyCmdWindow(App& parentApp, const char* name,
     _cmd.setValue(c_Slider, int(saturation));
     colormap().setSaturation(saturation);
     colormap().setSaturationF(saturation);
+
+    if (movie)
+	_timer.start(5);
 }
 
 MyCmdWindow::~MyCmdWindow()
@@ -214,9 +251,11 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 void
 MyCmdWindow::tick()
 {
+    using namespace	std;
+    
     for (u_int i = 0; i < _canvases.dim(); ++i)
     {
-	_canvases[i]->restoreData(std::cin);
+	_canvases[i]->restoreData(cin);
 	_canvases[i]->repaintUnderlay();
     }
 }
@@ -267,28 +306,64 @@ main(int argc, char* argv[])
 
     try
     {
-      // 1フレームあたりの画像数を取得．
 	char	c;
-	if (!cin.get(c) || (c != 'M'))
-	    throw runtime_error("Not an image stream!");
-	u_int	nviews = 0;
-	cin >> nviews >> skipl;
-	cerr << nviews << " views." << endl;
-	if (nviews == 0)
-	    throw runtime_error("No views found in the input image stream!");
-    
-      // 画像列を確保し，ヘッダ情報を読み込む．
-	Array<GenericImage>	headers(nviews);
-	for (u_int i = 0; i < headers.dim(); ++i)
+	if (!cin.get(c))
+	    throw runtime_error("Failed to read from stdin!!");
+
+      // 画像／ムービーを判定して，画像データまたはヘッダを読み込む．
+	Array<GenericImage>	images;
+	switch (c)
 	{
-	    headers[i].restoreHeader(cin);
-	    cerr << i << "-th image: "
-		 << headers[i].width() << 'x' << headers[i].height() << endl;
+	  case 'P':	// 多視点画像
+	    cin.putback(c);
+	    restoreImages(cin, images);
+	    break;
+	  case 'M':	// 多視点ムービー
+	    restoreHeaders(cin, images);
+	    break;
+	  default:
+	    throw runtime_error("Neither image nor movie file!!");
+	    break;
+	}
+
+      // 各視点の画像サイズを表示．
+	for (u_int i = 0; i < images.dim(); ++i)
+	{
+	    cerr << i << "-th view: "
+		 << images[i].width() << 'x' << images[i].height() << " (";
+	    switch (images[i].type())
+	    {
+	      case ImageBase::U_CHAR:
+		cerr << "U_CHAR";
+		break;
+	      case ImageBase::RGB_24:
+		cerr << "RGB_24";
+		break;
+	      case ImageBase::SHORT:
+		cerr << "SHORT";
+		break;
+	      case ImageBase::FLOAT:
+		cerr << "FLOAT";
+		break;
+	      case ImageBase::YUV_444:
+		cerr << "YUV_444";
+		break;
+	      case ImageBase::YUV_422:
+		cerr << "YUV_422";
+		break;
+	      case ImageBase::YUV_411:
+		cerr << "YUV_411";
+		break;
+	      default:
+		cerr << "unknown...";
+		break;
+	    }
+	    cerr << ')' << endl;
 	}
 
       // GUIオブジェクトを作り，イベントループを起動．
-	v::MyCmdWindow	myWin(vapp, "Real-time image viewer", headers,
-			      ncol, mul, div, saturation);
+	v::MyCmdWindow	myWin(vapp, "Real-time image viewer", images,
+			      (c == 'M'), ncol, mul, div, saturation);
 	vapp.run();
     }
     catch (exception& err)
