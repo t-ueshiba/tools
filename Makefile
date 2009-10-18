@@ -4,7 +4,7 @@ SUBDIR	= embedCalib		\
 	  pbmrectify		\
 	  pbmselect		\
 	  flow1394camera	\
-	  flowview
+	  fv
 
 TARGETS	= all install clean depend
 
