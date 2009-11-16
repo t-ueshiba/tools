@@ -1,5 +1,5 @@
 /*
- *  $Id: MyCanvasPane.cc,v 1.4 2009-08-20 00:55:09 ueshiba Exp $
+ *  $Id: MyCanvasPane.cc,v 1.5 2009-11-16 06:58:57 ueshiba Exp $
  */
 #include "epicheck.h"
 
@@ -34,7 +34,7 @@ MyCanvasPane::drawEpipolarLine(const Point2d& p, u_int otherView)
 {
     if (otherView != _view)
     {
-	LineP2d	l = p.homogenize() * _F[otherView];
+	LineP2d	l = p.homogeneous() * _F[otherView];
 	_dc << l;
     }
 }
@@ -44,7 +44,7 @@ MyCanvasPane::drawSelfEpipolarLine(const Point2d& p, u_int otherView)
 {
     if (otherView != _view)
     {
-	LineP2d	l = (_F[otherView][0] ^ _F[otherView][1]) ^ p.homogenize();
+	LineP2d	l = (_F[otherView][0] ^ _F[otherView][1]) ^ p.homogeneous();
 	_dc << l;
     }
 }
