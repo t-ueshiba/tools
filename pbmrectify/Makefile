@@ -1,5 +1,5 @@
 #
-#  $Id: Makefile,v 1.7 2009-09-21 07:09:39 ueshiba Exp $
+#  $Id: Makefile,v 1.8 2009-11-16 07:43:44 ueshiba Exp $
 #
 #################################
 #  User customizable macros	#
@@ -36,11 +36,12 @@ LINKER		= $(CCC)
 #########################
 .SUFFIXES:	.cu
 SUFFIX		= .cc:sC .cu:sC
-EXTHDRS		= /Users/ueshiba/stereo/corrStereo/Rectify.h \
+EXTHDRS		= /home/ueshiba/stereo/corrStereo/Rectify.h \
 		/usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/Camera.h \
 		/usr/local/include/TU/Geometry++.h \
 		/usr/local/include/TU/Image++.h \
+		/usr/local/include/TU/Minimize.h \
 		/usr/local/include/TU/Normalize.h \
 		/usr/local/include/TU/Thread++.h \
 		/usr/local/include/TU/Vector++.h \
@@ -57,7 +58,7 @@ OBJS		= Rectify.o \
 #########################
 #  Macros used by RCS	#
 #########################
-REV		= $(shell echo $Revision: 1.7 $	|		\
+REV		= $(shell echo $Revision: 1.8 $	|		\
 		  sed 's/evision://'		|		\
 		  awk -F"."					\
 		  '{						\
@@ -70,17 +71,18 @@ include $(PROJECT)/lib/p.mk
 
 ###
 Rectify.o: /usr/local/include/TU/utility.h \
-	/Users/ueshiba/stereo/corrStereo/Rectify.h \
+	/home/ueshiba/stereo/corrStereo/Rectify.h \
 	/usr/local/include/TU/Warp.h /usr/local/include/TU/Image++.h \
 	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/Vector++.h \
 	/usr/local/include/TU/Array++.h /usr/local/include/TU/types.h \
-	/usr/local/include/TU/Normalize.h /usr/local/include/TU/Camera.h \
-	/usr/local/include/TU/mmInstructions.h \
+	/usr/local/include/TU/Normalize.h /usr/local/include/TU/Minimize.h \
+	/usr/local/include/TU/Camera.h /usr/local/include/TU/mmInstructions.h \
 	/usr/local/include/TU/Thread++.h
-main.o: /Users/ueshiba/stereo/corrStereo/Rectify.h \
+main.o: /home/ueshiba/stereo/corrStereo/Rectify.h \
 	/usr/local/include/TU/Warp.h /usr/local/include/TU/Image++.h \
-	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/Vector++.h \
-	/usr/local/include/TU/Array++.h /usr/local/include/TU/types.h \
-	/usr/local/include/TU/Normalize.h /usr/local/include/TU/Camera.h \
+	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/utility.h \
+	/usr/local/include/TU/Vector++.h /usr/local/include/TU/Array++.h \
+	/usr/local/include/TU/types.h /usr/local/include/TU/Normalize.h \
+	/usr/local/include/TU/Minimize.h /usr/local/include/TU/Camera.h \
 	/usr/local/include/TU/mmInstructions.h \
 	/usr/local/include/TU/Thread++.h
