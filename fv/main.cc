@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.1 2009-10-09 01:03:42 ueshiba Exp $
+ *  $Id: main.cc,v 1.2 2010-01-27 06:08:59 ueshiba Exp $
  */
 #include <stdlib.h>
 #include "TU/v/App.h"
@@ -131,7 +131,7 @@ MyCanvasPane<T>::MyCanvasPane(Window& parentWin, GenericImage& image,
 template <class T> std::istream&
 MyCanvasPane<T>::restoreData(std::istream& in)
 {
-    return _image.restoreData(in);
+    return _image.restoreData(in, ImageBase::DEFAULT);
 }
         
 template <class T> void
