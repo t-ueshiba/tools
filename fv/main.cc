@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.2 2010-01-27 06:08:59 ueshiba Exp $
+ *  $Id: main.cc,v 1.3 2010-01-28 08:16:48 ueshiba Exp $
  */
 #include <stdlib.h>
 #include "TU/v/App.h"
@@ -112,11 +112,12 @@ class MyCanvasPane : public MyCanvasPaneBase
     
   private:
 #ifdef USE_XVDC
-    XvDC	_dc;
+    XvDC			_dc;
 #else
-    ShmDC	_dc;
+    ShmDC			_dc;
 #endif
-    Image<T>	_image;
+    const ImageBase::TypeInfo&	_typeInfo;
+    Image<T>			_image;
 };
 
 template <class T>
@@ -124,6 +125,7 @@ MyCanvasPane<T>::MyCanvasPane(Window& parentWin, GenericImage& image,
 			      u_int mul, u_int div)
     :MyCanvasPaneBase(parentWin, image, mul, div),
      _dc(*this, image.width(), image.height(), mul, div),
+     _typeInfo(image.typeInfo()),
      _image((T*)(u_char*)image, image.width(), image.height())
 {
 }
@@ -131,7 +133,7 @@ MyCanvasPane<T>::MyCanvasPane(Window& parentWin, GenericImage& image,
 template <class T> std::istream&
 MyCanvasPane<T>::restoreData(std::istream& in)
 {
-    return _image.restoreData(in, ImageBase::DEFAULT);
+    return _image.restoreData(in, _typeInfo);
 }
         
 template <class T> void
@@ -174,7 +176,7 @@ MyCmdWindow::MyCmdWindow(App& parentApp, const char* name,
 
     for (u_int i = 0; i < _canvases.dim(); ++i)
     {
-	switch (images[i].type())
+	switch (images[i].typeInfo().type)
 	{
 	  case ImageBase::U_CHAR:
 	    _canvases[i] = new MyCanvasPane<u_char>(*this,
@@ -204,8 +206,20 @@ MyCmdWindow::MyCmdWindow(App& parentApp, const char* name,
 	    _canvases[i] = new MyCanvasPane<YUV411>(*this,
 						    images[i], mul, div);
 	    break;
+	  case ImageBase::BMP_8:
+	    _canvases[i] = new MyCanvasPane<u_char>(*this,
+						    images[i], mul, div);
+	    break;
+	  case ImageBase::BMP_24:
+	    _canvases[i] = new MyCanvasPane<BGR>(*this,
+						 images[i], mul, div);
+	    break;
+	  case ImageBase::BMP_32:
+	    _canvases[i] = new MyCanvasPane<BGRA>(*this,
+						  images[i], mul, div);
+	    break;
 	  default:
-	    throw runtime_error("Unknwon image type!!");
+	    throw runtime_error("Unknown image type!!");
 	    break;
 	}
 	
@@ -315,6 +329,7 @@ main(int argc, char* argv[])
 	switch (c)
 	{
 	  case 'P':	// Â¿»ëÅÀ²èÁü
+	  case 'B':
 	    cin.putback(c);
 	    restoreImages(cin, images);
 	    break;
@@ -331,7 +346,7 @@ main(int argc, char* argv[])
 	{
 	    cerr << i << "-th view: "
 		 << images[i].width() << 'x' << images[i].height() << " (";
-	    switch (images[i].type())
+	    switch (images[i].typeInfo().type)
 	    {
 	      case ImageBase::U_CHAR:
 		cerr << "U_CHAR";
