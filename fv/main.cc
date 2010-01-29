@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.3 2010-01-28 08:16:48 ueshiba Exp $
+ *  $Id: main.cc,v 1.4 2010-01-29 00:04:51 ueshiba Exp $
  */
 #include <stdlib.h>
 #include "TU/v/App.h"
@@ -368,6 +368,15 @@ main(int argc, char* argv[])
 		break;
 	      case ImageBase::YUV_411:
 		cerr << "YUV_411";
+		break;
+	      case ImageBase::BMP_8:
+		cerr << "BMP_8";
+		break;
+	      case ImageBase::BMP_24:
+		cerr << "BMP_24";
+		break;
+	      case ImageBase::BMP_32:
+		cerr << "BMP_32";
 		break;
 	      default:
 		cerr << "unknown...";
