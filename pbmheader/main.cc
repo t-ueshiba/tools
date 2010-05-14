@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.5 2009-09-09 07:18:28 ueshiba Exp $
+ *  $Id: main.cc,v 1.6 2010-05-14 02:23:09 ueshiba Exp $
  */
 #include <unistd.h>
 #ifdef WIN32
@@ -8,6 +8,10 @@
 #endif
 #include "TU/Image++.h"
 #include "TU/Camera.h"
+
+#ifndef EOF
+#  define EOF	(-1)
+#endif
 
 namespace TU
 {

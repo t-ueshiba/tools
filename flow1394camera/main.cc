@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.6 2009-08-11 00:45:47 ueshiba Exp $
+ *  $Id: main.cc,v 1.7 2010-05-14 02:23:09 ueshiba Exp $
  */
 #include <stdlib.h>
 #include <signal.h>
@@ -11,7 +11,7 @@
 #include "TU/Ieee1394CameraArray.h"
 
 #define DEFAULT_CONFIG_DIRS	".:/usr/local/etc/cameras"
-#define DEFAULT_CAMERA_NAME	"IEEE1394Camera"
+#define DEFAULT_CAMERA_NAME	"Ieee1394Camera"
 
 namespace TU
 {

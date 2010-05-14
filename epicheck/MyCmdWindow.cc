@@ -1,6 +1,7 @@
 /*
- *  $Id: MyCmdWindow.cc,v 1.3 2009-08-20 00:55:09 ueshiba Exp $
+ *  $Id: MyCmdWindow.cc,v 1.4 2010-05-14 02:23:00 ueshiba Exp $
  */
+#include <cstdio>
 #include "TU/v/App.h"
 #include "epicheck.h"
 

@@ -1,13 +1,17 @@
 /*
- *  $Id: main.cc,v 1.4 2010-01-29 00:04:51 ueshiba Exp $
+ *  $Id: main.cc,v 1.5 2010-05-14 02:23:09 ueshiba Exp $
  */
-#include <stdlib.h>
+#include <cstdlib>
 #include "TU/v/App.h"
 #include "TU/v/CmdWindow.h"
 #include "TU/v/CmdPane.h"
 #include "TU/v/CanvasPane.h"
 #include "TU/v/XvDC.h"
 #include "TU/v/Timer.h"
+
+#ifndef EOF
+#  define EOF	(-1)
+#endif
 
 namespace TU
 {
