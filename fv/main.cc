@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.5 2010-05-14 02:23:09 ueshiba Exp $
+ *  $Id: main.cc,v 1.6 2010-12-15 04:03:09 ueshiba Exp $
  */
 #include <cstdlib>
 #include "TU/v/App.h"
@@ -118,7 +118,11 @@ class MyCanvasPane : public MyCanvasPaneBase
 #ifdef USE_XVDC
     XvDC			_dc;
 #else
+#  ifdef USE_SHMDC
     ShmDC			_dc;
+#  else
+    CanvasPaneDC		_dc;
+#  endif
 #endif
     const ImageBase::TypeInfo&	_typeInfo;
     Image<T>			_image;
