@@ -4,7 +4,8 @@ SUBDIR	= embedCalib		\
 	  pbmrectify		\
 	  pbmselect		\
 	  flow1394camera	\
-	  fv
+	  fv			\
+	  rec1394camera
 
 TARGETS	= all install clean depend
 

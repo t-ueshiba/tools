@@ -1,5 +1,5 @@
 #
-#  $Id: Makefile,v 1.2 2009-11-16 07:44:48 ueshiba Exp $
+#  $Id: Makefile,v 1.3 2010-12-21 00:13:14 ueshiba Exp $
 #
 #################################
 #  User customizable macros	#
@@ -14,7 +14,7 @@ ifeq ($(OSTYPE), darwin)
 #  LIBS	       += -framework IOKit -framework CoreFoundation
 endif
 
-CPPFLAGS	=
+CPPFLAGS	= -DUSE_SHMDC
 CFLAGS		= -g
 NVCCFLAGS	= -g
 ifeq ($(CCC), icpc)
@@ -61,13 +61,15 @@ EXTHDRS		= /usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/v/XDC.h \
 		/usr/local/include/TU/v/XvDC.h
 HDRS		=
-SRCS		= main.cc
-OBJS		= main.o
+SRCS		= GenericImage.cc \
+		main.cc
+OBJS		= GenericImage.o \
+		main.o
 
 #########################
 #  Macros used by RCS	#
 #########################
-REV		= $(shell echo $Revision: 1.2 $	|		\
+REV		= $(shell echo $Revision: 1.3 $	|		\
 		  sed 's/evision://'		|		\
 		  awk -F"."					\
 		  '{						\
@@ -79,6 +81,11 @@ REV		= $(shell echo $Revision: 1.2 $	|		\
 include $(PROJECT)/lib/p.mk
 
 ###
+GenericImage.o: /usr/local/include/TU/Image++.h \
+	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/utility.h \
+	/usr/local/include/TU/Vector++.h /usr/local/include/TU/Array++.h \
+	/usr/local/include/TU/types.h /usr/local/include/TU/Normalize.h \
+	/usr/local/include/TU/Minimize.h
 main.o: /usr/local/include/TU/v/App.h /usr/local/include/TU/v/TUv++.h \
 	/usr/local/include/TU/v/Colormap.h /usr/local/include/TU/Image++.h \
 	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/utility.h \
