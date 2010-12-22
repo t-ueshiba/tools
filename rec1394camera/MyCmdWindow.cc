@@ -1,5 +1,5 @@
 /*
- *  $Id: MyCmdWindow.cc,v 1.1 2010-12-21 00:13:25 ueshiba Exp $
+ *  $Id: MyCmdWindow.cc,v 1.2 2010-12-22 01:47:14 ueshiba Exp $
  */
 #include <cstdlib>
 #include <cstdio>
@@ -142,7 +142,8 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 	  case c_SaveCurrentFrame:
 	  {
 	    stopContinuousShotIfRunning();
-
+	    setFrame();		// 現フレームを現在GUIに表示されているものに設定
+	    
 	    ofstream	out;
 	    if (_fileSelection.open(out))
 	    {
@@ -157,8 +158,6 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 	  
 	  case c_SaveConfig:
 	  {
-	    stopContinuousShotIfRunning();
-
 	    ofstream	out((_cameraBase + ".conf").c_str());
 	    if (!out)
 		throw runtime_error("Failed to open camera configuration file!!");
@@ -344,7 +343,6 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 
 	// Movie stuffs.
 	  case c_CircularMode:
-	    stopContinuousShotIfRunning();
 	    _movie.setCircularMode(val);
 	    break;
 	    
@@ -385,21 +383,20 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 	
 	  case c_HeadMovie:
 	    stopContinuousShotIfRunning();
-	    _movie.setFrame(val);
 	    _headIsActive = true;
-	    repaintCanvases();
+	    setFrame();
 	    break;
 
 	  case c_TailMovie:
 	    stopContinuousShotIfRunning();
-	    _movie.setFrame(val);
 	    _headIsActive = false;
-	    repaintCanvases();
+	    setFrame();
 	    break;
 
 	  // Editing stuffs.
 	  case M_Cut:
 	    stopContinuousShotIfRunning();
+	    repaintCanvases();	// head/tail sliderの表示を現フレームに一致させる
 	    _movie.setFrame(_captureCmd.getValue(c_HeadMovie));
 	    _movie.cut(int(_captureCmd.getValue(c_TailMovie)) -
 		       int(_captureCmd.getValue(c_HeadMovie)));
@@ -411,6 +408,7 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 
 	  case M_Copy:
 	    stopContinuousShotIfRunning();
+	    repaintCanvases();	// head/tail sliderの表示を現フレームに一致させる
 	    _movie.setFrame(_captureCmd.getValue(c_HeadMovie));
 	    _movie.copy(int(_captureCmd.getValue(c_TailMovie)) -
 			int(_captureCmd.getValue(c_HeadMovie)));
@@ -420,18 +418,20 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 
 	  case M_Paste:
 	  {
-	      stopContinuousShotIfRunning();
-	      _movie.setFrame(_captureCmd.getValue(c_HeadMovie));
-	      u_int	n = _movie.paste();
-	      setNFrames();	// フレーム数が変わっているのでGUIに反映
-	      _captureCmd.setValue(c_TailMovie, int(_movie.currentFrame() + n));
-	      _headIsActive = true;
-	      repaintCanvases();
+	    stopContinuousShotIfRunning();
+	    repaintCanvases();	// head/tail sliderの表示を現フレームに一致させる
+	    _movie.setFrame(_captureCmd.getValue(c_HeadMovie));
+	    u_int	n = _movie.paste();
+	    setNFrames();	// フレーム数が変わっているのでGUIに反映
+	    _captureCmd.setValue(c_TailMovie, int(_movie.currentFrame() + n));
+	    _headIsActive = true;
+	    repaintCanvases();
 	  }
 	  break;
 
 	  case c_Rotate:
 	    stopContinuousShotIfRunning();
+	    repaintCanvases();	// head/tail sliderの表示を現フレームに一致させる
 	    _movie.setFrame(_captureCmd.getValue(c_HeadMovie));
 	    _movie.rotate();
 	    _captureCmd.setValue(c_TailMovie, int(_movie.currentFrame()));
@@ -446,96 +446,96 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
     }
 }
 
-  //! タイマの稼働中に定期的に呼ばれる処理
-    void
-    MyCmdWindow::tick()
+//! タイマの稼働中に定期的に呼ばれる処理
+void
+MyCmdWindow::tick()
+{
+    static int			nframes = 0;
+    static struct timeval	start;
+    countTime(nframes, start);
+
+    if (!_captureCmd.getValue(c_PlayMovie))
     {
-	static int			nframes = 0;
-	static struct timeval	start;
-	countTime(nframes, start);
+	syncronizedSnap();				// カメラから画像取り込み．
 
-	if (!_captureCmd.getValue(c_PlayMovie))
+	for (u_int i = 0; i < _cameras.dim(); ++i)
 	{
-	    syncronizedSnap();				// カメラから画像取り込み．
-
-	    for (u_int i = 0; i < _cameras.dim(); ++i)
-	    {
-		_movie.setView(i);
-		*_cameras[i] >> _movie.image();		// カメラから画像転送．
-	    }
+	    _movie.setView(i);
+	    *_cameras[i] >> _movie.image();		// カメラから画像転送．
 	}
-
-	repaintCanvases();	// 画像の表示および現フレームのhead/tail sliderへの反映．
-
-      // 現フレームを1つ進める．head/tail sliderに未反映なので，これらから値を取得
-      // する場合は予め repaintCanvases() を呼ぶ必要がある．
-	++_movie;
     }
 
-  /*
-   *  private member functions
-   */
-  //! カメラの台数と解像度および指定されたフレーム数に合わせてムービーを初期化する．
-    void
-    MyCmdWindow::initializeMovie()
-    {
-	using namespace	std;
+    repaintCanvases();	// 画像の表示および現フレームのhead/tail sliderへの反映．
+
+  // 現フレームを1つ進める．head/tail sliderに未反映なので，これらから値を取得
+  // する場合は予め repaintCanvases() を呼ぶ必要がある．
+    ++_movie;
+}
+
+/*
+ *  private member functions
+ */
+//! カメラの台数と解像度および指定されたフレーム数に合わせてムービーを初期化する．
+void
+MyCmdWindow::initializeMovie()
+{
+    using namespace	std;
+
+  // カメラの台数分だけのビューを確保し，そのサイズを設定する．
+    Array<Movie<PixelType>::Size >	sizes(_cameras.dim());
+    for (u_int i = 0; i < sizes.dim(); ++i)
+	sizes[i] = make_pair(_cameras[i]->width(), _cameras[i]->height());
+    _movie.setSizes(sizes);
+
+  // 指定された枚数のフレームを確保する．
+    u_int	nframes = atoi(_captureCmd.getString(c_NFrames));
+    _movie.insert(nframes);
     
-      // カメラの台数分だけのビューを確保し，そのサイズを設定する．
-	Array<Movie<PixelType>::Size >	sizes(_cameras.dim());
-	for (u_int i = 0; i < sizes.dim(); ++i)
-	    sizes[i] = make_pair(_cameras[i]->width(), _cameras[i]->height());
-	_movie.setSizes(sizes);
+    setCanvases();		// キャンバスとGUI wigetを設定する．
+    repaintCanvases();		// head/tail slidersに現フレームを反映する．
+}
 
-      // 指定された枚数のフレームを確保する．
-	u_int	nframes = atoi(_captureCmd.getString(c_NFrames));
-	_movie.insert(nframes);
-    
-	setCanvases();		// キャンバスとGUI wigetを設定する．
-	repaintCanvases();		// head/tail slidersに現フレームを反映する．
+//! ムービーが生成されたとき，それに合わせてキャンバスとGUI widgetを設定する．
+void
+MyCmdWindow::setCanvases()
+{
+    if (_canvases.dim() != _movie.nviews())
+    {
+	for (u_int i = 0; i < _canvases.dim(); ++i)
+	    delete _canvases[i];		// 既存キャンバスを廃棄する．
+
+	_canvases.resize(_movie.nviews());	// 新たにビュー数だけ確保する．
+	for (u_int i = 0; i < _canvases.dim(); ++i)
+	{
+	    Image<PixelType>&	image = _movie.setView(i).image();
+	    _canvases[i] = new MyCanvasPane(*this, image,
+					    image.width(), image.height(),
+					    _mul, _div);
+	    _canvases[i]->place(i % _ncol, 2 + i / _ncol, 1, 1);
+	}
+    }
+    else
+    {
+	for (u_int i = 0; i < _canvases.dim(); ++i)
+	    _canvases[i]->resize();
     }
 
-  //! ムービーが生成されたとき，それに合わせてキャンバスとGUI widgetを設定する．
-    void
-    MyCmdWindow::setCanvases()
-    {
-	if (_canvases.dim() != _movie.nviews())
-	{
-	    for (u_int i = 0; i < _canvases.dim(); ++i)
-		delete _canvases[i];		// 既存キャンバスを廃棄する．
+    setNFrames();			// フレーム数をGUIに反映させる．
+}
 
-	    _canvases.resize(_movie.nviews());	// 新たにビュー数だけ確保する．
-	    for (u_int i = 0; i < _canvases.dim(); ++i)
-	    {
-		Image<PixelType>&	image = _movie.setView(i).image();
-		_canvases[i] = new MyCanvasPane(*this, image,
-						image.width(), image.height(),
-						_mul, _div);
-		_canvases[i]->place(i % _ncol, 2 + i / _ncol, 1, 1);
-	    }
-	}
-	else
-	{
-	    for (u_int i = 0; i < _canvases.dim(); ++i)
-		_canvases[i]->resize();
-	}
-
-	setNFrames();			// フレーム数をGUIに反映させる．
-    }
-
-  //! ムービーのフレーム数が変わったとき，それをGUI widgetに反映させる．
-    void
-    MyCmdWindow::setNFrames()
-    {
-	movieProp[0] = 0;					// 最初のフレーム番号
-	movieProp[1] = _movie.nframes() - 1;		// 最後のフレーム番号
-	movieProp[2] = 1;					// 刻み
-	_captureCmd.setProp(c_HeadMovie, movieProp);	// head sliderに設定
-	_captureCmd.setProp(c_TailMovie, movieProp);	// tail sliderに設定
+//! ムービーのフレーム数が変わったとき，それをGUI widgetに反映させる．
+void
+MyCmdWindow::setNFrames()
+{
+    movieProp[0] = 0;				    // 最初のフレーム番号
+    movieProp[1] = _movie.nframes() - 1;	    // 最後のフレーム番号
+    movieProp[2] = 1;				    // 刻み
+    _captureCmd.setProp(c_HeadMovie, movieProp);    // head sliderに設定
+    _captureCmd.setProp(c_TailMovie, movieProp);    // tail sliderに設定
 
     char	s[256];
-    sprintf(s, "%6d", _movie.nframes());
-    _captureCmd.setString(c_NFrames, s);		// widgetにフレーム数を設定
+    sprintf(s, "%d", _movie.nframes());
+    _captureCmd.setString(c_NFrames, s);	    // widgetにフレーム数を設定
 }
 
 //! 現フレームの内容をキャンバスに表示し，それをhead/tail sliderに反映させる．
@@ -559,6 +559,18 @@ MyCmdWindow::repaintCanvases()
 	    _captureCmd.setValue(c_HeadMovie, current);	// headを追従させる
     }
 }
+
+//! ムービーの現フレームを現在head/tail sliderに表示されているフレーム番号に設定する．
+void
+MyCmdWindow::setFrame()
+{
+    const int	current = _captureCmd.getValue((_headIsActive ? c_HeadMovie
+							      : c_TailMovie));
+    _movie.setFrame(current);
+
+    for (u_int i = 0; i < _canvases.dim(); ++i)
+	_canvases[i]->repaintUnderlay();
+}
     
 //! カメラから画像を出力中ならそれを停止する．また，現フレームをhead/tail sliderへ反映させる．
 void
@@ -571,8 +583,6 @@ MyCmdWindow::stopContinuousShotIfRunning()
 	    _cameras[i]->stopContinuousShot();
 	_captureCmd.setValue(c_ContinuousShot, 0);
     }
-
-    repaintCanvases();	// GUIに表示されるフレームと実際の現フレームを一致させる
 }
 
 //! 複数のカメラによって同期した画像を撮影する．

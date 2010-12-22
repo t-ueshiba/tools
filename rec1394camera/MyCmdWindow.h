@@ -1,5 +1,5 @@
 /*
- *  $Id: MyCmdWindow.h,v 1.1 2010-12-21 00:13:25 ueshiba Exp $
+ *  $Id: MyCmdWindow.h,v 1.2 2010-12-22 01:47:14 ueshiba Exp $
  */
 #include "TU/v/App.h"
 #include "TU/v/CmdWindow.h"
@@ -34,6 +34,7 @@ class MyCmdWindow : public CmdWindow
     void		setCanvases()				;
     void		setNFrames()				;
     void		repaintCanvases()			;
+    void		setFrame()				;
     void		stopContinuousShotIfRunning()		;
     void		syncronizedSnap()			;
 
