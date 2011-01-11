@@ -1,5 +1,5 @@
 /*
- *  $Id: createMenuCmds.cc,v 1.1 2010-12-21 00:13:26 ueshiba Exp $
+ *  $Id: createMenuCmds.cc,v 1.2 2011-01-11 23:25:35 ueshiba Exp $
  */
 #include "rec1394camera.h"
 
@@ -109,7 +109,7 @@ static MenuDef editMenu[] =
     {"Cut",			M_Cut,			false, noSub},
     {"Copy",			M_Copy,			false, noSub},
     {"Paste",			M_Paste,		false, noSub},
-    {"Rotate",			c_Rotate,		false, noSub},
+    {"Swap",			c_Swap,			false, noSub},
     EndOfMenu
 };
 

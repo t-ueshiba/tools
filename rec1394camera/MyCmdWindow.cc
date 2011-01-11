@@ -1,5 +1,5 @@
 /*
- *  $Id: MyCmdWindow.cc,v 1.3 2011-01-11 02:03:52 ueshiba Exp $
+ *  $Id: MyCmdWindow.cc,v 1.4 2011-01-11 23:25:35 ueshiba Exp $
  */
 #include <cstdlib>
 #include <cstdio>
@@ -81,7 +81,7 @@ MyCmdWindow::MyCmdWindow(App& parentApp, const std::string& cameraBase,
 	{
 	    for (u_int i = 0; i < _movie.nviews(); ++i)
 	    {
-		Image<PixelType>&	image = _movie.setView(i).image();
+		Image<PixelType>&	image = _movie.image(i);
 	
 		in >> image.P >> image.d1 >> image.d2;
 	    }
@@ -148,10 +148,7 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 	    if (_fileSelection.open(out))
 	    {
 		for (u_int i = 0; i < _movie.nviews(); ++i)
-		{
-		    _movie.setView(i);
-		    _movie.image().save(out);
-		}
+		    _movie.image(i).save(out);
 	    }
 	  }
 	    break;
@@ -429,11 +426,11 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 	  }
 	  break;
 
-	  case c_Rotate:
+	  case c_Swap:
 	    stopContinuousShotIfRunning();
 	    repaintCanvases();	// head/tail sliderの表示を現フレームに一致させる
 	    _movie.setFrame(_captureCmd.getValue(c_HeadMovie));
-	    _movie.rotate();
+	    _movie.swap();
 	    _captureCmd.setValue(c_TailMovie, int(_movie.currentFrame()));
 	    _headIsActive = true;
 	    repaintCanvases();
@@ -459,10 +456,7 @@ MyCmdWindow::tick()
 	syncronizedSnap();				// カメラから画像取り込み．
 
 	for (u_int i = 0; i < _cameras.dim(); ++i)
-	{
-	    _movie.setView(i);
-	    *_cameras[i] >> _movie.image();		// カメラから画像転送．
-	}
+	    *_cameras[i] >> _movie.image(i);		// カメラから画像転送．
     }
 
     repaintCanvases();	// 画像の表示および現フレームのhead/tail sliderへの反映．
@@ -507,7 +501,7 @@ MyCmdWindow::setCanvases()
 	_canvases.resize(_movie.nviews());	// 新たにビュー数だけ確保する．
 	for (u_int i = 0; i < _canvases.dim(); ++i)
 	{
-	    Image<PixelType>&	image = _movie.setView(i).image();
+	    Image<PixelType>&	image = _movie.image(i);
 	    _canvases[i] = new MyCanvasPane(*this, image,
 					    image.width(), image.height(),
 					    _mul, _div);

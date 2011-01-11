@@ -1,5 +1,5 @@
 /*
- *  $Id: rec1394camera.h,v 1.1 2010-12-21 00:13:26 ueshiba Exp $
+ *  $Id: rec1394camera.h,v 1.2 2011-01-11 23:25:36 ueshiba Exp $
  */
 #include "TU/v/TUv++.h"
 #include "TU/Ieee1394++.h"
@@ -92,7 +92,7 @@ enum
     c_CircularMode,
     c_NFramesLabel,
     c_NFrames,
-    c_Rotate
+    c_Swap
 };
 
 /************************************************************************
