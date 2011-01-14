@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.9 2011-01-14 02:13:27 ueshiba Exp $
+ *  $Id: main.cc,v 1.10 2011-01-14 02:35:39 ueshiba Exp $
  */
 #include <stdlib.h>
 #include <signal.h>
@@ -31,10 +31,10 @@ usage(const char* s)
 	 << "  -c cameraName:    prefix of camera {conf|calib} file\n"
 	 << "                      (default: \""
 	 << DEFAULT_CAMERA_NAME
+	 << "\")\n"
 	 << "  -d configDirs:    list of directories for camera {conf|calib} file\n"
 	 << "                      (default: \""
 	 << DEFAULT_CONFIG_DIRS
-	 << "\")\n"
 	 << "\")\n"
 	 << "  -B:               IEEE1394b mode. (default: off)\n"
 	 << endl;

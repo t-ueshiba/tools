@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.2 2011-01-14 02:13:40 ueshiba Exp $
+ *  $Id: main.cc,v 1.3 2011-01-14 02:35:56 ueshiba Exp $
  */
 #include <cstdlib>
 #include "MyCmdWindow.h"
@@ -25,10 +25,10 @@ usage(const char* s)
 	 << "  -c cameraName:  prefix of camera {conf|calib} file\n"
 	 << "                  (default: \""
 	 << DEFAULT_CAMERA_NAME
+	 << "\")\n"
 	 << "  -d configDirs:  list of directories for camera {conf|calib} file\n"
 	 << "                  (default: \""
 	 << DEFAULT_CONFIG_DIRS
-	 << "\")\n"
 	 << "\")\n"
 	 << "  -B:             IEEE1394b mode (default: off)\n"
 	 << "  -C:             no cameras used (movie editing only)\n"
