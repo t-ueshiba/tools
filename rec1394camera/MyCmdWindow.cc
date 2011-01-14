@@ -1,5 +1,5 @@
 /*
- *  $Id: MyCmdWindow.cc,v 1.4 2011-01-11 23:25:35 ueshiba Exp $
+ *  $Id: MyCmdWindow.cc,v 1.5 2011-01-14 02:13:40 ueshiba Exp $
  */
 #include <cstdlib>
 #include <cstdio>
@@ -45,13 +45,12 @@ static int	movieProp[3];
 /************************************************************************
 *  class MyCmdWindow							*
 ************************************************************************/
-MyCmdWindow::MyCmdWindow(App& parentApp, const std::string& cameraBase,
-			 const Array<Ieee1394Camera*>& cameras,
+MyCmdWindow::MyCmdWindow(App& parentApp,
+			 const Ieee1394CameraArray& cameras,
 			 u_int ncol, u_int mul, u_int div)
     :CmdWindow(parentApp,
 	       "rec1394: image streams recorder for IEEE1394 cameras",
 	       0, Colormap::RGBColor, 16, 0, 0),
-     _cameraBase(cameraBase),
      _cameras(cameras),
      _ncol(ncol),
      _mul(mul),
@@ -76,7 +75,7 @@ MyCmdWindow::MyCmdWindow(App& parentApp, const std::string& cameraBase,
     if (cameras.dim() > 0)
     {
       // ムービーの各ビューの画像ヘッダにキャリブレーション情報をセットする．
-	ifstream	in((_cameraBase + ".calib").c_str());
+	ifstream	in(_cameras.calibFile().c_str());
 	if (!in)
 	{
 	    for (u_int i = 0; i < _movie.nviews(); ++i)
@@ -155,7 +154,7 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 	  
 	  case c_SaveConfig:
 	  {
-	    ofstream	out((_cameraBase + ".conf").c_str());
+	      ofstream	out(_cameras.calibFile().c_str());
 	    if (!out)
 		throw runtime_error("Failed to open camera configuration file!!");
 	    out << _cameras[0]->delay() << ' ' << _cameras.dim() << endl;

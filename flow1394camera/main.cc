@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.8 2010-12-07 06:00:17 ueshiba Exp $
+ *  $Id: main.cc,v 1.9 2011-01-14 02:13:27 ueshiba Exp $
  */
 #include <stdlib.h>
 #include <signal.h>
@@ -10,8 +10,8 @@
 #include <stdexcept>
 #include "TU/Ieee1394CameraArray.h"
 
-#define DEFAULT_CONFIG_DIRS	".:/usr/local/etc/cameras"
 #define DEFAULT_CAMERA_NAME	"IEEE1394Camera"
+#define DEFAULT_CONFIG_DIRS	".:/usr/local/etc/cameras"
 
 namespace TU
 {
@@ -28,13 +28,13 @@ usage(const char* s)
     cerr << " Usage: " << s << " [options]\n"
 	 << endl;
     cerr << " Configuration options.\n"
+	 << "  -c cameraName:    prefix of camera {conf|calib} file\n"
+	 << "                      (default: \""
+	 << DEFAULT_CAMERA_NAME
 	 << "  -d configDirs:    list of directories for camera {conf|calib} file\n"
 	 << "                      (default: \""
 	 << DEFAULT_CONFIG_DIRS
 	 << "\")\n"
-	 << "  -c cameraName:    prefix of camera {conf|calib} file\n"
-	 << "                      (default: \""
-	 << DEFAULT_CAMERA_NAME
 	 << "\")\n"
 	 << "  -B:               IEEE1394b mode. (default: off)\n"
 	 << endl;
@@ -42,27 +42,6 @@ usage(const char* s)
 	 << "  -n ncameras:      # of cameras. (default: use all cameras)\n"
 	 << "  -h:               print this.\n"
 	 << endl;
-}
-
-static std::string
-openFile(std::ifstream& in, const std::string& dirs, const std::string& name)
-{
-    using namespace		std;
-
-    string::const_iterator	p = dirs.begin();
-    do
-    {
-	string::const_iterator	q = find(p, dirs.end(), ':');
-	string			fullName = string(p, q) + '/' + name;
-	in.open(fullName.c_str());
-	if (in)
-	    return fullName;
-	p = q;
-    } while (p++ != dirs.end());
-
-    throw runtime_error("Cannot open input file \"" + name +
-			"\" in \"" + dirs + "\"!!");
-    return string();
 }
 
 static bool	active = true;
@@ -77,7 +56,7 @@ handler(int sig)
 }
 
 template <class T> static void
-doJob(const Ieee1394CameraArray& cameras, const std::string& cameraBase)
+doJob(const Ieee1394CameraArray& cameras)
 {
     using namespace	std;
     
@@ -88,7 +67,7 @@ doJob(const Ieee1394CameraArray& cameras, const std::string& cameraBase)
     Array<Image<T> >	images(cameras.dim());
 
   // キャリブレーションデータを読み込む．
-    ifstream	in((cameraBase + ".calib").c_str());
+    ifstream	in(cameras.calibFile().c_str());
     if (in)
     {
 	for (int i = 0; i < images.dim(); ++i)
@@ -147,19 +126,19 @@ main(int argc, char* argv[])
     using namespace	std;
     using namespace	TU;
     
-    string		configDirs = DEFAULT_CONFIG_DIRS;
-    string		cameraName = DEFAULT_CAMERA_NAME;
+    const char*		cameraName = 0;
+    const char*		configDirs = 0;
     bool		i1394b	   = false;
     int			ncameras   = -1;
     extern char*	optarg;
-    for (int c; (c = getopt(argc, argv, "d:c:Bn:h")) != EOF; )
+    for (int c; (c = getopt(argc, argv, "c:d:Bn:h")) != EOF; )
 	switch (c)
 	{
-	  case 'd':
-	    configDirs = optarg;
-	    break;
 	  case 'c':
 	    cameraName = optarg;
+	    break;
+	  case 'd':
+	    configDirs = optarg;
 	    break;
 	  case 'B':
 	    i1394b = true;
@@ -175,12 +154,8 @@ main(int argc, char* argv[])
     try
     {
       // IEEE1394カメラのオープン．
-	ifstream		in;
-	string			cameraBase = openFile(in, configDirs,
-						      cameraName + ".conf");
-	cameraBase.erase(cameraBase.rfind(".conf"));
-	Ieee1394CameraArray	cameras(in, i1394b, ncameras);
-	in.close();
+	Ieee1394CameraArray	cameras(cameraName, configDirs,
+					i1394b, ncameras);
 	if (cameras.dim() == 0)
 	    return 0;
 	
@@ -193,19 +168,19 @@ main(int argc, char* argv[])
 	switch (cameras[0]->pixelFormat())
 	{
 	  case Ieee1394Camera::MONO_8:
-	    doJob<u_char>(cameras, cameraBase);
+	    doJob<u_char>(cameras);
 	    break;
 	  case Ieee1394Camera::YUV_411:
-	    doJob<YUV411>(cameras, cameraBase);
+	    doJob<YUV411>(cameras);
 	    break;
 	  case Ieee1394Camera::YUV_422:
-	    doJob<YUV422>(cameras, cameraBase);
+	    doJob<YUV422>(cameras);
 	    break;
 	  case Ieee1394Camera::YUV_444:
-	    doJob<YUV444>(cameras, cameraBase);
+	    doJob<YUV444>(cameras);
 	    break;
 	  case Ieee1394Camera::RGB_24:
-	    doJob<RGBA>(cameras, cameraBase);
+	    doJob<RGBA>(cameras);
 	    break;
 	  default:
 	    throw runtime_error("Unsupported pixel format!!");

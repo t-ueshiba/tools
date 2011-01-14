@@ -1,12 +1,11 @@
 /*
- *  $Id: main.cc,v 1.1 2010-12-21 00:13:26 ueshiba Exp $
+ *  $Id: main.cc,v 1.2 2011-01-14 02:13:40 ueshiba Exp $
  */
 #include <cstdlib>
 #include "MyCmdWindow.h"
-#include "TU/Ieee1394CameraArray.h"
 
-#define DEFAULT_CONFIG_DIRS	".:/usr/local/etc/cameras"
 #define DEFAULT_CAMERA_NAME	"IEEE1394Camera"
+#define DEFAULT_CONFIG_DIRS	".:/usr/local/etc/cameras"
 
 namespace TU
 {
@@ -23,13 +22,13 @@ usage(const char* s)
     cerr << " Usage: " << s << " [options]\n"
 	 << endl;
     cerr << " configuration options.\n"
+	 << "  -c cameraName:  prefix of camera {conf|calib} file\n"
+	 << "                  (default: \""
+	 << DEFAULT_CAMERA_NAME
 	 << "  -d configDirs:  list of directories for camera {conf|calib} file\n"
 	 << "                  (default: \""
 	 << DEFAULT_CONFIG_DIRS
 	 << "\")\n"
-	 << "  -c cameraName:  prefix of camera {conf|calib} file\n"
-	 << "                  (default: \""
-	 << DEFAULT_CAMERA_NAME
 	 << "\")\n"
 	 << "  -B:             IEEE1394b mode (default: off)\n"
 	 << "  -C:             no cameras used (movie editing only)\n"
@@ -46,27 +45,6 @@ usage(const char* s)
 	 << endl;
 }
 
-static std::string
-openFile(std::ifstream& in, const std::string& dirs, const std::string& name)
-{
-    using namespace		std;
-
-    string::const_iterator	p = dirs.begin();
-    do
-    {
-	string::const_iterator	q = find(p, dirs.end(), ':');
-	string			fullName = string(p, q) + '/' + name;
-	in.open(fullName.c_str());
-	if (in)
-	    return fullName;
-	p = q;
-    } while (p++ != dirs.end());
-
-    throw runtime_error("Cannot open input file \"" + name +
-			"\" in \"" + dirs + "\"!!");
-    return string();
-}
-
 }
 /************************************************************************
 *  global functions							*
@@ -78,8 +56,8 @@ main(int argc, char* argv[])
     using namespace	TU;
     
     v::App	vapp(argc, argv);
-    string	configDirs = DEFAULT_CONFIG_DIRS,
-		cameraName = DEFAULT_CAMERA_NAME;
+    const char*	cameraName = DEFAULT_CAMERA_NAME;
+    const char*	configDirs = 0;
     u_int	ncol	   = 2,
 		mul	   = 1,
 		div	   = 1;
@@ -87,17 +65,17 @@ main(int argc, char* argv[])
 
   // コマンド行の解析．
     extern char*	optarg;
-    for (int c; (c = getopt(argc, argv, "d:c:CBn:42HQh")) != EOF; )
+    for (int c; (c = getopt(argc, argv, "c:d:CBn:42HQh")) != EOF; )
 	switch (c)
 	{
-	  case 'd':
-	    configDirs = optarg;
-	    break;
 	  case 'c':
 	    cameraName = optarg;
 	    break;
+	  case 'd':
+	    configDirs = optarg;
+	    break;
 	  case 'C':
-	    cameraName.clear();
+	    cameraName = 0;
 	    break;
 	  case 'B':
 	    i1394b = true;
@@ -128,19 +106,12 @@ main(int argc, char* argv[])
     
     try
     {
+      // IEEE1394カメラのオープン．
 	Ieee1394CameraArray	cameras;
-	string			cameraBase;
-	
-	if (!cameraName.empty())
-	{
-	  // IEEE1394カメラのオープン．
-	    ifstream	in;
-	    cameraBase = openFile(in, configDirs, cameraName + ".conf");
-	    cameraBase.erase(cameraBase.rfind(".conf"));
-	    cameras.initialize(in, i1394b);
-	}
+	if (cameraName != 0)
+	    cameras.initialize(cameraName, configDirs, i1394b);
 
-	v::MyCmdWindow	myWin(vapp, cameraBase, cameras, ncol, mul, div);
+	v::MyCmdWindow	myWin(vapp, cameras, ncol, mul, div);
 	vapp.run();
     }
     catch (exception& err)
