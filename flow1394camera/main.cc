@@ -1,17 +1,12 @@
 /*
- *  $Id: main.cc,v 1.10 2011-01-14 02:35:39 ueshiba Exp $
+ *  $Id: main.cc,v 1.11 2011-01-16 23:22:05 ueshiba Exp $
  */
-#include <stdlib.h>
 #include <signal.h>
 #include <sys/time.h>
+#include <cstdlib>
 #include <iomanip>
-#include <string>
-#include <fstream>
 #include <stdexcept>
 #include "TU/Ieee1394CameraArray.h"
-
-#define DEFAULT_CAMERA_NAME	"IEEE1394Camera"
-#define DEFAULT_CONFIG_DIRS	".:/usr/local/etc/cameras"
 
 namespace TU
 {
@@ -131,7 +126,7 @@ main(int argc, char* argv[])
     bool		i1394b	   = false;
     int			ncameras   = -1;
     extern char*	optarg;
-    for (int c; (c = getopt(argc, argv, "c:d:Bn:h")) != EOF; )
+    for (int c; (c = getopt(argc, argv, "c:d:Bn:h")) != -1; )
 	switch (c)
 	{
 	  case 'c':

@@ -1,11 +1,8 @@
 /*
- *  $Id: main.cc,v 1.3 2011-01-14 02:35:56 ueshiba Exp $
+ *  $Id: main.cc,v 1.4 2011-01-16 23:22:10 ueshiba Exp $
  */
 #include <cstdlib>
 #include "MyCmdWindow.h"
-
-#define DEFAULT_CAMERA_NAME	"IEEE1394Camera"
-#define DEFAULT_CONFIG_DIRS	".:/usr/local/etc/cameras"
 
 namespace TU
 {
@@ -57,7 +54,7 @@ main(int argc, char* argv[])
     
     v::App	vapp(argc, argv);
     const char*	cameraName = DEFAULT_CAMERA_NAME;
-    const char*	configDirs = 0;
+    const char*	configDirs = DEFAULT_CONFIG_DIRS;
     u_int	ncol	   = 2,
 		mul	   = 1,
 		div	   = 1;
@@ -65,7 +62,7 @@ main(int argc, char* argv[])
 
   // コマンド行の解析．
     extern char*	optarg;
-    for (int c; (c = getopt(argc, argv, "c:d:CBn:42HQh")) != EOF; )
+    for (int c; (c = getopt(argc, argv, "c:d:CBn:42HQh")) != -1; )
 	switch (c)
 	{
 	  case 'c':
