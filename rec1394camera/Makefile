@@ -1,5 +1,5 @@
 #
-#  $Id: Makefile,v 1.2 2011-01-11 02:03:52 ueshiba Exp $
+#  $Id: Makefile,v 1.3 2011-01-17 00:21:57 ueshiba Exp $
 #
 #################################
 #  User customizable macros	#
@@ -47,6 +47,7 @@ EXTHDRS		= /usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/Movie.h \
 		/usr/local/include/TU/Normalize.h \
 		/usr/local/include/TU/Vector++.h \
+		/usr/local/include/TU/io.h \
 		/usr/local/include/TU/types.h \
 		/usr/local/include/TU/utility.h \
 		/usr/local/include/TU/v/App.h \
@@ -88,7 +89,7 @@ OBJS		= MyCanvasPane.o \
 #########################
 #  Macros used by RCS	#
 #########################
-REV		= $(shell echo $Revision: 1.2 $	|		\
+REV		= $(shell echo $Revision: 1.3 $	|		\
 		  sed 's/evision://'		|		\
 		  awk -F"."					\
 		  '{						\
@@ -129,7 +130,9 @@ MyCmdWindow.o: rec1394camera.h /usr/local/include/TU/v/TUv++.h \
 	/usr/local/include/TU/v/CanvasPaneDC.h /usr/local/include/TU/v/XDC.h \
 	/usr/local/include/TU/v/DC.h /usr/local/include/TU/Manip.h \
 	/usr/local/include/TU/v/Menu.h /usr/local/include/TU/v/XvDC.h \
-	/usr/local/include/TU/Movie.h MyModalDialog.h
+	/usr/local/include/TU/Ieee1394CameraArray.h \
+	/usr/local/include/TU/io.h /usr/local/include/TU/Movie.h \
+	MyModalDialog.h
 MyModalDialog.o: MyModalDialog.h /usr/local/include/TU/Ieee1394++.h \
 	/usr/local/include/TU/Image++.h /usr/local/include/TU/Geometry++.h \
 	/usr/local/include/TU/utility.h /usr/local/include/TU/Vector++.h \
@@ -180,5 +183,6 @@ main.o: MyCmdWindow.h /usr/local/include/TU/v/App.h \
 	/usr/local/include/TU/v/CanvasPaneDC.h /usr/local/include/TU/v/XDC.h \
 	/usr/local/include/TU/v/DC.h /usr/local/include/TU/Manip.h \
 	/usr/local/include/TU/v/Menu.h /usr/local/include/TU/v/XvDC.h \
-	/usr/local/include/TU/Ieee1394++.h /usr/local/include/TU/Movie.h \
-	/usr/local/include/TU/Ieee1394CameraArray.h
+	/usr/local/include/TU/Ieee1394CameraArray.h \
+	/usr/local/include/TU/Ieee1394++.h /usr/local/include/TU/io.h \
+	/usr/local/include/TU/Movie.h
