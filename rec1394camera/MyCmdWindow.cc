@@ -1,5 +1,5 @@
 /*
- *  $Id: MyCmdWindow.cc,v 1.5 2011-01-14 02:13:40 ueshiba Exp $
+ *  $Id: MyCmdWindow.cc,v 1.6 2011-01-26 01:32:01 ueshiba Exp $
  */
 #include <cstdlib>
 #include <cstdio>
@@ -38,11 +38,6 @@ CmdDef*		createFeatureCmds()				;
 CmdDef*		createFeatureCmds(const Ieee1394Camera& camera)	;
     
 /************************************************************************
-*  static data								*
-************************************************************************/
-static int	movieProp[3];
-
-/************************************************************************
 *  class MyCmdWindow							*
 ************************************************************************/
 MyCmdWindow::MyCmdWindow(App& parentApp,
@@ -72,21 +67,6 @@ MyCmdWindow::MyCmdWindow(App& parentApp,
     _captureCmd.place(0, 1, _ncol-1, 1);
     _featureCmd.place(_ncol-1, 1, 1, 1);
 
-    if (cameras.dim() > 0)
-    {
-      // ムービーの各ビューの画像ヘッダにキャリブレーション情報をセットする．
-	ifstream	in(_cameras.calibFile().c_str());
-	if (!in)
-	{
-	    for (u_int i = 0; i < _movie.nviews(); ++i)
-	    {
-		Image<PixelType>&	image = _movie.image(i);
-	
-		in >> image.P >> image.d1 >> image.d2;
-	    }
-	}
-    }
-    
     show();
 
     initializeMovie();
@@ -480,6 +460,21 @@ MyCmdWindow::initializeMovie()
 	sizes[i] = make_pair(_cameras[i]->width(), _cameras[i]->height());
     _movie.setSizes(sizes);
 
+    if (_movie.nviews() > 0)
+    {
+      // ムービーの各ビューの画像ヘッダにキャリブレーション情報をセットする．
+	ifstream	in(_cameras.calibFile().c_str());
+	if (in)
+	{
+	    for (u_int i = 0; i < _movie.nviews(); ++i)
+	    {
+		Image<PixelType>&	image = _movie.image(i);
+	
+		in >> image.P >> image.d1 >> image.d2;
+	    }
+	}
+    }
+    
   // 指定された枚数のフレームを確保する．
     u_int	nframes = atoi(_captureCmd.getString(c_NFrames));
     _movie.insert(nframes);
@@ -520,11 +515,14 @@ MyCmdWindow::setCanvases()
 void
 MyCmdWindow::setNFrames()
 {
-    movieProp[0] = 0;				    // 最初のフレーム番号
-    movieProp[1] = _movie.nframes() - 1;	    // 最後のフレーム番号
-    movieProp[2] = 1;				    // 刻み
-    _captureCmd.setProp(c_HeadMovie, movieProp);    // head sliderに設定
-    _captureCmd.setProp(c_TailMovie, movieProp);    // tail sliderに設定
+    static int	headProp[3], tailProp[3];
+    
+    headProp[0] = tailProp[0] = 0;		// 最初のフレーム番号
+    headProp[1] = _movie.nframes() - 1;		// 最後のフレーム番号
+    tailProp[1] = _movie.nframes();		// 最後の次のフレーム番号
+    headProp[2] = tailProp[2] = 1;		// 刻み
+    _captureCmd.setProp(c_HeadMovie, headProp); // head sliderに設定
+    _captureCmd.setProp(c_TailMovie, tailProp);	// tail sliderに設定
 
     char	s[256];
     sprintf(s, "%d", _movie.nframes());
@@ -543,7 +541,7 @@ MyCmdWindow::repaintCanvases()
     {
 	_captureCmd.setValue(c_HeadMovie, current);	// それに現フレームを設定
 	if (_captureCmd.getValue(c_TailMovie) < current)// tailがheadより後ろなら
-	    _captureCmd.setValue(c_TailMovie, current);	// tail sliderを追従させる
+	    _captureCmd.setValue(c_TailMovie, current);	// tailを追従させる
     }
     else					// tail sliderを操作中なら...
     {
