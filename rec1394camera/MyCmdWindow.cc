@@ -1,5 +1,5 @@
 /*
- *  $Id: MyCmdWindow.cc,v 1.6 2011-01-26 01:32:01 ueshiba Exp $
+ *  $Id: MyCmdWindow.cc,v 1.7 2011-02-14 21:36:02 ueshiba Exp $
  */
 #include <cstdlib>
 #include <cstdio>
@@ -134,7 +134,7 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 	  
 	  case c_SaveConfig:
 	  {
-	      ofstream	out(_cameras.calibFile().c_str());
+	    ofstream	out(_cameras.configFile().c_str());
 	    if (!out)
 		throw runtime_error("Failed to open camera configuration file!!");
 	    out << _cameras[0]->delay() << ' ' << _cameras.dim() << endl;
