@@ -3,6 +3,7 @@ SUBDIR	= embedCalib		\
 	  pbmheader		\
 	  pbmrectify		\
 	  pbmselect		\
+	  pbmrot		\
 	  flow1394camera	\
 	  fv			\
 	  rec1394camera
