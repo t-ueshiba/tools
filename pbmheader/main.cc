@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.6 2010-05-14 02:23:09 ueshiba Exp $
+ *  $Id: main.cc,v 1.7 2011-07-06 00:33:31 ueshiba Exp $
  */
 #include <unistd.h>
 #ifdef WIN32
@@ -28,8 +28,9 @@ usage(const char* s)
     cerr << " Usage: " << s << "\n"
 	 << endl;
     cerr << " options.\n"
-	 << "  -m:        write in a matrix form\n"
-	 << "  -h:        print this\n"
+	 << "  -m: output in a matrix form\n"
+	 << "  -r: output in a form relative to the first camera\n"
+	 << "  -h: print this\n"
 	 << endl;
 }
 
@@ -44,13 +45,17 @@ main(int argc, char* argv[])
     using namespace	TU;
 
     bool	matrixForm = false;
+    bool	relative = false;
     extern char	*optarg;
     extern int	optind;
-    for (int c; (c =getopt(argc, argv, "mh")) != EOF; )
+    for (int c; (c =getopt(argc, argv, "mhr")) != EOF; )
 	switch (c)
 	{
 	  case 'm':
 	    matrixForm = true;
+	    break;
+	  case 'r':
+	    relative = true;
 	    break;
 	    
 	  case 'h':
@@ -66,10 +71,19 @@ main(int argc, char* argv[])
 	if (_setmode(_fileno(stdout), _O_BINARY) == -1)
 	    throw runtime_error("Cannot set stdout to binary mode!!"); 
 #endif
-	int	n = 0;
+	int			n = 0;
+	CameraWithDistortion	calib0;
 	for (GenericImage image; image.restore(cin); )
 	{
 	    CameraWithDistortion	calib(image.P, image.d1, image.d2);
+	    if (relative)
+	    {
+		if (n == 0)
+		    calib0 = calib;
+		calib.setRotation(calib.Rt() * calib0.Rt().trns());
+		calib.setTranslation(calib0.Rt() * (calib.t() - calib0.t()));
+	    }
+	    
 	    cerr << "--- " << n++ << "-th camera ---" << endl;
 	    if (matrixForm)
 	    {
