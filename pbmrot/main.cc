@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.1 2011-05-29 23:53:33 ueshiba Exp $
+ *  $Id: main.cc,v 1.2 2011-07-14 23:45:04 ueshiba Exp $
  */
 #include <unistd.h>
 #ifdef WIN32
@@ -29,6 +29,7 @@ usage(const char* s)
     cerr << " options.\n"
 	 << "  -l:        rotate left\n"
 	 << "  -r:        rotate right\n"
+	 << "  -c:        correct world coordinate system\n"
 	 << "  -h:        print this\n"
 	 << endl;
 }
@@ -73,6 +74,16 @@ rotateRight(const Image<T>& image)
     return rotated;
 }
     
+template <class T> void
+correctWC(Image<T>& image, const Matrix34d& P0)
+{
+    Camera	camera0(P0), camera(image.P);
+
+    camera.setTranslation(camera0.Rt() * (camera.t() - camera0.t()));
+    camera.setRotation(camera.Rt() * camera0.Rt().trns());
+    image.P = camera.P();
+}
+
 }
 
 /************************************************************************
@@ -85,9 +96,10 @@ main(int argc, char* argv[])
     using namespace	TU;
 
     bool	right = true;
+    bool	correct = false;
     extern char	*optarg;
     extern int	optind;
-    for (int c; (c =getopt(argc, argv, "lrh")) != EOF; )
+    for (int c; (c =getopt(argc, argv, "lrch")) != EOF; )
 	switch (c)
 	{
 	  case 'l':
@@ -95,6 +107,9 @@ main(int argc, char* argv[])
 	    break;
 	  case 'r':
 	    right = true;
+	    break;
+	  case 'c':
+	    correct = true;
 	    break;
 	    
 	  case 'h':
@@ -110,12 +125,27 @@ main(int argc, char* argv[])
 	if (_setmode(_fileno(stdout), _O_BINARY) == -1)
 	    throw runtime_error("Cannot set stdout to binary mode!!"); 
 #endif
+	Matrix34d	P0;
+	bool		initial = true;
 	for (Image<u_char> image; image.restore(cin); )
 	{
+	    Image<u_char>	rotated;
 	    if (right)
-		rotateRight(image).save(cout);
+		rotated = rotateRight(image);
 	    else
-		rotateLeft(image).save(cout);
+		rotated = rotateLeft(image);
+
+	    if (correct)
+	    {
+		if (initial)
+		{
+		    P0 = rotated.P;
+		    initial = false;
+		}
+		correctWC(rotated, P0);
+	    }
+
+	    rotated.save(cout);
 	}
     }
     catch (exception& err)

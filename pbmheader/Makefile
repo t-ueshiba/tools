@@ -1,5 +1,5 @@
 #
-#  $Id: Makefile,v 1.8 2009-11-16 07:44:55 ueshiba Exp $
+#  $Id: Makefile,v 1.9 2011-07-14 23:45:04 ueshiba Exp $
 #
 #################################
 #  User customizable macros	#
@@ -41,7 +41,6 @@ EXTHDRS		= /usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/Geometry++.h \
 		/usr/local/include/TU/Image++.h \
 		/usr/local/include/TU/Minimize.h \
-		/usr/local/include/TU/Normalize.h \
 		/usr/local/include/TU/Vector++.h \
 		/usr/local/include/TU/types.h \
 		/usr/local/include/TU/utility.h
@@ -52,7 +51,7 @@ OBJS		= main.o
 #########################
 #  Macros used by RCS	#
 #########################
-REV		= $(shell echo $Revision: 1.8 $	|		\
+REV		= $(shell echo $Revision: 1.9 $	|		\
 		  sed 's/evision://'		|		\
 		  awk -F"."					\
 		  '{						\
@@ -67,5 +66,4 @@ include $(PROJECT)/lib/p.mk
 main.o: /usr/local/include/TU/Image++.h /usr/local/include/TU/Geometry++.h \
 	/usr/local/include/TU/utility.h /usr/local/include/TU/Vector++.h \
 	/usr/local/include/TU/Array++.h /usr/local/include/TU/types.h \
-	/usr/local/include/TU/Normalize.h /usr/local/include/TU/Minimize.h \
-	/usr/local/include/TU/Camera.h
+	/usr/local/include/TU/Minimize.h /usr/local/include/TU/Camera.h

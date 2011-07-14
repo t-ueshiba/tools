@@ -1,5 +1,5 @@
 #
-#  $Id: Makefile,v 1.13 2011-01-17 00:21:52 ueshiba Exp $
+#  $Id: Makefile,v 1.14 2011-07-14 23:44:50 ueshiba Exp $
 #
 #################################
 #  User customizable macros	#
@@ -43,7 +43,6 @@ EXTHDRS		= /usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/Ieee1394CameraArray.h \
 		/usr/local/include/TU/Image++.h \
 		/usr/local/include/TU/Minimize.h \
-		/usr/local/include/TU/Normalize.h \
 		/usr/local/include/TU/Vector++.h \
 		/usr/local/include/TU/io.h \
 		/usr/local/include/TU/types.h \
@@ -55,7 +54,7 @@ OBJS		= main.o
 #########################
 #  Macros used by RCS	#
 #########################
-REV		= $(shell echo $Revision: 1.13 $	|		\
+REV		= $(shell echo $Revision: 1.14 $	|		\
 		  sed 's/evision://'		|		\
 		  awk -F"."					\
 		  '{						\
@@ -71,5 +70,5 @@ main.o: /usr/local/include/TU/Ieee1394CameraArray.h \
 	/usr/local/include/TU/Array++.h /usr/local/include/TU/types.h \
 	/usr/local/include/TU/Ieee1394++.h /usr/local/include/TU/Image++.h \
 	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/utility.h \
-	/usr/local/include/TU/Vector++.h /usr/local/include/TU/Normalize.h \
-	/usr/local/include/TU/Minimize.h /usr/local/include/TU/io.h
+	/usr/local/include/TU/Vector++.h /usr/local/include/TU/Minimize.h \
+	/usr/local/include/TU/io.h
