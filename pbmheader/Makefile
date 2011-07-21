@@ -1,5 +1,5 @@
 #
-#  $Id: Makefile,v 1.9 2011-07-14 23:45:04 ueshiba Exp $
+#  $Id: Makefile,v 1.10 2011-07-21 23:43:52 ueshiba Exp $
 #
 #################################
 #  User customizable macros	#
@@ -37,7 +37,7 @@ LINKER		= $(CCC)
 .SUFFIXES:	.cu
 SUFFIX		= .cc:sC .cu:sC
 EXTHDRS		= /usr/local/include/TU/Array++.h \
-		/usr/local/include/TU/Camera.h \
+		/usr/local/include/TU/Camera++.h \
 		/usr/local/include/TU/Geometry++.h \
 		/usr/local/include/TU/Image++.h \
 		/usr/local/include/TU/Minimize.h \
@@ -51,7 +51,7 @@ OBJS		= main.o
 #########################
 #  Macros used by RCS	#
 #########################
-REV		= $(shell echo $Revision: 1.9 $	|		\
+REV		= $(shell echo $Revision: 1.10 $	|		\
 		  sed 's/evision://'		|		\
 		  awk -F"."					\
 		  '{						\
@@ -66,4 +66,4 @@ include $(PROJECT)/lib/p.mk
 main.o: /usr/local/include/TU/Image++.h /usr/local/include/TU/Geometry++.h \
 	/usr/local/include/TU/utility.h /usr/local/include/TU/Vector++.h \
 	/usr/local/include/TU/Array++.h /usr/local/include/TU/types.h \
-	/usr/local/include/TU/Minimize.h /usr/local/include/TU/Camera.h
+	/usr/local/include/TU/Minimize.h /usr/local/include/TU/Camera++.h

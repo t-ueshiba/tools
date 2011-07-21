@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.2 2011-07-14 23:45:04 ueshiba Exp $
+ *  $Id: main.cc,v 1.3 2011-07-21 23:44:06 ueshiba Exp $
  */
 #include <unistd.h>
 #ifdef WIN32
@@ -77,7 +77,7 @@ rotateRight(const Image<T>& image)
 template <class T> void
 correctWC(Image<T>& image, const Matrix34d& P0)
 {
-    Camera	camera0(P0), camera(image.P);
+    Camera<IntrinsicBase<double> >	camera0(P0), camera(image.P);
 
     camera.setTranslation(camera0.Rt() * (camera.t() - camera0.t()));
     camera.setRotation(camera.Rt() * camera0.Rt().trns());

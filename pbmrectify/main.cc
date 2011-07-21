@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.6 2010-05-14 02:23:11 ueshiba Exp $
+ *  $Id: main.cc,v 1.7 2011-07-21 23:44:00 ueshiba Exp $
  */
 #include <unistd.h>
 #ifdef WIN32
@@ -43,6 +43,9 @@ main(int argc, char* argv[])
     using namespace	std;
     using namespace	TU;
 
+    typedef Camera<IntrinsicWithDistortion<IntrinsicBase<double> > >
+								camera_type;
+    
     double	scale = 1.0;
     extern char	*optarg;
     extern int	optind;
@@ -66,22 +69,24 @@ main(int argc, char* argv[])
 	if (_setmode(_fileno(stdout), _O_BINARY) == -1)
 	    throw runtime_error("Cannot set stdout to binary mode!!"); 
 #endif
-	Image<u_char>		image[3];
-	u_int			nimages = 0;
+	Image<u_char>	image[3];
+	u_int		nimages = 0;
 	for (nimages = 0; nimages < 3; ++nimages)
 	    if (!image[nimages].restore(cin))
 		break;
 	cerr << nimages << " images restored!" << endl;
 	
-	Image<u_char>		rectifiedImage[3];
-	Rectify			rectify;
+	Image<u_char>	rectifiedImage[3];
+	Rectify		rectify;
 	switch (nimages)
 	{
 	  case 1:
 	  {
-	    CameraWithDistortion calib(image[0].P, image[0].d1, image[0].d2);
-	    Warp		 warp;
-	    warp.initialize(Matrix33d::I(3), calib.intrinsic(),
+	    camera_type	calib;
+	    calib.setProjection(image[0].P);
+	    calib.setDistortion(image[0].d1, image[0].d2);
+	    Warp	warp;
+	    warp.initialize(Matrix33d::I(3), calib,
 			    image[0].width(), image[0].height(),
 			    image[0].width(), image[0].height());
 	    warp(image[0], rectifiedImage[0]);

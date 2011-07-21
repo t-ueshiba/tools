@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.7 2011-07-06 00:33:31 ueshiba Exp $
+ *  $Id: main.cc,v 1.8 2011-07-21 23:43:52 ueshiba Exp $
  */
 #include <unistd.h>
 #ifdef WIN32
@@ -7,7 +7,7 @@
 #  include <fcntl.h>
 #endif
 #include "TU/Image++.h"
-#include "TU/Camera.h"
+#include "TU/Camera++.h"
 
 #ifndef EOF
 #  define EOF	(-1)
@@ -44,6 +44,9 @@ main(int argc, char* argv[])
     using namespace	std;
     using namespace	TU;
 
+    typedef Camera<IntrinsicWithDistortion<Intrinsic<double> > >
+							camera_type;
+    
     bool	matrixForm = false;
     bool	relative = false;
     extern char	*optarg;
@@ -71,11 +74,13 @@ main(int argc, char* argv[])
 	if (_setmode(_fileno(stdout), _O_BINARY) == -1)
 	    throw runtime_error("Cannot set stdout to binary mode!!"); 
 #endif
-	int			n = 0;
-	CameraWithDistortion	calib0;
+	int		n = 0;
+	camera_type	calib0;
 	for (GenericImage image; image.restore(cin); )
 	{
-	    CameraWithDistortion	calib(image.P, image.d1, image.d2);
+	    camera_type	calib;
+	    calib.setProjection(image.P);
+	    calib.setDistortion(image.d1, image.d2);
 	    if (relative)
 	    {
 		if (n == 0)
