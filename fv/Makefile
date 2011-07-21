@@ -1,5 +1,5 @@
 #
-#  $Id: Makefile,v 1.4 2011-07-14 23:44:55 ueshiba Exp $
+#  $Id: Makefile,v 1.5 2011-07-21 23:43:30 ueshiba Exp $
 #
 #################################
 #  User customizable macros	#
@@ -14,6 +14,7 @@ ifeq ($(OSTYPE), darwin)
 #  LIBS	       += -framework IOKit -framework CoreFoundation
 endif
 
+CCC		= g++
 CPPFLAGS	= -DUSE_SHMDC
 CFLAGS		= -g
 NVCCFLAGS	= -g
@@ -68,7 +69,7 @@ OBJS		= GenericImage.o \
 #########################
 #  Macros used by RCS	#
 #########################
-REV		= $(shell echo $Revision: 1.4 $	|		\
+REV		= $(shell echo $Revision: 1.5 $	|		\
 		  sed 's/evision://'		|		\
 		  awk -F"."					\
 		  '{						\
