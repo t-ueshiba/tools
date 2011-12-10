@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.7 2011-07-21 23:44:00 ueshiba Exp $
+ *  $Id: main.cc,v 1.8 2011-12-10 23:08:36 ueshiba Exp $
  */
 #include <unistd.h>
 #ifdef WIN32
@@ -32,6 +32,73 @@ usage(const char* s)
 	 << endl;
 }
 
+template <class T> static void
+doJob(const GenericImage& header, double scale)
+{
+    using namespace	std;
+    
+    typedef Camera<IntrinsicWithDistortion<IntrinsicBase<double> > >
+								camera_type;
+    
+    Image<T>	image[3];
+    u_int	nimages = 0;
+
+  // 最初の画像のデータ部分を読み込む．
+    image[0].resize(header.height(), header.width());
+    image[0].P = header.P;
+    image[0].d1 = header.d1;
+    image[0].d2 = header.d2;
+    if (!image[0].restoreData(cin, header.typeInfo()))
+	throw runtime_error("Cannot restore data of the first image!!");
+
+  // 2番目以降の画像を読み込む．
+    for (nimages = 1; nimages < 3; ++nimages)
+	if (!image[nimages].restore(cin))
+	    break;
+    cerr << nimages << " images restored!" << endl;
+	
+    Image<T>	rectifiedImage[3];
+    Rectify	rectify;
+    switch (nimages)
+    {
+      case 1:
+      {
+	  camera_type	calib;
+	  calib.setProjection(image[0].P);
+	  calib.setDistortion(image[0].d1, image[0].d2);
+	  Warp	warp;
+	  warp.initialize(Matrix33d::I(3), calib,
+			  image[0].width(), image[0].height(),
+			  image[0].width(), image[0].height());
+	  warp(image[0], rectifiedImage[0]);
+      }
+      break;
+
+      case 2:
+	rectify.initialize(image[0], image[1], scale);
+	rectify(image[0], image[1], rectifiedImage[0], rectifiedImage[1]);
+	break;
+	
+      case 3:
+	rectify.initialize(image[0], image[1], image[2], scale);
+	rectify(image[0], image[1], image[2],
+		rectifiedImage[0], rectifiedImage[1], rectifiedImage[2]);
+	break;
+    }
+
+    if (nimages == 1)
+    {
+	rectifiedImage[0].P = image[0].P;
+	rectifiedImage[0].save(cout);
+    }
+    else
+	for (u_int i = 0; i < nimages; ++i)
+	{
+	    rectifiedImage[i].P = rectify.H(i) * image[i].P;
+	    rectifiedImage[i].save(cout);
+	}
+}
+    
 }
 
 /************************************************************************
@@ -43,9 +110,6 @@ main(int argc, char* argv[])
     using namespace	std;
     using namespace	TU;
 
-    typedef Camera<IntrinsicWithDistortion<IntrinsicBase<double> > >
-								camera_type;
-    
     double	scale = 1.0;
     extern char	*optarg;
     extern int	optind;
@@ -69,53 +133,27 @@ main(int argc, char* argv[])
 	if (_setmode(_fileno(stdout), _O_BINARY) == -1)
 	    throw runtime_error("Cannot set stdout to binary mode!!"); 
 #endif
-	Image<u_char>	image[3];
-	u_int		nimages = 0;
-	for (nimages = 0; nimages < 3; ++nimages)
-	    if (!image[nimages].restore(cin))
-		break;
-	cerr << nimages << " images restored!" << endl;
-	
-	Image<u_char>	rectifiedImage[3];
-	Rectify		rectify;
-	switch (nimages)
+	GenericImage	header;
+	switch (header.restoreHeader(cin).type)
 	{
-	  case 1:
-	  {
-	    camera_type	calib;
-	    calib.setProjection(image[0].P);
-	    calib.setDistortion(image[0].d1, image[0].d2);
-	    Warp	warp;
-	    warp.initialize(Matrix33d::I(3), calib,
-			    image[0].width(), image[0].height(),
-			    image[0].width(), image[0].height());
-	    warp(image[0], rectifiedImage[0]);
-	  }
+	  case ImageBase::U_CHAR:
+	  case ImageBase::SHORT:
+	  case ImageBase::FLOAT:
+	  case ImageBase::BMP_8:
+	    doJob<u_char>(header, scale);
 	    break;
-
-	  case 2:
-	    rectify.initialize(image[0], image[1], scale);
-	    rectify(image[0], image[1], rectifiedImage[0], rectifiedImage[1]);
+	  case ImageBase::RGB_24:
+	  case ImageBase::YUV_444:
+	  case ImageBase::YUV_422:
+	  case ImageBase::YUV_411:
+	  case ImageBase::BMP_24:
+	  case ImageBase::BMP_32:
+	    doJob<RGBA>(header, scale);
 	    break;
-
-	  case 3:
-	    rectify.initialize(image[0], image[1], image[2], scale);
-	    rectify(image[0], image[1], image[2],
-		    rectifiedImage[0], rectifiedImage[1], rectifiedImage[2]);
+	  default:
+	    throw runtime_error("Unknown image format!!");
 	    break;
 	}
-
-	if (nimages == 1)
-	{
-	    rectifiedImage[0].P = image[0].P;
-	    rectifiedImage[0].save(cout);
-	}
-	else
-	    for (u_int i = 0; i < nimages; ++i)
-	    {
-		rectifiedImage[i].P = rectify.H(i) * image[i].P;
-		rectifiedImage[i].save(cout);
-	    }
     }
     catch (exception& err)
     {
