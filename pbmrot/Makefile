@@ -1,5 +1,5 @@
 #
-#  $Id: Makefile,v 1.3 2011-07-21 23:44:06 ueshiba Exp $
+#  $Id: Makefile,v 1.4 2012-01-27 20:26:18 ueshiba Exp $
 #
 #################################
 #  User customizable macros	#
@@ -42,7 +42,6 @@ EXTHDRS		= /home/ueshiba/stereo/corrStereo/Rectify.h \
 		/usr/local/include/TU/Geometry++.h \
 		/usr/local/include/TU/Image++.h \
 		/usr/local/include/TU/Minimize.h \
-		/usr/local/include/TU/Thread++.h \
 		/usr/local/include/TU/Vector++.h \
 		/usr/local/include/TU/Warp.h \
 		/usr/local/include/TU/mmInstructions.h \
@@ -55,7 +54,7 @@ OBJS		= main.o
 #########################
 #  Macros used by RCS	#
 #########################
-REV		= $(shell echo $Revision: 1.3 $	|		\
+REV		= $(shell echo $Revision: 1.4 $	|		\
 		  sed 's/evision://'		|		\
 		  awk -F"."					\
 		  '{						\
@@ -73,5 +72,4 @@ main.o: /home/ueshiba/stereo/corrStereo/Rectify.h \
 	/usr/local/include/TU/Vector++.h /usr/local/include/TU/Array++.h \
 	/usr/local/include/TU/types.h /usr/local/include/TU/Minimize.h \
 	/usr/local/include/TU/Camera++.h \
-	/usr/local/include/TU/mmInstructions.h \
-	/usr/local/include/TU/Thread++.h
+	/usr/local/include/TU/mmInstructions.h
