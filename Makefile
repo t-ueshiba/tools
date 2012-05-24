@@ -6,7 +6,8 @@ SUBDIR	= embedCalib		\
 	  pbmrot		\
 	  flow1394camera	\
 	  fv			\
-	  rec1394camera
+	  rec1394camera		\
+	  pbmdecode
 
 TARGETS	= all install clean depend
 
