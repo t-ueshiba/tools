@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.6 2010-12-15 04:03:09 ueshiba Exp $
+ *  $Id: main.cc,v 1.7 2012-06-19 08:38:46 ueshiba Exp $
  */
 #include <cstdlib>
 #include "TU/v/App.h"
@@ -210,6 +210,10 @@ MyCmdWindow::MyCmdWindow(App& parentApp, const char* name,
 	    _canvases[i] = new MyCanvasPane<YUV422>(*this,
 						    images[i], mul, div);
 	    break;
+	  case ImageBase::YUYV_422:
+	    _canvases[i] = new MyCanvasPane<YUYV422>(*this,
+						     images[i], mul, div);
+	    break;
 	  case ImageBase::YUV_411:
 	    _canvases[i] = new MyCanvasPane<YUV411>(*this,
 						    images[i], mul, div);
@@ -373,6 +377,9 @@ main(int argc, char* argv[])
 		break;
 	      case ImageBase::YUV_422:
 		cerr << "YUV_422";
+		break;
+	      case ImageBase::YUYV_422:
+		cerr << "YUYV_422";
 		break;
 	      case ImageBase::YUV_411:
 		cerr << "YUV_411";
