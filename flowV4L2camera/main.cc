@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.1 2012-06-19 06:18:59 ueshiba Exp $
+ *  $Id: main.cc,v 1.2 2012-06-19 08:38:24 ueshiba Exp $
  */
 #include <signal.h>
 #include <sys/time.h>
@@ -105,7 +105,7 @@ main(int argc, char* argv[])
     {
       // UVCカメラのオープン．
 	V4L2Camera	camera(deviceName);
-#if 1
+
 	BOOST_FOREACH (V4L2Camera::PixelFormat pixelFormat,
 		       camera.availablePixelFormats())
 	    camera.put(cerr, pixelFormat);
@@ -113,23 +113,14 @@ main(int argc, char* argv[])
 		       camera.availableFeatures())
 	    camera.put(cerr, feature);
 
-	cerr << camera.width() << 'x' << camera.height()
-	     << ':' << hex << camera.pixelFormat() << dec << endl;
-	cerr << "Brightness = "
-	     << camera.getValue(V4L2Camera::BRIGHTNESS) << endl;
-	camera.setValue(V4L2Camera::BRIGHTNESS, 64);
-	cerr << "Brightness(after setting) = "
-	     << camera.getValue(V4L2Camera::BRIGHTNESS) << endl;
-
-	camera.setFormat(V4L2Camera::UYVY, 640, 480, 1, 30);
-	cerr << camera.width() << 'x' << camera.height()
-	     << ':' << hex << camera.pixelFormat() << dec << endl;
-#endif	
       // 画像のキャプチャと出力．
 	switch (camera.pixelFormat())
 	{
 	  case V4L2Camera::GREY:
 	    doJob<u_char>(camera);
+	    break;
+	  case V4L2Camera::YUYV:
+	    doJob<YUYV422>(camera);
 	    break;
 	  case V4L2Camera::UYVY:
 	    doJob<YUV422>(camera);
