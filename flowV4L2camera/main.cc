@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.2 2012-06-19 08:38:24 ueshiba Exp $
+ *  $Id: main.cc,v 1.3 2012-06-29 03:14:59 ueshiba Exp $
  */
 #include <signal.h>
 #include <sys/time.h>
@@ -22,7 +22,7 @@ usage(const char* s)
 
     cerr << "\nPut image stream from UVC cameras to stdout.\n"
 	 << endl;
-    cerr << " Usage: " << s << " [options]\n"
+    cerr << " Usage: " << s << " [-d deviceName]\n"
 	 << endl;
 }
 
@@ -71,8 +71,8 @@ doJob(V4L2Camera& camera)
 	    gettimeofday(&start, NULL);
 
 	camera.snap();				// »£±Æ
-      //camera >> image;			// ²èÁüÎÎ°è¤Ø¤ÎÅ¾Á÷
-	camera.captureDirectly(image);		// ²èÁüÎÎ°è¤Ø¤ÎÅ¾Á÷
+	camera >> image;			// ²èÁüÎÎ°è¤Ø¤ÎÅ¾Á÷
+      //camera.captureDirectly(image);		// ²èÁüÎÎ°è¤Ø¤ÎÅ¾Á÷
 	if (!image.saveData(cout))		// stdout¤Ø¤Î½ÐÎÏ
 	    active = false;
     }
@@ -88,13 +88,13 @@ main(int argc, char* argv[])
     using namespace	std;
     using namespace	TU;
     
-    const char*		deviceName = "/dev/video0";
+    const char*		dev = "/dev/video0";
     extern char*	optarg;
     for (int c; (c = getopt(argc, argv, "d:h")) != -1; )
 	switch (c)
 	{
 	  case 'd':
-	    deviceName = optarg;
+	    dev = optarg;
 	    break;
 	  case 'h':
 	    usage(argv[0]);
@@ -104,7 +104,7 @@ main(int argc, char* argv[])
     try
     {
       // UVC¥«¥á¥é¤Î¥ª¡¼¥×¥ó¡¥
-	V4L2Camera	camera(deviceName);
+	V4L2Camera	camera(dev);
 
 	BOOST_FOREACH (V4L2Camera::PixelFormat pixelFormat,
 		       camera.availablePixelFormats())
