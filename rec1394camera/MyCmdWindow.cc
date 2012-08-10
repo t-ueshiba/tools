@@ -1,5 +1,5 @@
 /*
- *  $Id: MyCmdWindow.cc,v 1.7 2011-02-14 21:36:02 ueshiba Exp $
+ *  $Id: MyCmdWindow.cc,v 1.8 2012-08-10 04:27:27 ueshiba Exp $
  */
 #include <cstdlib>
 #include <cstdio>
@@ -580,7 +580,7 @@ MyCmdWindow::stopContinuousShotIfRunning()
 void
 MyCmdWindow::syncronizedSnap()
 {
-#if defined(USE_VIDEO1394)
+#if 0
     const u_int64_t	margin = 2000;
     u_int64_t		last = 0;
     for (u_int i = 0; i < _cameras.dim(); ++i)
