@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.4 2011-01-16 23:22:10 ueshiba Exp $
+ *  $Id: main.cc,v 1.5 2012-08-10 02:57:08 ueshiba Exp $
  */
 #include <cstdlib>
 #include "MyCmdWindow.h"
@@ -52,13 +52,13 @@ main(int argc, char* argv[])
     using namespace	std;
     using namespace	TU;
     
-    v::App	vapp(argc, argv);
-    const char*	cameraName = DEFAULT_CAMERA_NAME;
-    const char*	configDirs = DEFAULT_CONFIG_DIRS;
-    u_int	ncol	   = 2,
-		mul	   = 1,
-		div	   = 1;
-    bool	i1394b	   = false;
+    v::App		vapp(argc, argv);
+    const char*		cameraName = DEFAULT_CAMERA_NAME;
+    const char*		configDirs = DEFAULT_CONFIG_DIRS;
+    u_int		ncol	   = 2,
+			mul	   = 1,
+			div	   = 1;
+    Ieee1394Node::Speed	speed	   = Ieee1394Node::SPD_400M;
 
   // コマンド行の解析．
     extern char*	optarg;
@@ -75,7 +75,7 @@ main(int argc, char* argv[])
 	    cameraName = 0;
 	    break;
 	  case 'B':
-	    i1394b = true;
+	    speed = Ieee1394Node::SPD_800M;
 	    break;
 	  case 'n':
 	    ncol = atoi(optarg);
@@ -106,7 +106,7 @@ main(int argc, char* argv[])
       // IEEE1394カメラのオープン．
 	Ieee1394CameraArray	cameras;
 	if (cameraName != 0)
-	    cameras.initialize(cameraName, configDirs, i1394b);
+	    cameras.initialize(cameraName, configDirs, speed);
 
 	v::MyCmdWindow	myWin(vapp, cameras, ncol, mul, div);
 	vapp.run();

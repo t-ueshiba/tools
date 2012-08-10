@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.11 2011-01-16 23:22:05 ueshiba Exp $
+ *  $Id: main.cc,v 1.12 2012-08-10 02:57:03 ueshiba Exp $
  */
 #include <signal.h>
 #include <sys/time.h>
@@ -123,7 +123,7 @@ main(int argc, char* argv[])
     
     const char*		cameraName = 0;
     const char*		configDirs = 0;
-    bool		i1394b	   = false;
+    Ieee1394Node::Speed	speed	   = Ieee1394Node::SPD_400M;
     int			ncameras   = -1;
     extern char*	optarg;
     for (int c; (c = getopt(argc, argv, "c:d:Bn:h")) != -1; )
@@ -136,7 +136,7 @@ main(int argc, char* argv[])
 	    configDirs = optarg;
 	    break;
 	  case 'B':
-	    i1394b = true;
+	    speed = Ieee1394Node::SPD_800M;
 	    break;
 	  case 'n':
 	    ncameras = atoi(optarg);
@@ -150,7 +150,7 @@ main(int argc, char* argv[])
     {
       // IEEE1394カメラのオープン．
 	Ieee1394CameraArray	cameras(cameraName, configDirs,
-					i1394b, ncameras);
+					speed, ncameras);
 	if (cameras.dim() == 0)
 	    return 0;
 	
