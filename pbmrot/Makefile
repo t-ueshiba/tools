@@ -1,5 +1,5 @@
 #
-#  $Id: Makefile,v 1.4 2012-01-27 20:26:18 ueshiba Exp $
+#  $Id: Makefile,v 1.5 2012-08-16 01:53:12 ueshiba Exp $
 #
 #################################
 #  User customizable macros	#
@@ -44,9 +44,10 @@ EXTHDRS		= /home/ueshiba/stereo/corrStereo/Rectify.h \
 		/usr/local/include/TU/Minimize.h \
 		/usr/local/include/TU/Vector++.h \
 		/usr/local/include/TU/Warp.h \
+		/usr/local/include/TU/functional.h \
+		/usr/local/include/TU/iterator.h \
 		/usr/local/include/TU/mmInstructions.h \
-		/usr/local/include/TU/types.h \
-		/usr/local/include/TU/utility.h
+		/usr/local/include/TU/types.h
 HDRS		=
 SRCS		= main.cc
 OBJS		= main.o
@@ -54,7 +55,7 @@ OBJS		= main.o
 #########################
 #  Macros used by RCS	#
 #########################
-REV		= $(shell echo $Revision: 1.4 $	|		\
+REV		= $(shell echo $Revision: 1.5 $	|		\
 		  sed 's/evision://'		|		\
 		  awk -F"."					\
 		  '{						\
@@ -68,8 +69,8 @@ include $(PROJECT)/lib/p.mk
 ###
 main.o: /home/ueshiba/stereo/corrStereo/Rectify.h \
 	/usr/local/include/TU/Warp.h /usr/local/include/TU/Image++.h \
-	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/utility.h \
-	/usr/local/include/TU/Vector++.h /usr/local/include/TU/Array++.h \
-	/usr/local/include/TU/types.h /usr/local/include/TU/Minimize.h \
-	/usr/local/include/TU/Camera++.h \
+	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/iterator.h \
+	/usr/local/include/TU/functional.h /usr/local/include/TU/Vector++.h \
+	/usr/local/include/TU/Array++.h /usr/local/include/TU/types.h \
+	/usr/local/include/TU/Minimize.h /usr/local/include/TU/Camera++.h \
 	/usr/local/include/TU/mmInstructions.h

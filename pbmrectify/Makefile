@@ -1,5 +1,5 @@
 #
-#  $Id: Makefile,v 1.12 2012-01-27 20:26:13 ueshiba Exp $
+#  $Id: Makefile,v 1.13 2012-08-16 01:53:09 ueshiba Exp $
 #
 #################################
 #  User customizable macros	#
@@ -45,9 +45,11 @@ EXTHDRS		= /home/ueshiba/stereo/corrStereo/Rectify.h \
 		/usr/local/include/TU/Minimize.h \
 		/usr/local/include/TU/Vector++.h \
 		/usr/local/include/TU/Warp.h \
+		/usr/local/include/TU/algorithm.h \
+		/usr/local/include/TU/functional.h \
+		/usr/local/include/TU/iterator.h \
 		/usr/local/include/TU/mmInstructions.h \
-		/usr/local/include/TU/types.h \
-		/usr/local/include/TU/utility.h
+		/usr/local/include/TU/types.h
 HDRS		=
 SRCS		= Rectify.cc \
 		main.cc
@@ -57,7 +59,7 @@ OBJS		= Rectify.o \
 #########################
 #  Macros used by RCS	#
 #########################
-REV		= $(shell echo $Revision: 1.12 $	|		\
+REV		= $(shell echo $Revision: 1.13 $	|		\
 		  sed 's/evision://'		|		\
 		  awk -F"."					\
 		  '{						\
@@ -71,15 +73,16 @@ include $(PROJECT)/lib/p.mk
 ###
 Rectify.o: /home/ueshiba/stereo/corrStereo/Rectify.h \
 	/usr/local/include/TU/Warp.h /usr/local/include/TU/Image++.h \
-	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/utility.h \
-	/usr/local/include/TU/Vector++.h /usr/local/include/TU/Array++.h \
-	/usr/local/include/TU/types.h /usr/local/include/TU/Minimize.h \
-	/usr/local/include/TU/Camera++.h \
-	/usr/local/include/TU/mmInstructions.h
+	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/iterator.h \
+	/usr/local/include/TU/functional.h /usr/local/include/TU/Vector++.h \
+	/usr/local/include/TU/Array++.h /usr/local/include/TU/types.h \
+	/usr/local/include/TU/Minimize.h /usr/local/include/TU/Camera++.h \
+	/usr/local/include/TU/mmInstructions.h \
+	/usr/local/include/TU/algorithm.h
 main.o: /home/ueshiba/stereo/corrStereo/Rectify.h \
 	/usr/local/include/TU/Warp.h /usr/local/include/TU/Image++.h \
-	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/utility.h \
-	/usr/local/include/TU/Vector++.h /usr/local/include/TU/Array++.h \
-	/usr/local/include/TU/types.h /usr/local/include/TU/Minimize.h \
-	/usr/local/include/TU/Camera++.h \
+	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/iterator.h \
+	/usr/local/include/TU/functional.h /usr/local/include/TU/Vector++.h \
+	/usr/local/include/TU/Array++.h /usr/local/include/TU/types.h \
+	/usr/local/include/TU/Minimize.h /usr/local/include/TU/Camera++.h \
 	/usr/local/include/TU/mmInstructions.h
