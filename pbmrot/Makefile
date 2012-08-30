@@ -1,11 +1,11 @@
 #
-#  $Id: Makefile,v 1.6 2012-08-30 01:14:24 ueshiba Exp $
+#  $Id: Makefile,v 1.7 2012-08-30 01:18:59 ueshiba Exp $
 #
 #################################
 #  User customizable macros	#
 #################################
 DEST		= $(PREFIX)/bin
-INCDIRS		= -I$(HOME)/stereo/corrStereo -I$(PREFIX)/include
+INCDIRS		= -I../../stereo/corrStereo -I$(PREFIX)/include
 
 PROGRAM		= $(shell basename $(PWD))
 LIBS		= -lTUTools++
