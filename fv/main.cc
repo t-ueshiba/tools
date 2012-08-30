@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.7 2012-06-19 08:38:46 ueshiba Exp $
+ *  $Id: main.cc,v 1.8 2012-08-30 01:14:11 ueshiba Exp $
  */
 #include <cstdlib>
 #include "TU/v/App.h"
@@ -37,11 +37,11 @@ restoreImages(std::istream& in, Array<GenericImage>& images)
 static void
 restoreHeaders(std::istream& in, Array<GenericImage>& images)
 {
-  // 1¥Õ¥ì¡¼¥à¤¢¤¿¤ê¤Î²èÁü¿ô¤ò¼èÆÀ¡¥
+  // 1ãƒ•ãƒ¬ãƒ¼ãƒ ã‚ãŸã‚Šã®ç”»åƒæ•°ã‚’å–å¾—ï¼
     u_int	nviews = 0;
     in >> nviews >> skipl;
 
-  // ²èÁüÎó¤ò³ÎÊİ¤·¡¤¥Ø¥Ã¥À¾ğÊó¤òÆÉ¤ß¹ş¤à¡¥
+  // ç”»åƒåˆ—ã‚’ç¢ºä¿ã—ï¼Œãƒ˜ãƒƒãƒ€æƒ…å ±ã‚’èª­ã¿è¾¼ã‚€ï¼
     images.resize(nviews);
     for (u_int i = 0; i < images.dim(); ++i)
 	images[i].restoreHeader(in);
@@ -336,16 +336,16 @@ main(int argc, char* argv[])
 	if (!cin.get(c))
 	    throw runtime_error("Failed to read from stdin!!");
 
-      // ²èÁü¡¿¥à¡¼¥Ó¡¼¤òÈ½Äê¤·¤Æ¡¤²èÁü¥Ç¡¼¥¿¤Ş¤¿¤Ï¥Ø¥Ã¥À¤òÆÉ¤ß¹ş¤à¡¥
+      // ç”»åƒï¼ãƒ ãƒ¼ãƒ“ãƒ¼ã‚’åˆ¤å®šã—ã¦ï¼Œç”»åƒãƒ‡ãƒ¼ã‚¿ã¾ãŸã¯ãƒ˜ãƒƒãƒ€ã‚’èª­ã¿è¾¼ã‚€ï¼
 	Array<GenericImage>	images;
 	switch (c)
 	{
-	  case 'P':	// Â¿»ëÅÀ²èÁü
+	  case 'P':	// å¤šè¦–ç‚¹ç”»åƒ
 	  case 'B':
 	    cin.putback(c);
 	    restoreImages(cin, images);
 	    break;
-	  case 'M':	// Â¿»ëÅÀ¥à¡¼¥Ó¡¼
+	  case 'M':	// å¤šè¦–ç‚¹ãƒ ãƒ¼ãƒ“ãƒ¼
 	    restoreHeaders(cin, images);
 	    break;
 	  default:
@@ -353,7 +353,7 @@ main(int argc, char* argv[])
 	    break;
 	}
 
-      // ³Æ»ëÅÀ¤Î²èÁü¥µ¥¤¥º¤òÉ½¼¨¡¥
+      // å„è¦–ç‚¹ã®ç”»åƒã‚µã‚¤ã‚ºã‚’è¡¨ç¤ºï¼
 	for (u_int i = 0; i < images.dim(); ++i)
 	{
 	    cerr << i << "-th view: "
@@ -400,7 +400,7 @@ main(int argc, char* argv[])
 	    cerr << ')' << endl;
 	}
 
-      // GUI¥ª¥Ö¥¸¥§¥¯¥È¤òºî¤ê¡¤¥¤¥Ù¥ó¥È¥ë¡¼¥×¤òµ¯Æ°¡¥
+      // GUIã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œã‚Šï¼Œã‚¤ãƒ™ãƒ³ãƒˆãƒ«ãƒ¼ãƒ—ã‚’èµ·å‹•ï¼
 	v::MyCmdWindow	myWin(vapp, "Real-time image viewer", images,
 			      (c == 'M'), ncol, mul, div, saturation);
 	vapp.run();

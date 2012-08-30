@@ -1,5 +1,5 @@
 /*
- *  $Id: MyCmdWindow.cc,v 1.8 2012-08-10 04:27:27 ueshiba Exp $
+ *  $Id: MyCmdWindow.cc,v 1.9 2012-08-30 01:14:28 ueshiba Exp $
  */
 #include <cstdlib>
 #include <cstdio>
@@ -121,7 +121,7 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 	  case c_SaveCurrentFrame:
 	  {
 	    stopContinuousShotIfRunning();
-	    setFrame();		// Œ»ƒtƒŒ[ƒ€‚ğŒ»İGUI‚É•\¦‚³‚ê‚Ä‚¢‚é‚à‚Ì‚Éİ’è
+	    setFrame();		// ç¾ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’ç¾åœ¨GUIã«è¡¨ç¤ºã•ã‚Œã¦ã„ã‚‹ã‚‚ã®ã«è¨­å®š
 	    
 	    ofstream	out;
 	    if (_fileSelection.open(out))
@@ -372,11 +372,11 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 	  // Editing stuffs.
 	  case M_Cut:
 	    stopContinuousShotIfRunning();
-	    repaintCanvases();	// head/tail slider‚Ì•\¦‚ğŒ»ƒtƒŒ[ƒ€‚Éˆê’v‚³‚¹‚é
+	    repaintCanvases();	// head/tail sliderã®è¡¨ç¤ºã‚’ç¾ãƒ•ãƒ¬ãƒ¼ãƒ ã«ä¸€è‡´ã•ã›ã‚‹
 	    _movie.setFrame(_captureCmd.getValue(c_HeadMovie));
 	    _movie.cut(int(_captureCmd.getValue(c_TailMovie)) -
 		       int(_captureCmd.getValue(c_HeadMovie)));
-	    setNFrames();	// ƒtƒŒ[ƒ€”‚ª•Ï‚í‚Á‚Ä‚¢‚é‚Ì‚ÅGUI‚É”½‰f
+	    setNFrames();	// ãƒ•ãƒ¬ãƒ¼ãƒ æ•°ãŒå¤‰ã‚ã£ã¦ã„ã‚‹ã®ã§GUIã«åæ˜ 
 	    _captureCmd.setValue(c_TailMovie, int(_movie.currentFrame()));
 	    _headIsActive = true;
 	    repaintCanvases();
@@ -384,7 +384,7 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 
 	  case M_Copy:
 	    stopContinuousShotIfRunning();
-	    repaintCanvases();	// head/tail slider‚Ì•\¦‚ğŒ»ƒtƒŒ[ƒ€‚Éˆê’v‚³‚¹‚é
+	    repaintCanvases();	// head/tail sliderã®è¡¨ç¤ºã‚’ç¾ãƒ•ãƒ¬ãƒ¼ãƒ ã«ä¸€è‡´ã•ã›ã‚‹
 	    _movie.setFrame(_captureCmd.getValue(c_HeadMovie));
 	    _movie.copy(int(_captureCmd.getValue(c_TailMovie)) -
 			int(_captureCmd.getValue(c_HeadMovie)));
@@ -395,10 +395,10 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 	  case M_Paste:
 	  {
 	    stopContinuousShotIfRunning();
-	    repaintCanvases();	// head/tail slider‚Ì•\¦‚ğŒ»ƒtƒŒ[ƒ€‚Éˆê’v‚³‚¹‚é
+	    repaintCanvases();	// head/tail sliderã®è¡¨ç¤ºã‚’ç¾ãƒ•ãƒ¬ãƒ¼ãƒ ã«ä¸€è‡´ã•ã›ã‚‹
 	    _movie.setFrame(_captureCmd.getValue(c_HeadMovie));
 	    u_int	n = _movie.paste();
-	    setNFrames();	// ƒtƒŒ[ƒ€”‚ª•Ï‚í‚Á‚Ä‚¢‚é‚Ì‚ÅGUI‚É”½‰f
+	    setNFrames();	// ãƒ•ãƒ¬ãƒ¼ãƒ æ•°ãŒå¤‰ã‚ã£ã¦ã„ã‚‹ã®ã§GUIã«åæ˜ 
 	    _captureCmd.setValue(c_TailMovie, int(_movie.currentFrame() + n));
 	    _headIsActive = true;
 	    repaintCanvases();
@@ -407,7 +407,7 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 
 	  case c_Swap:
 	    stopContinuousShotIfRunning();
-	    repaintCanvases();	// head/tail slider‚Ì•\¦‚ğŒ»ƒtƒŒ[ƒ€‚Éˆê’v‚³‚¹‚é
+	    repaintCanvases();	// head/tail sliderã®è¡¨ç¤ºã‚’ç¾ãƒ•ãƒ¬ãƒ¼ãƒ ã«ä¸€è‡´ã•ã›ã‚‹
 	    _movie.setFrame(_captureCmd.getValue(c_HeadMovie));
 	    _movie.swap();
 	    _captureCmd.setValue(c_TailMovie, int(_movie.currentFrame()));
@@ -422,7 +422,7 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
     }
 }
 
-//! ƒ^ƒCƒ}‚Ì‰Ò“­’†‚É’èŠú“I‚ÉŒÄ‚Î‚ê‚éˆ—
+//! ã‚¿ã‚¤ãƒã®ç¨¼åƒä¸­ã«å®šæœŸçš„ã«å‘¼ã°ã‚Œã‚‹å‡¦ç†
 void
 MyCmdWindow::tick()
 {
@@ -432,29 +432,29 @@ MyCmdWindow::tick()
 
     if (!_captureCmd.getValue(c_PlayMovie))
     {
-	syncronizedSnap();				// ƒJƒƒ‰‚©‚ç‰æ‘œæ‚è‚İD
+	syncronizedSnap();				// ã‚«ãƒ¡ãƒ©ã‹ã‚‰ç”»åƒå–ã‚Šè¾¼ã¿ï¼
 
 	for (u_int i = 0; i < _cameras.dim(); ++i)
-	    *_cameras[i] >> _movie.image(i);		// ƒJƒƒ‰‚©‚ç‰æ‘œ“]‘—D
+	    *_cameras[i] >> _movie.image(i);		// ã‚«ãƒ¡ãƒ©ã‹ã‚‰ç”»åƒè»¢é€ï¼
     }
 
-    repaintCanvases();	// ‰æ‘œ‚Ì•\¦‚¨‚æ‚ÑŒ»ƒtƒŒ[ƒ€‚Ìhead/tail slider‚Ö‚Ì”½‰fD
+    repaintCanvases();	// ç”»åƒã®è¡¨ç¤ºãŠã‚ˆã³ç¾ãƒ•ãƒ¬ãƒ¼ãƒ ã®head/tail sliderã¸ã®åæ˜ ï¼
 
-  // Œ»ƒtƒŒ[ƒ€‚ğ1‚Âi‚ß‚éDhead/tail slider‚É–¢”½‰f‚È‚Ì‚ÅC‚±‚ê‚ç‚©‚ç’l‚ğæ“¾
-  // ‚·‚éê‡‚Í—\‚ß repaintCanvases() ‚ğŒÄ‚Ô•K—v‚ª‚ ‚éD
+  // ç¾ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’1ã¤é€²ã‚ã‚‹ï¼head/tail sliderã«æœªåæ˜ ãªã®ã§ï¼Œã“ã‚Œã‚‰ã‹ã‚‰å€¤ã‚’å–å¾—
+  // ã™ã‚‹å ´åˆã¯äºˆã‚ repaintCanvases() ã‚’å‘¼ã¶å¿…è¦ãŒã‚ã‚‹ï¼
     ++_movie;
 }
 
 /*
  *  private member functions
  */
-//! ƒJƒƒ‰‚Ì‘ä”‚Æ‰ğ‘œ“x‚¨‚æ‚Ñw’è‚³‚ê‚½ƒtƒŒ[ƒ€”‚É‡‚í‚¹‚Äƒ€[ƒr[‚ğ‰Šú‰»‚·‚éD
+//! ã‚«ãƒ¡ãƒ©ã®å°æ•°ã¨è§£åƒåº¦ãŠã‚ˆã³æŒ‡å®šã•ã‚ŒãŸãƒ•ãƒ¬ãƒ¼ãƒ æ•°ã«åˆã‚ã›ã¦ãƒ ãƒ¼ãƒ“ãƒ¼ã‚’åˆæœŸåŒ–ã™ã‚‹ï¼
 void
 MyCmdWindow::initializeMovie()
 {
     using namespace	std;
 
-  // ƒJƒƒ‰‚Ì‘ä”•ª‚¾‚¯‚Ìƒrƒ…[‚ğŠm•Û‚µC‚»‚ÌƒTƒCƒY‚ğİ’è‚·‚éD
+  // ã‚«ãƒ¡ãƒ©ã®å°æ•°åˆ†ã ã‘ã®ãƒ“ãƒ¥ãƒ¼ã‚’ç¢ºä¿ã—ï¼Œãã®ã‚µã‚¤ã‚ºã‚’è¨­å®šã™ã‚‹ï¼
     Array<Movie<PixelType>::Size >	sizes(_cameras.dim());
     for (u_int i = 0; i < sizes.dim(); ++i)
 	sizes[i] = make_pair(_cameras[i]->width(), _cameras[i]->height());
@@ -462,7 +462,7 @@ MyCmdWindow::initializeMovie()
 
     if (_movie.nviews() > 0)
     {
-      // ƒ€[ƒr[‚ÌŠeƒrƒ…[‚Ì‰æ‘œƒwƒbƒ_‚ÉƒLƒƒƒŠƒuƒŒ[ƒVƒ‡ƒ“î•ñ‚ğƒZƒbƒg‚·‚éD
+      // ãƒ ãƒ¼ãƒ“ãƒ¼ã®å„ãƒ“ãƒ¥ãƒ¼ã®ç”»åƒãƒ˜ãƒƒãƒ€ã«ã‚­ãƒ£ãƒªãƒ–ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³æƒ…å ±ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ï¼
 	ifstream	in(_cameras.calibFile().c_str());
 	if (in)
 	{
@@ -475,24 +475,24 @@ MyCmdWindow::initializeMovie()
 	}
     }
     
-  // w’è‚³‚ê‚½–‡”‚ÌƒtƒŒ[ƒ€‚ğŠm•Û‚·‚éD
+  // æŒ‡å®šã•ã‚ŒãŸæšæ•°ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’ç¢ºä¿ã™ã‚‹ï¼
     u_int	nframes = atoi(_captureCmd.getString(c_NFrames));
     _movie.insert(nframes);
     
-    setCanvases();		// ƒLƒƒƒ“ƒoƒX‚ÆGUI wiget‚ğİ’è‚·‚éD
-    repaintCanvases();		// head/tail sliders‚ÉŒ»ƒtƒŒ[ƒ€‚ğ”½‰f‚·‚éD
+    setCanvases();		// ã‚­ãƒ£ãƒ³ãƒã‚¹ã¨GUI wigetã‚’è¨­å®šã™ã‚‹ï¼
+    repaintCanvases();		// head/tail slidersã«ç¾ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’åæ˜ ã™ã‚‹ï¼
 }
 
-//! ƒ€[ƒr[‚ª¶¬‚³‚ê‚½‚Æ‚«C‚»‚ê‚É‡‚í‚¹‚ÄƒLƒƒƒ“ƒoƒX‚ÆGUI widget‚ğİ’è‚·‚éD
+//! ãƒ ãƒ¼ãƒ“ãƒ¼ãŒç”Ÿæˆã•ã‚ŒãŸã¨ãï¼Œãã‚Œã«åˆã‚ã›ã¦ã‚­ãƒ£ãƒ³ãƒã‚¹ã¨GUI widgetã‚’è¨­å®šã™ã‚‹ï¼
 void
 MyCmdWindow::setCanvases()
 {
     if (_canvases.dim() != _movie.nviews())
     {
 	for (u_int i = 0; i < _canvases.dim(); ++i)
-	    delete _canvases[i];		// Šù‘¶ƒLƒƒƒ“ƒoƒX‚ğ”pŠü‚·‚éD
+	    delete _canvases[i];		// æ—¢å­˜ã‚­ãƒ£ãƒ³ãƒã‚¹ã‚’å»ƒæ£„ã™ã‚‹ï¼
 
-	_canvases.resize(_movie.nviews());	// V‚½‚Éƒrƒ…[”‚¾‚¯Šm•Û‚·‚éD
+	_canvases.resize(_movie.nviews());	// æ–°ãŸã«ãƒ“ãƒ¥ãƒ¼æ•°ã ã‘ç¢ºä¿ã™ã‚‹ï¼
 	for (u_int i = 0; i < _canvases.dim(); ++i)
 	{
 	    Image<PixelType>&	image = _movie.image(i);
@@ -508,28 +508,28 @@ MyCmdWindow::setCanvases()
 	    _canvases[i]->resize();
     }
 
-    setNFrames();			// ƒtƒŒ[ƒ€”‚ğGUI‚É”½‰f‚³‚¹‚éD
+    setNFrames();			// ãƒ•ãƒ¬ãƒ¼ãƒ æ•°ã‚’GUIã«åæ˜ ã•ã›ã‚‹ï¼
 }
 
-//! ƒ€[ƒr[‚ÌƒtƒŒ[ƒ€”‚ª•Ï‚í‚Á‚½‚Æ‚«C‚»‚ê‚ğGUI widget‚É”½‰f‚³‚¹‚éD
+//! ãƒ ãƒ¼ãƒ“ãƒ¼ã®ãƒ•ãƒ¬ãƒ¼ãƒ æ•°ãŒå¤‰ã‚ã£ãŸã¨ãï¼Œãã‚Œã‚’GUI widgetã«åæ˜ ã•ã›ã‚‹ï¼
 void
 MyCmdWindow::setNFrames()
 {
     static int	headProp[3], tailProp[3];
     
-    headProp[0] = tailProp[0] = 0;		// Å‰‚ÌƒtƒŒ[ƒ€”Ô†
-    headProp[1] = _movie.nframes() - 1;		// ÅŒã‚ÌƒtƒŒ[ƒ€”Ô†
-    tailProp[1] = _movie.nframes();		// ÅŒã‚ÌŸ‚ÌƒtƒŒ[ƒ€”Ô†
-    headProp[2] = tailProp[2] = 1;		// ‚İ
-    _captureCmd.setProp(c_HeadMovie, headProp); // head slider‚Éİ’è
-    _captureCmd.setProp(c_TailMovie, tailProp);	// tail slider‚Éİ’è
+    headProp[0] = tailProp[0] = 0;		// æœ€åˆã®ãƒ•ãƒ¬ãƒ¼ãƒ ç•ªå·
+    headProp[1] = _movie.nframes() - 1;		// æœ€å¾Œã®ãƒ•ãƒ¬ãƒ¼ãƒ ç•ªå·
+    tailProp[1] = _movie.nframes();		// æœ€å¾Œã®æ¬¡ã®ãƒ•ãƒ¬ãƒ¼ãƒ ç•ªå·
+    headProp[2] = tailProp[2] = 1;		// åˆ»ã¿
+    _captureCmd.setProp(c_HeadMovie, headProp); // head sliderã«è¨­å®š
+    _captureCmd.setProp(c_TailMovie, tailProp);	// tail sliderã«è¨­å®š
 
     char	s[256];
     sprintf(s, "%d", _movie.nframes());
-    _captureCmd.setString(c_NFrames, s);	    // widget‚ÉƒtƒŒ[ƒ€”‚ğİ’è
+    _captureCmd.setString(c_NFrames, s);	    // widgetã«ãƒ•ãƒ¬ãƒ¼ãƒ æ•°ã‚’è¨­å®š
 }
 
-//! Œ»ƒtƒŒ[ƒ€‚Ì“à—e‚ğƒLƒƒƒ“ƒoƒX‚É•\¦‚µC‚»‚ê‚ğhead/tail slider‚É”½‰f‚³‚¹‚éD
+//! ç¾ãƒ•ãƒ¬ãƒ¼ãƒ ã®å†…å®¹ã‚’ã‚­ãƒ£ãƒ³ãƒã‚¹ã«è¡¨ç¤ºã—ï¼Œãã‚Œã‚’head/tail sliderã«åæ˜ ã•ã›ã‚‹ï¼
 void
 MyCmdWindow::repaintCanvases()
 {
@@ -537,21 +537,21 @@ MyCmdWindow::repaintCanvases()
 	_canvases[i]->repaintUnderlay();
 
     const int	current = _movie.currentFrame();
-    if (_headIsActive)				// head slider‚ğ‘€ì’†‚È‚ç...
+    if (_headIsActive)				// head sliderã‚’æ“ä½œä¸­ãªã‚‰...
     {
-	_captureCmd.setValue(c_HeadMovie, current);	// ‚»‚ê‚ÉŒ»ƒtƒŒ[ƒ€‚ğİ’è
-	if (_captureCmd.getValue(c_TailMovie) < current)// tail‚ªhead‚æ‚èŒã‚ë‚È‚ç
-	    _captureCmd.setValue(c_TailMovie, current);	// tail‚ğ’Ç]‚³‚¹‚é
+	_captureCmd.setValue(c_HeadMovie, current);	// ãã‚Œã«ç¾ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’è¨­å®š
+	if (_captureCmd.getValue(c_TailMovie) < current)// tailãŒheadã‚ˆã‚Šå¾Œã‚ãªã‚‰
+	    _captureCmd.setValue(c_TailMovie, current);	// tailã‚’è¿½å¾“ã•ã›ã‚‹
     }
-    else					// tail slider‚ğ‘€ì’†‚È‚ç...
+    else					// tail sliderã‚’æ“ä½œä¸­ãªã‚‰...
     {
-	_captureCmd.setValue(c_TailMovie, current);	// ‚»‚ê‚ÉŒ»ƒtƒŒ[ƒ€‚ğİ’è
-	if (_captureCmd.getValue(c_HeadMovie) > current)// head‚ªtail‚æ‚èŒã‚ë‚È‚ç
-	    _captureCmd.setValue(c_HeadMovie, current);	// head‚ğ’Ç]‚³‚¹‚é
+	_captureCmd.setValue(c_TailMovie, current);	// ãã‚Œã«ç¾ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’è¨­å®š
+	if (_captureCmd.getValue(c_HeadMovie) > current)// headãŒtailã‚ˆã‚Šå¾Œã‚ãªã‚‰
+	    _captureCmd.setValue(c_HeadMovie, current);	// headã‚’è¿½å¾“ã•ã›ã‚‹
     }
 }
 
-//! ƒ€[ƒr[‚ÌŒ»ƒtƒŒ[ƒ€‚ğŒ»İhead/tail slider‚É•\¦‚³‚ê‚Ä‚¢‚éƒtƒŒ[ƒ€”Ô†‚Éİ’è‚·‚éD
+//! ãƒ ãƒ¼ãƒ“ãƒ¼ã®ç¾ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’ç¾åœ¨head/tail sliderã«è¡¨ç¤ºã•ã‚Œã¦ã„ã‚‹ãƒ•ãƒ¬ãƒ¼ãƒ ç•ªå·ã«è¨­å®šã™ã‚‹ï¼
 void
 MyCmdWindow::setFrame()
 {
@@ -563,7 +563,7 @@ MyCmdWindow::setFrame()
 	_canvases[i]->repaintUnderlay();
 }
     
-//! ƒJƒƒ‰‚©‚ç‰æ‘œ‚ğo—Í’†‚È‚ç‚»‚ê‚ğ’â~‚·‚éD‚Ü‚½CŒ»ƒtƒŒ[ƒ€‚ğhead/tail slider‚Ö”½‰f‚³‚¹‚éD
+//! ã‚«ãƒ¡ãƒ©ã‹ã‚‰ç”»åƒã‚’å‡ºåŠ›ä¸­ãªã‚‰ãã‚Œã‚’åœæ­¢ã™ã‚‹ï¼ã¾ãŸï¼Œç¾ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’head/tail sliderã¸åæ˜ ã•ã›ã‚‹ï¼
 void
 MyCmdWindow::stopContinuousShotIfRunning()
 {
@@ -576,7 +576,7 @@ MyCmdWindow::stopContinuousShotIfRunning()
     }
 }
 
-//! •¡”‚ÌƒJƒƒ‰‚É‚æ‚Á‚Ä“¯Šú‚µ‚½‰æ‘œ‚ğB‰e‚·‚éD
+//! è¤‡æ•°ã®ã‚«ãƒ¡ãƒ©ã«ã‚ˆã£ã¦åŒæœŸã—ãŸç”»åƒã‚’æ’®å½±ã™ã‚‹ï¼
 void
 MyCmdWindow::syncronizedSnap()
 {

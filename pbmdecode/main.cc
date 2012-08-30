@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.1 2012-05-24 21:38:39 ueshiba Exp $
+ *  $Id: main.cc,v 1.2 2012-08-30 01:14:13 ueshiba Exp $
  */
 #include <unistd.h>
 #ifdef WIN32
@@ -84,16 +84,16 @@ template <class S, class T> static const S*
 bayerRGGBOdd3x3(const S* buf, T* rgb, int w)
 {
     const S	*nxt = buf + w;			// next line
-    YX_ZY(b, g, r)				// º¸Ã¼¤Î²èÁÇ¤Ï2x2¤Ç½èÍı
+    YX_ZY(b, g, r)				// å·¦ç«¯ã®ç”»ç´ ã¯2x2ã§å‡¦ç†
     const S	*prv = buf - w;			// previous line
-    while ((w -= 2) > 0)			// ´ñ¿ô¹ÔÃæ´Ö¤ÎÎó¤ò½èÍı
+    while ((w -= 2) > 0)			// å¥‡æ•°è¡Œä¸­é–“ã®åˆ—ã‚’å‡¦ç†
     {
 	XYX_YZY_XYX(r, g, b)
 	yXy_ZYZ_yXy(r, g, b)
     }
     --buf;
     --nxt;
-    YX_ZY(b, g, r)				// ±¦Ã¼¤Î²èÁÇ¤Ï2x2¤Ç½èÍı
+    YX_ZY(b, g, r)				// å³ç«¯ã®ç”»ç´ ã¯2x2ã§å‡¦ç†
     
     return buf + 1;
 }
@@ -102,16 +102,16 @@ template <class S, class T> static const S*
 bayerRGGBEven3x3(const S* buf, T* rgb, int w)
 {
     const S	*nxt = buf + w;			// next line
-    XY_YZ(r, g, b)				// º¸Ã¼¤Î²èÁÇ¤Ï2x2¤Ç½èÍı
+    XY_YZ(r, g, b)				// å·¦ç«¯ã®ç”»ç´ ã¯2x2ã§å‡¦ç†
     const S	*prv = buf - w;			// previous line
-    while ((w -= 2) > 0)			// ¶ö¿ô¹ÔÃæ´Ö¤ÎÎó¤ò½èÍı
+    while ((w -= 2) > 0)			// å¶æ•°è¡Œä¸­é–“ã®åˆ—ã‚’å‡¦ç†
     {
 	yXy_ZYZ_yXy(b, g, r)
 	XYX_YZY_XYX(b, g, r)
     }
     --buf;
     --nxt;
-    XY_YZ(r, g, b)				// ±¦Ã¼¤Î²èÁÇ¤Ï2x2¤Ç½èÍı
+    XY_YZ(r, g, b)				// å³ç«¯ã®ç”»ç´ ã¯2x2ã§å‡¦ç†
 
     return buf + 1;
 }
@@ -137,16 +137,16 @@ template <class S, class T> static const S*
 bayerBGGROdd3x3(const S* buf, T* rgb, int w)
 {
     const S	*nxt = buf + w;			// next line
-    YX_ZY(r, g, b)				// º¸Ã¼¤Î²èÁÇ¤Ï2x2¤Ç½èÍı
+    YX_ZY(r, g, b)				// å·¦ç«¯ã®ç”»ç´ ã¯2x2ã§å‡¦ç†
     const S	*prv = buf - w;			// previous line
-    while ((w -= 2) > 0)			// ´ñ¿ô¹ÔÃæ´Ö¤ÎÎó¤ò½èÍı
+    while ((w -= 2) > 0)			// å¥‡æ•°è¡Œä¸­é–“ã®åˆ—ã‚’å‡¦ç†
     {
 	XYX_YZY_XYX(b, g, r)
 	yXy_ZYZ_yXy(b, g, r)
     }
     --buf;
     --nxt;
-    YX_ZY(r, g, b)				// ±¦Ã¼¤Î²èÁÇ¤Ï2x2¤Ç½èÍı
+    YX_ZY(r, g, b)				// å³ç«¯ã®ç”»ç´ ã¯2x2ã§å‡¦ç†
 
     return buf + 1;
 }
@@ -155,16 +155,16 @@ template <class S, class T> static const S*
 bayerBGGREven3x3(const S* buf, T* rgb, int w)
 {
     const S	*nxt = buf + w;			// next line
-    XY_YZ(b, g, r)				// º¸Ã¼¤Î²èÁÇ¤Ï2x2¤Ç½èÍı
+    XY_YZ(b, g, r)				// å·¦ç«¯ã®ç”»ç´ ã¯2x2ã§å‡¦ç†
     const S	*prv = buf - w;			// previous line
-    while ((w -= 2) > 0)			// ¶ö¿ô¹ÔÃæ´Ö¤ÎÎó¤ò½èÍı
+    while ((w -= 2) > 0)			// å¶æ•°è¡Œä¸­é–“ã®åˆ—ã‚’å‡¦ç†
     {
 	yXy_ZYZ_yXy(r, g, b)
 	XYX_YZY_XYX(r, g, b)
     }
     --buf;
     --nxt;
-    XY_YZ(b, g, r)				// ±¦Ã¼¤Î²èÁÇ¤Ï2x2¤Ç½èÍı
+    XY_YZ(b, g, r)				// å³ç«¯ã®ç”»ç´ ã¯2x2ã§å‡¦ç†
 
     return buf + 1;
 }
@@ -190,16 +190,16 @@ template <class S, class T> static const S*
 bayerGRBGOdd3x3(const S* buf, T* rgb, int w)
 {
     const S	*nxt = buf + w;			// next line
-    XY_YZ(b, g, r)				// º¸Ã¼¤Î²èÁÇ¤Ï2x2¤Ç½èÍı
+    XY_YZ(b, g, r)				// å·¦ç«¯ã®ç”»ç´ ã¯2x2ã§å‡¦ç†
     const S	*prv = buf - w;			// previous line
-    while ((w -= 2) > 0)			// ´ñ¿ô¹ÔÃæ´Ö¤ÎÎó¤ò½èÍı
+    while ((w -= 2) > 0)			// å¥‡æ•°è¡Œä¸­é–“ã®åˆ—ã‚’å‡¦ç†
     {
 	yXy_ZYZ_yXy(r, g, b)
 	XYX_YZY_XYX(r, g, b)
     }
     --buf;
     --nxt;
-    XY_YZ(b, g, r)				// ±¦Ã¼¤Î²èÁÇ¤Ï2x2¤Ç½èÍı
+    XY_YZ(b, g, r)				// å³ç«¯ã®ç”»ç´ ã¯2x2ã§å‡¦ç†
 
     return buf + 1;
 }
@@ -208,16 +208,16 @@ template <class S, class T> static const S*
 bayerGRBGEven3x3(const S* buf, T* rgb, int w)
 {
     const S	*nxt = buf + w;			// next line
-    YX_ZY(r, g, b)				// º¸Ã¼¤Î²èÁÇ¤Ï2x2¤Ç½èÍı
+    YX_ZY(r, g, b)				// å·¦ç«¯ã®ç”»ç´ ã¯2x2ã§å‡¦ç†
     const S	*prv = buf - w;			// previous line
-    while ((w -= 2) > 0)			// ¶ö¿ô¹ÔÃæ´Ö¤ÎÎó¤ò½èÍı
+    while ((w -= 2) > 0)			// å¶æ•°è¡Œä¸­é–“ã®åˆ—ã‚’å‡¦ç†
     {
 	XYX_YZY_XYX(b, g, r)
 	yXy_ZYZ_yXy(b, g, r)
     }
     --buf;
     --nxt;
-    YX_ZY(r, g, b)				// ±¦Ã¼¤Î²èÁÇ¤Ï2x2¤Ç½èÍı
+    YX_ZY(r, g, b)				// å³ç«¯ã®ç”»ç´ ã¯2x2ã§å‡¦ç†
 
     return buf + 1;
 }
@@ -243,16 +243,16 @@ template <class S, class T> static const S*
 bayerGBRGOdd3x3(const S* buf, T* rgb, int w)
 {
     const S	*nxt = buf + w;			// next line
-    XY_YZ(r, g, b)				// º¸Ã¼¤Î²èÁÇ¤Ï2x2¤Ç½èÍı
+    XY_YZ(r, g, b)				// å·¦ç«¯ã®ç”»ç´ ã¯2x2ã§å‡¦ç†
     const S	*prv = buf - w;			// previous line
-    while ((w -= 2) > 0)			// ´ñ¿ô¹ÔÃæ´Ö¤ÎÎó¤ò½èÍı
+    while ((w -= 2) > 0)			// å¥‡æ•°è¡Œä¸­é–“ã®åˆ—ã‚’å‡¦ç†
     {
 	yXy_ZYZ_yXy(b, g, r)
 	XYX_YZY_XYX(b, g, r)
     }
     --buf;
     --nxt;
-    XY_YZ(r, g, b)				// ±¦Ã¼¤Î²èÁÇ¤Ï2x2¤Ç½èÍı
+    XY_YZ(r, g, b)				// å³ç«¯ã®ç”»ç´ ã¯2x2ã§å‡¦ç†
 
     return buf + 1;
 }
@@ -261,16 +261,16 @@ template <class S, class T> static const S*
 bayerGBRGEven3x3(const S* buf, T* rgb, int w)
 {
     const S	*nxt = buf + w;			// next line
-    YX_ZY(b, g, r)				// º¸Ã¼¤Î²èÁÇ¤Ï2x2¤Ç½èÍı
+    YX_ZY(b, g, r)				// å·¦ç«¯ã®ç”»ç´ ã¯2x2ã§å‡¦ç†
     const S	*prv = buf - w;			// previous line
-    while ((w -= 2) > 0)			// ¶ö¿ô¹ÔÃæ´Ö¤ÎÎó¤ò½èÍı
+    while ((w -= 2) > 0)			// å¶æ•°è¡Œä¸­é–“ã®åˆ—ã‚’å‡¦ç†
     {
 	XYX_YZY_XYX(r, g, b)
 	yXy_ZYZ_yXy(r, g, b)
     }
     --buf;
     --nxt;
-    YX_ZY(b, g, r)				// ±¦Ã¼¤Î²èÁÇ¤Ï2x2¤Ç½èÍı
+    YX_ZY(b, g, r)				// å³ç«¯ã®ç”»ç´ ã¯2x2ã§å‡¦ç†
 
     return buf + 1;
 }
@@ -306,7 +306,7 @@ decodeBayer(const Image<u_char>& in, Bayer bayer)
       {
 	const u_char*	p = bayerRGGB2x2(&in[0][0], &out[0][0], in.width());
 	int		v = 1;
-	while (v < out.height() - 1)	// Ãæ´Ö¤Î¹Ô¤ò½èÍı
+	while (v < out.height() - 1)	// ä¸­é–“ã®è¡Œã‚’å‡¦ç†
 	{
 	    p = bayerRGGBOdd3x3 (p, &out[v++][0], in.width());
 	    p = bayerRGGBEven3x3(p, &out[v++][0], in.width());
@@ -319,7 +319,7 @@ decodeBayer(const Image<u_char>& in, Bayer bayer)
       {
 	const u_char*	p = bayerBGGR2x2(&in[0][0], &out[0][0], in.width());
 	int		v = 1;
-	while (v < out.height() - 1)	// Ãæ´Ö¤Î¹Ô¤ò½èÍı
+	while (v < out.height() - 1)	// ä¸­é–“ã®è¡Œã‚’å‡¦ç†
 	{
 	    p = bayerBGGROdd3x3 (p, &out[v++][0], in.width());
 	    p = bayerBGGREven3x3(p, &out[v++][0], in.width());
@@ -332,7 +332,7 @@ decodeBayer(const Image<u_char>& in, Bayer bayer)
       {
 	const u_char*	p = bayerGRBG2x2(&in[0][0], &out[0][0], in.width());
 	int		v = 1;
-	while (v < out.height() - 1)	// Ãæ´Ö¤Î¹Ô¤ò½èÍı
+	while (v < out.height() - 1)	// ä¸­é–“ã®è¡Œã‚’å‡¦ç†
 	{
 	    p = bayerGRBGOdd3x3 (p, &out[v++][0], in.width());
 	    p = bayerGRBGEven3x3(p, &out[v++][0], in.width());
@@ -345,7 +345,7 @@ decodeBayer(const Image<u_char>& in, Bayer bayer)
       {
 	const u_char*	p = bayerGBRG2x2(&in[0][0], &out[0][0], in.width());
 	int		v = 1;
-	while (v < out.height() - 1)	// Ãæ´Ö¤Î¹Ô¤ò½èÍı
+	while (v < out.height() - 1)	// ä¸­é–“ã®è¡Œã‚’å‡¦ç†
 	{
 	    p = bayerGBRGOdd3x3 (p, &out[v++][0], in.width());
 	    p = bayerGBRGEven3x3(p, &out[v++][0], in.width());

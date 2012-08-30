@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.12 2012-08-10 02:57:03 ueshiba Exp $
+ *  $Id: main.cc,v 1.13 2012-08-30 01:14:07 ueshiba Exp $
  */
 #include <signal.h>
 #include <sys/time.h>
@@ -61,7 +61,7 @@ doJob(const Ieee1394CameraArray& cameras)
 
     Array<Image<T> >	images(cameras.dim());
 
-  // ¥­¥ã¥ê¥Ö¥ì¡¼¥·¥ç¥ó¥Ç¡¼¥¿¤òÆÉ¤ß¹ş¤à¡¥
+  // ã‚­ãƒ£ãƒªãƒ–ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€ï¼
     ifstream	in(cameras.calibFile().c_str());
     if (in)
     {
@@ -69,7 +69,7 @@ doJob(const Ieee1394CameraArray& cameras)
 	    in >> images[i].P >> images[i].d1 >> images[i].d2;
     }
 	
-  // 1¥Õ¥ì¡¼¥à¤¢¤¿¤ê¤Î²èÁü¿ô¤È¤½¤Î¥Õ¥©¡¼¥Ş¥Ã¥È¤ò½ĞÎÏ¡¥
+  // 1ãƒ•ãƒ¬ãƒ¼ãƒ ã‚ãŸã‚Šã®ç”»åƒæ•°ã¨ãã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚’å‡ºåŠ›ï¼
     cout << 'M' << images.dim() << endl;
     for (int i = 0; i < images.dim(); ++i)
     {
@@ -77,7 +77,7 @@ doJob(const Ieee1394CameraArray& cameras)
 	images[i].saveHeader(cout);
     }
 
-  // ¥«¥á¥é½ĞÎÏ¤Î³«»Ï¡¥
+  // ã‚«ãƒ¡ãƒ©å‡ºåŠ›ã®é–‹å§‹ï¼
     for (int i = 0; i < cameras.dim(); ++i)
 	cameras[i]->continuousShot();
 
@@ -98,15 +98,15 @@ doJob(const Ieee1394CameraArray& cameras)
 	    gettimeofday(&start, NULL);
 
 	for (int i = 0; i < cameras.dim(); ++i)
-	    cameras[i]->snap();				// »£±Æ
+	    cameras[i]->snap();				// æ’®å½±
 	for (int i = 0; i < cameras.dim(); ++i)
-	    *cameras[i] >> images[i];			// ²èÁüÎÎ°è¤Ø¤ÎÅ¾Á÷
+	    *cameras[i] >> images[i];			// ç”»åƒé ˜åŸŸã¸ã®è»¢é€
 	for (int i = 0; i < images.dim(); ++i)
-	    if (!images[i].saveData(cout))		// stdout¤Ø¤Î½ĞÎÏ
+	    if (!images[i].saveData(cout))		// stdoutã¸ã®å‡ºåŠ›
 		active = false;
     }
 
-  // ¥«¥á¥é½ĞÎÏ¤ÎÄä»ß¡¥
+  // ã‚«ãƒ¡ãƒ©å‡ºåŠ›ã®åœæ­¢ï¼
     for (int i = 0; i < cameras.dim(); ++i)
 	cameras[i]->stopContinuousShot();
 }
@@ -148,7 +148,7 @@ main(int argc, char* argv[])
     
     try
     {
-      // IEEE1394¥«¥á¥é¤Î¥ª¡¼¥×¥ó¡¥
+      // IEEE1394ã‚«ãƒ¡ãƒ©ã®ã‚ªãƒ¼ãƒ—ãƒ³ï¼
 	Ieee1394CameraArray	cameras(cameraName, configDirs,
 					speed, ncameras);
 	if (cameras.dim() == 0)
@@ -159,7 +159,7 @@ main(int argc, char* argv[])
 		 << hex << setw(16) << setfill('0')
 		 << cameras[i]->globalUniqueId() << dec << endl;
 
-      // ²èÁü¤Î¥­¥ã¥×¥Á¥ã¤È½ĞÎÏ¡¥
+      // ç”»åƒã®ã‚­ãƒ£ãƒ—ãƒãƒ£ã¨å‡ºåŠ›ï¼
 	switch (cameras[0]->pixelFormat())
 	{
 	  case Ieee1394Camera::MONO_8:

@@ -1,5 +1,5 @@
 #
-#  $Id: Makefile,v 1.15 2012-08-16 01:52:43 ueshiba Exp $
+#  $Id: Makefile,v 1.16 2012-08-30 01:14:07 ueshiba Exp $
 #
 #################################
 #  User customizable macros	#
@@ -10,33 +10,26 @@ INCDIRS		= -I$(PREFIX)/include
 PROGRAM		= $(shell basename $(PWD))
 LIBS		= -lTUIeee1394++ -lTUTools++ -lraw1394
 ifeq ($(OSTYPE), darwin)
-#  LIBS	       +=
   LIBS	       += -framework IOKit -framework CoreFoundation -framework CoreServices
 endif
 
 CPPFLAGS	= -DHAVE_LIBTUTOOLS__
 CFLAGS		= -g
 NVCCFLAGS	= -g
-ifeq ($(CCC), icpc)
+ifeq ($(CXX), icpc)
   CFLAGS	= -O3
   NVCCFLAGS	= -O		# -O2以上にするとコンパイルエラーになる．
-  ifeq ($(OSTYPE), darwin)
-    CPPFLAGS   += -DSSE3
-    CFLAGS     += -xSSE3
-  else
-    CPPFLAGS   += -DSSE3
-    CFLAGS     += -xSSE3
-  endif
+  CPPFLAGS     += -DSSE3
 endif
 CCFLAGS		= $(CFLAGS)
 
-LINKER		= $(CCC)
+LINKER		= $(CXX)
 
 #########################
 #  Macros set by mkmf	#
 #########################
 .SUFFIXES:	.cu
-SUFFIX		= .cc:sC .cu:sC
+SUFFIX		= .cc:sC .cu:sC .cpp:sC
 EXTHDRS		= /usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/Geometry++.h \
 		/usr/local/include/TU/Ieee1394++.h \
@@ -51,18 +44,6 @@ EXTHDRS		= /usr/local/include/TU/Array++.h \
 HDRS		=
 SRCS		= main.cc
 OBJS		= main.o
-
-#########################
-#  Macros used by RCS	#
-#########################
-REV		= $(shell echo $Revision: 1.15 $	|		\
-		  sed 's/evision://'		|		\
-		  awk -F"."					\
-		  '{						\
-		      for (count = 1; count < NF; count++)	\
-			  printf("%d.", $$count);		\
-		      printf("%d", $$count + 1);		\
-		  }')
 
 include $(PROJECT)/lib/p.mk
 

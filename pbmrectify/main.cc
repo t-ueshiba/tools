@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.8 2011-12-10 23:08:36 ueshiba Exp $
+ *  $Id: main.cc,v 1.9 2012-08-30 01:14:18 ueshiba Exp $
  */
 #include <unistd.h>
 #ifdef WIN32
@@ -43,7 +43,7 @@ doJob(const GenericImage& header, double scale)
     Image<T>	image[3];
     u_int	nimages = 0;
 
-  // ºÇ½é¤Î²èÁü¤Î¥Ç¡¼¥¿ÉôÊ¬¤òÆÉ¤ß¹ş¤à¡¥
+  // æœ€åˆã®ç”»åƒã®ãƒ‡ãƒ¼ã‚¿éƒ¨åˆ†ã‚’èª­ã¿è¾¼ã‚€ï¼
     image[0].resize(header.height(), header.width());
     image[0].P = header.P;
     image[0].d1 = header.d1;
@@ -51,7 +51,7 @@ doJob(const GenericImage& header, double scale)
     if (!image[0].restoreData(cin, header.typeInfo()))
 	throw runtime_error("Cannot restore data of the first image!!");
 
-  // 2ÈÖÌÜ°Ê¹ß¤Î²èÁü¤òÆÉ¤ß¹ş¤à¡¥
+  // 2ç•ªç›®ä»¥é™ã®ç”»åƒã‚’èª­ã¿è¾¼ã‚€ï¼
     for (nimages = 1; nimages < 3; ++nimages)
 	if (!image[nimages].restore(cin))
 	    break;

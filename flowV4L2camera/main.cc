@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.3 2012-06-29 03:14:59 ueshiba Exp $
+ *  $Id: main.cc,v 1.4 2012-08-30 01:14:09 ueshiba Exp $
  */
 #include <signal.h>
 #include <sys/time.h>
@@ -48,7 +48,7 @@ doJob(V4L2Camera& camera)
 
     Image<T>	image(camera.width(), camera.height());
 
-  // 1¥Õ¥ì¡¼¥à¤¢¤¿¤ê¤Î²èÁü¿ô¤È¤½¤Î¥Õ¥©¡¼¥Ş¥Ã¥È¤ò½ĞÎÏ¡¥
+  // 1ãƒ•ãƒ¬ãƒ¼ãƒ ã‚ãŸã‚Šã®ç”»åƒæ•°ã¨ãã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚’å‡ºåŠ›ï¼
     cout << 'M' << 1 << endl;
     image.saveHeader(cout);
 
@@ -70,10 +70,10 @@ doJob(V4L2Camera& camera)
 	if (nframes++ == 0)
 	    gettimeofday(&start, NULL);
 
-	camera.snap();				// »£±Æ
-	camera >> image;			// ²èÁüÎÎ°è¤Ø¤ÎÅ¾Á÷
-      //camera.captureDirectly(image);		// ²èÁüÎÎ°è¤Ø¤ÎÅ¾Á÷
-	if (!image.saveData(cout))		// stdout¤Ø¤Î½ĞÎÏ
+	camera.snap();				// æ’®å½±
+	camera >> image;			// ç”»åƒé ˜åŸŸã¸ã®è»¢é€
+      //camera.captureDirectly(image);		// ç”»åƒé ˜åŸŸã¸ã®è»¢é€
+	if (!image.saveData(cout))		// stdoutã¸ã®å‡ºåŠ›
 	    active = false;
     }
 }
@@ -103,7 +103,7 @@ main(int argc, char* argv[])
     
     try
     {
-      // UVC¥«¥á¥é¤Î¥ª¡¼¥×¥ó¡¥
+      // UVCã‚«ãƒ¡ãƒ©ã®ã‚ªãƒ¼ãƒ—ãƒ³ï¼
 	V4L2Camera	camera(dev);
 
 	BOOST_FOREACH (V4L2Camera::PixelFormat pixelFormat,
@@ -113,7 +113,7 @@ main(int argc, char* argv[])
 		       camera.availableFeatures())
 	    camera.put(cerr, feature);
 
-      // ²èÁü¤Î¥­¥ã¥×¥Á¥ã¤È½ĞÎÏ¡¥
+      // ç”»åƒã®ã‚­ãƒ£ãƒ—ãƒãƒ£ã¨å‡ºåŠ›ï¼
 	switch (camera.pixelFormat())
 	{
 	  case V4L2Camera::GREY:

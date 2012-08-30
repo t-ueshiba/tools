@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.5 2012-08-10 02:57:08 ueshiba Exp $
+ *  $Id: main.cc,v 1.6 2012-08-30 01:14:28 ueshiba Exp $
  */
 #include <cstdlib>
 #include "MyCmdWindow.h"
@@ -60,7 +60,7 @@ main(int argc, char* argv[])
 			div	   = 1;
     Ieee1394Node::Speed	speed	   = Ieee1394Node::SPD_400M;
 
-  // ƒRƒ}ƒ“ƒhs‚Ì‰ğÍD
+  // ã‚³ãƒãƒ³ãƒ‰è¡Œã®è§£æï¼
     extern char*	optarg;
     for (int c; (c = getopt(argc, argv, "c:d:CBn:42HQh")) != -1; )
 	switch (c)
@@ -103,7 +103,7 @@ main(int argc, char* argv[])
     
     try
     {
-      // IEEE1394ƒJƒƒ‰‚ÌƒI[ƒvƒ“D
+      // IEEE1394ã‚«ãƒ¡ãƒ©ã®ã‚ªãƒ¼ãƒ—ãƒ³ï¼
 	Ieee1394CameraArray	cameras;
 	if (cameraName != 0)
 	    cameras.initialize(cameraName, configDirs, speed);
