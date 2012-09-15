@@ -1,0 +1,396 @@
+
+
+
+MKMF(1)             UNIX Programmer's Manual              MKMF(1)
+
+
+
+NAME
+     mkmf - makefile editor
+
+SYNOPSIS
+     mkmf [-acdil] [-f makefile] [-F template] [macroname=value
+     ...]
+
+DESCRIPTION
+     _M_k_m_f creates a makefile that tells the _m_a_k_e command how to
+     construct and maintain programs and libraries.  After gath-
+     ering up all the source code file names in the current work-
+     ing directory and inserting them into the makefile, _m_k_m_f
+     scans source code files for included files and generates
+     dependency information which is appended to the makefile.
+     Source code files are identified by their file name suf-
+     fixes.  _M_k_m_f knows about the following suffixes:
+
+                    .c        C
+                    .e        Efl
+                    .F        Fortran
+                    .f        Fortran
+                    .h        Include files
+                    .i        Pascal include files
+                    .l        Lex or Lisp
+                    .o        Object files
+                    .p        Pascal
+                    .r        Ratfor
+                    .s        Assembler
+                    .y        Yacc
+
+     _M_k_m_f checks for an existing makefile before creating one. If
+     no -f option is present, the makefiles `makefile' and
+     `Makefile' are tried in order.
+
+     After the makefile has been created, arbitrary changes can
+     be made using a regular text editor.  _M_k_m_f can also be used
+     to re-edit the macro definitions in the makefile, regardless
+     of changes that may have been made since it was created.
+
+     By default, _m_k_m_f creates a program makefile. To create a
+     makefile that deals with libraries, the -l option must be
+     used.
+
+     Make Requests
+
+     Given a makefile created by _m_k_m_f, _m_a_k_e recognizes the fol-
+     lowing requests:
+
+     all            Compile and load a program or library.
+
+     clean          Remove all unnecessary files.
+
+
+
+
+Printed 1/11/88           28 June 1985                          1
+
+
+
+
+
+
+MKMF(1)             UNIX Programmer's Manual              MKMF(1)
+
+
+
+     depend         Edit the makefile and regenerate the depen-
+                    dency information.
+
+     extract        Extract all the object files from the library
+                    and place them in the same directory as the
+                    source code files. The library is not
+                    altered.
+
+     index          Print an index of functions on standard out-
+                    put.
+
+     install        Compile and load the program or library and
+                    move it to its destination directory.
+
+     library        Compile and load a library.
+
+     print          Print source code files on standard output.
+
+     tags           Create a tags file for the _e_x editor, for C,
+                    Pascal, and Fortran source code files.
+
+     program        Compile and link a program.
+
+     update         Recompile only if there are source code files
+                    that are newer than the program or library,
+                    link and install the program or library. In
+                    the case of an out-of-date library, all the
+                    object files are extracted from the library
+                    before any recompilation takes place.
+
+     Several requests may be given simultaneously. For example,
+     to compile and link a program, move the program to its des-
+     tination directory, and remove any unnecessary object files:
+
+          make program install clean
+
+     Macro Definitions
+
+     _M_k_m_f understands the following macro definitions:
+
+     CFLAGS         C compiler flags. After searching for
+                    included files in the directory currently
+                    being processed, _m_k_m_f searchs in directories
+                    named in -I compiler options, and then in the
+                    `/usr/include' directory.  Alternatively, the
+                    include directories can be named directly on
+                    the command line in the same syntax as they
+                    are expected by cc, namely, -Ifilename.  Any
+                    number of include directories may be so
+                    named.
+
+     DEST           Directory where the program or library is to
+
+
+
+Printed 1/11/88           28 June 1985                          2
+
+
+
+
+
+
+MKMF(1)             UNIX Programmer's Manual              MKMF(1)
+
+
+
+                    be installed.
+
+     EXTHDRS        List of included files external to the
+                    current directory.  _M_k_m_f automatically
+                    updates this macro definition in the makefile
+                    if dependency information is being generated.
+
+     FFLAGS         Fortran compiler flags. After searching for
+                    included files in the directory currently
+                    being processed, _m_k_m_f searchs in directories
+                    named in -I compiler options, and then in the
+                    `/usr/include' directory.
+
+     HDRS           List of included files in the current direc-
+                    tory.  _M_k_m_f automatically updates this macro
+                    definition in the makefile.
+
+     LIBRARY        Library name. This macro also implies the -l
+                    option.
+
+     LIBS           List of libraries needed by the link editor
+                    to resolve external references.
+
+     MAKEFILE       Makefile name.
+
+     OBJS           List of object files.  _M_k_m_f automatically
+                    updates this macro definition in the
+                    makefile.
+
+     PROGRAM        Program name.
+
+     SRCS           List of source code files.  _M_k_m_f automati-
+                    cally updates this macro definition in the
+                    makefile.
+
+     SUFFIX         List of additional file name suffixes for
+                    _m_k_m_f to know about.
+
+     Both these and any other macro definitions already within
+     the makefile may be replaced by definitions on the command
+     line in the form _m_a_c_r_o_n_a_m_e=_v_a_l_u_e . For example, to change
+     the C compiler flags, the program name, and the destination
+     directory in the makefile, the user might type the following
+     line:
+
+          mkmf  ``CFLAGS=-I../include  -O''  PROGRAM=mkmf  DEST=/usr/new
+
+     Note that macro definitions like CFLAGS with blanks in them
+     must be enclosed in double quote `"' marks.
+
+     File Name Suffixes
+
+
+
+
+Printed 1/11/88           28 June 1985                          3
+
+
+
+
+
+
+MKMF(1)             UNIX Programmer's Manual              MKMF(1)
+
+
+
+     _M_k_m_f can be instructed to recognize additional file name
+     suffixes, or ignore ones that it already knows about, by
+     specifying suffix descriptions in the SUFFIX macro defini-
+     tion. Each suffix description takes the form `._s_u_f_f_i_x:_t_I'
+     where _t is a character indicating the contents of the file
+     (s = source file, o = object file, h = header file, x = exe-
+     cutable file) and _I is an optional character indicating the
+     include syntax for included files (C = C syntax, F = For-
+     tran, Efl, and Ratfor syntax, P = Pascal syntax). The fol-
+     lowing table describes the default configuration for _m_k_m_f:
+
+                    .c:sC     C
+                    .e:sF     Efl
+                    .F:sF     Fortran
+                    .f:sF     Fortran
+                    .h:h      Include files
+                    .i:h      Pascal include files
+                    .l:sC     Lex or Lisp
+                    .o:o      Object files
+                    .p:sP     Pascal
+                    .r:sF     Ratfor
+                    .s:s      Assembler
+                    .y:sC     Yacc
+
+     For example, to change the object file suffix to .obj, unde-
+     fine the Pascal include file suffix, and prevent Fortran
+     files from being scanned for included files, the SUFFIX
+     macro definition might look like:
+
+          "SUFFIX = .obj:o  .i:  .f:s"
+
+     Include Statement Syntax
+
+     The syntax of include statements for C, Fortran, and Pascal
+     source code are of the form
+
+     C:   #include "_f_i_l_e_n_a_m_e"
+          where # must be the first character in the line.
+
+     Fortran:
+          include '_f_i_l_e_n_a_m_e'
+          INCLUDE '_f_i_l_e_n_a_m_e'
+          where the include statement starts in column 7.
+
+     Pascal:
+          #include "_f_i_l_e_n_a_m_e"
+          #INCLUDE "_f_i_l_e_n_a_m_e"
+          where # must be the first character in the line.
+
+     User-Defined Templates
+
+
+
+
+
+Printed 1/11/88           28 June 1985                          4
+
+
+
+
+
+
+MKMF(1)             UNIX Programmer's Manual              MKMF(1)
+
+
+
+     If _m_k_m_f can not find a makefile within the current direc-
+     tory, it normally uses one of the standard makefile tem-
+     plates, `p.Makefile' or `l.Makefile', in /usr/new/lib unless
+     the user has alternative `p.Makefile' or `l.Makefile' tem-
+     plate files in a directory $PROJECT/lib where $PROJECT is
+     the absolute pathname of the directory assigned to the PRO-
+     JECT environment variable.
+
+OPTIONS
+     -a   When searching a directory for source and include
+          files, also consider files which have names beginning
+          with periods.  By default, _m_k_m_f ignores file names
+          which have leading "dots," such as those of backup
+          files created by some editors.
+
+     -c   Suppress `creating _m_a_k_e_f_i_l_e from ...' message.
+
+     -d   Turn off scanning of source code for `include' files.
+          Old dependency information is left untouched in the
+          makefile.
+
+     -f _m_a_k_e_f_i_l_e
+          Specify an alternative _m_a_k_e_f_i_l_e file name. The default
+          file name is `Makefile'.
+
+     -i   Cause _m_k_m_f to prompt the user for the name of the pro-
+          gram or library, and the directory where it is to be
+          installed. If a carriage return is typed in response to
+          each of these queries, _m_k_m_f will assume that the
+          default program name is _a._o_u_t or the default library
+          name is _l_i_b._a, and the destination directory is the
+          current directory.
+
+     -I_i_n_c_l_u_d_e
+          Specify an additional directory to search for include
+          files.  This option is in the same syntax as cc
+          expects, namely, no space between the -I and the
+          _i_n_c_l_u_d_e _d_i_r.
+
+     -l   Force the makefile to be a library makefile.
+
+     -F _t_e_m_p_l_a_t_e
+          Specify an alternative makefile _t_e_m_p_l_a_t_e file name. The
+          default program makefile template is `p.Makefile' and
+          the default library makefile template is `l.Makefile'.
+          _M_k_m_f normally looks for _t_e_m_p_l_a_t_e in /usr/new/lib or
+          $PROJECT/lib. However, _t_e_m_p_l_a_t_e can be specified as an
+          absolute pathname.
+
+FILES
+     /usr/new/lib/p.Makefile     Standard program makefile template.
+     /usr/new/lib/l.Makefile     Standard library makefile template.
+
+
+
+Printed 1/11/88           28 June 1985                          5
+
+
+
+
+
+
+MKMF(1)             UNIX Programmer's Manual              MKMF(1)
+
+
+
+     $PROJECT/lib/p.Makefile     User-defined program makefile template.
+     $PROJECT/lib/l.Makefile     User-defined library makefile template.
+
+SEE ALSO
+     ar(1), ctags(1), ex(1), ld(1), ls(1), make(1)
+
+     Feldman, S.I., "Make - A Program for Maintaining Computer
+     Programs"
+
+     Walden, K., "Automatic Generation of Make Dependencies",
+     _S_o_f_t_w_a_r_e-_P_r_a_c_t_i_c_e _a_n_d _E_x_p_e_r_i_e_n_c_e, vol. 14, no. 6, pp. 575-
+     585, June 1984.
+
+DIAGNOSTICS
+     Exit status 0 is normal. Exit status 1 indicates an error.
+
+AUTHOR
+     Peter J. Nicklin
+
+BUGS
+     The name of the makefile is included as a macro definition
+     within the makefile and must be changed if the makefile is
+     renamed.
+
+     Since executable files are dependent on libraries, standard
+     library abbreviations must be expanded to full pathnames
+     within the LIBS macro definition in the makefile.
+
+     Generated dependency information appears after a line in the
+     makefile beginning with `###'. This line must not be
+     removed, nor must any other information be inserted in the
+     makefile below this line.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Printed 1/11/88           28 June 1985                          6
+
+
+
