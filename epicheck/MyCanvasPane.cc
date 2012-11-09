@@ -1,5 +1,5 @@
 /*
- *  $Id: MyCanvasPane.cc,v 1.5 2009-11-16 06:58:57 ueshiba Exp $
+ *  $Id$
  */
 #include "epicheck.h"
 

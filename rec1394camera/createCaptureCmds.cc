@@ -1,5 +1,5 @@
 /*
- *  $Id: createCaptureCmds.cc,v 1.1 2010-12-21 00:13:26 ueshiba Exp $
+ *  $Id$
  */
 #include "rec1394camera.h"
 

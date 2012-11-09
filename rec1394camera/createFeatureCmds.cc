@@ -1,5 +1,5 @@
 /*
- *  $Id: createFeatureCmds.cc,v 1.2 2012-06-20 07:47:43 ueshiba Exp $
+ *  $Id$
  */
 #include "rec1394camera.h"
 

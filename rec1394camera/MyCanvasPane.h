@@ -1,5 +1,5 @@
 /*
- *  $Id: MyCanvasPane.h,v 1.1 2010-12-21 00:13:25 ueshiba Exp $
+ *  $Id$
  */
 #include "TU/v/CanvasPane.h"
 #if defined(USE_SHMDC)

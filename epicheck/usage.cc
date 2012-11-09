@@ -1,5 +1,5 @@
 /*
- *  $Id: usage.cc,v 1.2 2009-08-20 00:55:09 ueshiba Exp $
+ *  $Id$
  */
 #include <iostream>
 

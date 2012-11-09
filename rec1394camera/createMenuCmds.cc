@@ -1,5 +1,5 @@
 /*
- *  $Id: createMenuCmds.cc,v 1.2 2011-01-11 23:25:35 ueshiba Exp $
+ *  $Id$
  */
 #include "rec1394camera.h"
 

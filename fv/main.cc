@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.8 2012-08-30 01:14:11 ueshiba Exp $
+ *  $Id$
  */
 #include <cstdlib>
 #include "TU/v/App.h"

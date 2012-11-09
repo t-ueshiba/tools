@@ -1,5 +1,5 @@
 /*
- *  $Id: epicheck.h,v 1.3 2009-08-20 00:55:09 ueshiba Exp $
+ *  $Id$
  */
 #include "TU/v/CmdWindow.h"
 #include "TU/v/CmdPane.h"

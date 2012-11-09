@@ -1,5 +1,5 @@
 /*
- *  $Id: MyModalDialog.h,v 1.1 2010-12-21 00:13:25 ueshiba Exp $
+ *  $Id$
  */
 #include "TU/Ieee1394++.h"
 #include "TU/v/ModalDialog.h"

@@ -1,5 +1,5 @@
 /*
- *  $Id: MyCmdWindow.cc,v 1.4 2010-05-14 02:23:00 ueshiba Exp $
+ *  $Id$
  */
 #include <cstdio>
 #include "TU/v/App.h"

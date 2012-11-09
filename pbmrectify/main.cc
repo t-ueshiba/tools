@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.9 2012-08-30 01:14:18 ueshiba Exp $
+ *  $Id$
  */
 #include <unistd.h>
 #ifdef WIN32

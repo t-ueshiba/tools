@@ -1,5 +1,5 @@
 /*
- *  $Id: main.cc,v 1.4 2009-08-20 00:55:09 ueshiba Exp $
+ *  $Id$
  */
 #include <fstream>
 #include <exception>

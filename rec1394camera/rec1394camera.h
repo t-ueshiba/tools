@@ -1,5 +1,5 @@
 /*
- *  $Id: rec1394camera.h,v 1.2 2011-01-11 23:25:36 ueshiba Exp $
+ *  $Id$
  */
 #include "TU/v/TUv++.h"
 #include "TU/Ieee1394++.h"
