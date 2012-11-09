@@ -8,7 +8,8 @@ SUBDIR	= embedCalib		\
 	  fv			\
 	  rec1394camera		\
 	  pbmdecode		\
-	  flowV4L2camera
+	  flowV4L2camera	\
+	  hubctrl
 
 TARGETS	= all install clean depend
 
