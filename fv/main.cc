@@ -8,6 +8,8 @@
 #include "TU/v/CanvasPane.h"
 #include "TU/v/XvDC.h"
 #include "TU/v/Timer.h"
+#include "TU/v/FileSelection.h"
+#include <fstream>
 
 #ifndef EOF
 #  define EOF	(-1)
@@ -72,12 +74,24 @@ namespace v
 /************************************************************************
 *  static data								*
 ************************************************************************/
-enum	{c_Slider};
-
+enum		{c_ContinuousShot, c_Slider};
 static int	range[] = {1, 255, 1};
+
+static MenuDef fileMenu[] =
+{
+    {"Save...",	M_Save,	false, noSub},
+    {"-",	M_Line,	false, noSub},
+    {"Quit",	M_Exit,	false, noSub},
+    EndOfMenu
+};
+
 static CmdDef	Cmds[] =
 {
-    {C_Slider, c_Slider, 256, "Saturation:", range, CA_None, 0, 0, 1, 1, 0},
+    {C_MenuButton, M_File,   0, "File",   fileMenu,   CA_None,
+     0, 0, 1, 1, 0},
+    {C_ToggleButton, c_ContinuousShot, 1, "Continuous shot", noProp, CA_None,
+     1, 0, 1, 1, 0},
+    {C_Slider, c_Slider, 256, "Saturation:", range, CA_None, 2, 0, 1, 1, 0},
     EndOfCmds
 };
 
@@ -91,6 +105,7 @@ class MyCanvasPaneBase : public CanvasPane
 		     u_int mul, u_int div)				;
 
     virtual std::istream&	restoreData(std::istream& in)		= 0;
+    virtual std::ostream&	saveImage(std::ostream& out)	const	= 0;
 };
 
 MyCanvasPaneBase::MyCanvasPaneBase(Window& parentWin,
@@ -112,6 +127,7 @@ class MyCanvasPane : public MyCanvasPaneBase
 		 u_int mul, u_int div)					;
     
     virtual std::istream&	restoreData(std::istream& in)		;
+    virtual std::ostream&	saveImage(std::ostream& out)	const	;
     virtual void		repaintUnderlay()			;
     
   private:
@@ -134,14 +150,23 @@ MyCanvasPane<T>::MyCanvasPane(Window& parentWin, GenericImage& image,
     :MyCanvasPaneBase(parentWin, image, mul, div),
      _dc(*this, image.width(), image.height(), mul, div),
      _typeInfo(image.typeInfo()),
-     _image((T*)(u_char*)image, image.width(), image.height())
+     _image((T*)image.ptr(), image.width(), image.height())
 {
+    _image.P  = image.P;
+    _image.d1 = image.d1;
+    _image.d2 = image.d2;
 }
 
 template <class T> std::istream&
 MyCanvasPane<T>::restoreData(std::istream& in)
 {
     return _image.restoreData(in, _typeInfo);
+}
+        
+template <class T> std::ostream&
+MyCanvasPane<T>::saveImage(std::ostream& out) const
+{
+    return _image.save(out);
 }
         
 template <class T> void
@@ -165,6 +190,7 @@ class MyCmdWindow : public CmdWindow
     void		tick()						;
 
   private:
+    const bool			_movie;
     CmdPane			_cmd;
     Array<MyCanvasPaneBase*>	_canvases;
     Timer			_timer;
@@ -174,6 +200,7 @@ MyCmdWindow::MyCmdWindow(App& parentApp, const char* name,
 			 Array<GenericImage>& images, bool movie,
 			 u_int ncol, u_int mul, u_int div, u_int saturation)
     :CmdWindow(parentApp, name, 0, Colormap::RGBColor, 16, 0, 0),
+     _movie(movie),
      _cmd(*this, Cmds),
      _canvases(images.dim()),
      _timer(*this, 0)
@@ -244,8 +271,13 @@ MyCmdWindow::MyCmdWindow(App& parentApp, const char* name,
     colormap().setSaturation(saturation);
     colormap().setSaturationF(saturation);
 
-    if (movie)
-	_timer.start(5);
+    if (_movie)
+    {
+	if (_cmd.getValue(c_ContinuousShot))
+	    _timer.start(5);
+    }
+    else
+	_cmd.setValue(c_ContinuousShot, false);
 }
 
 MyCmdWindow::~MyCmdWindow()
@@ -265,15 +297,41 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 	app().exit();
 	break;
 
+      case M_Save:
+      {
+	if (_cmd.getValue(c_ContinuousShot))
+	    _timer.stop();
+
+	FileSelection	fileSelection(*this);
+	ofstream	out;
+	if (fileSelection.open(out))
+	    for (u_int i = 0; i < _canvases.dim(); ++i)
+		_canvases[i]->saveImage(out);
+
+	if (_cmd.getValue(c_ContinuousShot))
+	    _timer.start(5);
+      }
+	break;
+
       case c_Slider:
 	colormap().setSaturation(val);
 	colormap().setSaturationF(val.f());
 	for (u_int i = 0; i < _canvases.dim(); ++i)
 	    _canvases[i]->repaintUnderlay();
 	break;
+
+      case c_ContinuousShot:
+	if (_movie)
+	    if (val)
+		_timer.start(5);
+	    else
+		_timer.stop();
+	else
+	    _cmd.setValue(c_ContinuousShot, false);
+	break;
     }
 }
- 
+
 void
 MyCmdWindow::tick()
 {
