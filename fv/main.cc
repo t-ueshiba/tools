@@ -10,6 +10,7 @@
 #include "TU/v/Timer.h"
 #include "TU/v/FileSelection.h"
 #include <fstream>
+#include <sstream>
 
 #ifndef EOF
 #  define EOF	(-1)
@@ -74,7 +75,7 @@ namespace v
 /************************************************************************
 *  static data								*
 ************************************************************************/
-enum		{c_ContinuousShot, c_Slider};
+enum		{c_ContinuousShot, c_Slider, c_Cursor};
 static int	range[] = {1, 255, 1};
 
 static MenuDef fileMenu[] =
@@ -87,11 +88,14 @@ static MenuDef fileMenu[] =
 
 static CmdDef	Cmds[] =
 {
-    {C_MenuButton, M_File,   0, "File",   fileMenu,   CA_None,
+    {C_MenuButton,   M_File,	       0, "File",	   fileMenu, CA_None,
      0, 0, 1, 1, 0},
     {C_ToggleButton, c_ContinuousShot, 1, "Continuous shot", noProp, CA_None,
      1, 0, 1, 1, 0},
-    {C_Slider, c_Slider, 256, "Saturation:", range, CA_None, 2, 0, 1, 1, 0},
+    {C_Label,	     c_Cursor,	       0, "         ",	     noProp, CA_None,
+     2, 0, 1, 1, 0},
+    {C_Slider,	     c_Slider,	     256, "Saturation:",      range, CA_None,
+     3, 0, 1, 1, 0},
     EndOfCmds
 };
 
@@ -129,6 +133,7 @@ class MyCanvasPane : public MyCanvasPaneBase
     virtual std::istream&	restoreData(std::istream& in)		;
     virtual std::ostream&	saveImage(std::ostream& out)	const	;
     virtual void		repaintUnderlay()			;
+    virtual void		callback(CmdId id, CmdVal val)		;
     
   private:
 #ifdef USE_XVDC
@@ -175,6 +180,21 @@ MyCanvasPane<T>::repaintUnderlay()
     _dc << _image;
 }
 
+template <class T> void
+MyCanvasPane<T>::callback(CmdId id, CmdVal val)
+{
+    switch (id)
+    {
+      case Id_MouseButton1Press:
+      case Id_MouseButton1Drag:
+      case Id_MouseButton1Release:
+      case Id_MouseMove:
+	parent().callback(id,
+			  CmdVal(_dc.dev2logU(val.u), _dc.dev2logV(val.v)));
+	break;
+    }
+}
+    
 /************************************************************************
 *  class MyCmdWindow							*
 ************************************************************************/
@@ -329,6 +349,14 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 	else
 	    _cmd.setValue(c_ContinuousShot, false);
 	break;
+
+      case Id_MouseMove:
+      {
+	ostringstream	s;
+	s << '(' << val.u << ',' << val.v << ')';
+	_cmd.setString(c_Cursor, s.str().c_str());
+      }
+        break;
     }
 }
 
