@@ -191,8 +191,10 @@ MyCanvasPane<T>::callback(CmdId id, CmdVal val)
       case Id_MouseMove:
 	parent().callback(id,
 			  CmdVal(_dc.dev2logU(val.u), _dc.dev2logV(val.v)));
-	break;
+	return;
     }
+
+    parent().callback(id, val);
 }
     
 /************************************************************************
