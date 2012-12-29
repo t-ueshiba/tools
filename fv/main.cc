@@ -155,7 +155,7 @@ MyCanvasPane<T>::MyCanvasPane(Window& parentWin, GenericImage& image,
     :MyCanvasPaneBase(parentWin, image, mul, div),
      _dc(*this, image.width(), image.height(), mul, div),
      _typeInfo(image.typeInfo()),
-     _image((T*)image.ptr(), image.width(), image.height())
+     _image((T*)image.data(), image.width(), image.height())
 {
     _image.P  = image.P;
     _image.d1 = image.d1;
