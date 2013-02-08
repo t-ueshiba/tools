@@ -4,14 +4,40 @@
 #include <signal.h>
 #include <sys/time.h>
 #include <cstdlib>
-#include <algorithm>
-#include <iterator>
-#include <stdexcept>
+#include <iomanip>
 #include <boost/foreach.hpp>
-#include "TU/V4L2++.h"
+#include "MyCmdWindow.h"
+#include "TU/io.h"
+
+#define DEFAULT_CAMERA_NAME	"V4L2Camera"
+#define DEFAULT_CONFIG_DIRS	".:/usr/local/etc/cameras"
+#define DEFAULT_CAMERA_DEVICE	"/dev/video0"
 
 namespace TU
 {
+/************************************************************************
+*  global variables and functions					*
+************************************************************************/
+bool	active = true;
+
+void
+countTime(int& nframes, timeval& start)
+{
+    using namespace	std;
+
+    if (nframes == 10)
+    {
+	timeval	end;
+	gettimeofday(&end, NULL);
+	double	interval = (end.tv_sec  - start.tv_sec) +
+	    (end.tv_usec - start.tv_usec) / 1.0e6;
+	cerr << nframes / interval << " frames/sec" << endl;
+	nframes = 0;
+    }
+    if (nframes++ == 0)
+	gettimeofday(&start, NULL);
+}
+
 /************************************************************************
 *  static functions							*
 ************************************************************************/
@@ -20,13 +46,24 @@ usage(const char* s)
 {
     using namespace	std;
 
-    cerr << "\nPut image stream from UVC cameras to stdout.\n"
+    cerr << "\nPut image stream from a UVC camera to stdout.\n"
 	 << endl;
-    cerr << " Usage: " << s << " [-d deviceName]\n"
+    cerr << " Usage: " << s << " [options]\n"
+	 << endl;
+    cerr << "  -c cameraName:    prefix of camera {conf|calib} file\n"
+	 << "                      (default: \""
+	 << DEFAULT_CAMERA_NAME
+	 << "\")\n"
+	 << "  -d deviceName:    device name of the camera\n"
+	 << "                      (default: \""
+	 << DEFAULT_CAMERA_DEVICE
+	 << "\")\n"
+	 << endl;
+    cerr << " Other options.\n"
+	 << "  -G:               GUI mode. (default: off)\n"
+	 << "  -h:               print this.\n"
 	 << endl;
 }
-
-static bool	active = true;
 
 static void
 handler(int sig)
@@ -37,50 +74,30 @@ handler(int sig)
     active = false;
 }
 
-template <class T> static void
-doJob(V4L2Camera& camera)
+static void
+run(V4L2Camera& camera)
 {
-    using namespace	std;
+    CaptureAndSave	captureAndSave(camera);
+    captureAndSave.saveHeader(std::cout);	// 画像数とそのヘッダを出力
 
-  // Set signal handler.
-    signal(SIGINT,  handler);
-    signal(SIGPIPE, handler);
+    camera.continuousShot();			// カメラ出力開始
 
-    Image<T>	image(camera.width(), camera.height());
-
-  // 1フレームあたりの画像数とそのフォーマットを出力．
-    cout << 'M' << 1 << endl;
-    image.saveHeader(cout);
-
-    camera.continuousShot();
-    
     int		nframes = 0;
     timeval	start;
     while (active)
     {
-	if (nframes == 10)
-	{
-	    timeval      end;
-	    gettimeofday(&end, NULL);
-	    double	interval = (end.tv_sec  - start.tv_sec) +
-				   (end.tv_usec - start.tv_usec) / 1.0e6;
-	    cerr << nframes / interval << " frames/sec" << endl;
-	    nframes = 0;
-	}
-	if (nframes++ == 0)
-	    gettimeofday(&start, NULL);
+	countTime(nframes, start);
 
-	camera.snap();				// 撮影
-	camera >> image;			// 画像領域への転送
-      //camera.captureDirectly(image);		// 画像領域への転送
-	if (!image.saveData(cout))		// stdoutへの出力
+	if (!captureAndSave(std::cout))
 	    active = false;
     }
+
+    camera.stopContinuousShot();		// カメラ出力停止
 }
 
 }
 /************************************************************************
-*  global functions							*
+*  main function							*
 ************************************************************************/
 int
 main(int argc, char* argv[])
@@ -88,24 +105,41 @@ main(int argc, char* argv[])
     using namespace	std;
     using namespace	TU;
     
-    const char*		dev = "/dev/video0";
+  // Parse command options.
+    v::App		vapp(argc, argv);
+    const char*		cameraName = DEFAULT_CAMERA_NAME;
+    const char*		dev	   = DEFAULT_CAMERA_DEVICE;
+    bool		gui	   = false;
     extern char*	optarg;
-    for (int c; (c = getopt(argc, argv, "d:h")) != -1; )
+    for (int c; (c = getopt(argc, argv, "d:Gh")) != -1; )
 	switch (c)
 	{
+	  case 'c':
+	    cameraName = optarg;
+	    break;
 	  case 'd':
 	    dev = optarg;
+	    break;
+	  case 'G':
+	    gui = true;
 	    break;
 	  case 'h':
 	    usage(argv[0]);
 	    return 1;
 	}
     
+  // Main job.
     try
     {
       // UVCカメラのオープン．
 	V4L2Camera	camera(dev);
-
+	ifstream	in;
+	string		baseName = openFile(in,
+					    string(cameraName),
+					    string(DEFAULT_CONFIG_DIRS),
+					    ".conf");
+	in >> camera;
+	
 	BOOST_FOREACH (V4L2Camera::PixelFormat pixelFormat,
 		       camera.availablePixelFormats())
 	    camera.put(cerr, pixelFormat);
@@ -113,41 +147,23 @@ main(int argc, char* argv[])
 		       camera.availableFeatures())
 	    camera.put(cerr, feature);
 
-      // 画像のキャプチャと出力．
-	switch (camera.pixelFormat())
-	{
-	  case V4L2Camera::GREY:
-	    doJob<u_char>(camera);
-	    break;
-	  case V4L2Camera::YUYV:
-	    doJob<YUYV422>(camera);
-	    break;
-	  case V4L2Camera::UYVY:
-	    doJob<YUV422>(camera);
-	    break;
-	  case V4L2Camera::RGB24:
-	    doJob<RGB>(camera);
-	    break;
-	  case V4L2Camera::BGR24:
-	    doJob<BGR>(camera);
-	    break;
-	  case V4L2Camera::RGB32:
-	    doJob<RGBA>(camera);
-	    break;
-	  case V4L2Camera::BGR32:
-	    doJob<ABGR>(camera);
-	    break;
-	  default:
-	    throw runtime_error("Unsupported pixel format!!");
-	    break;
-	}
+      // signal handlerを登録する．
+	signal(SIGINT,  handler);
+	signal(SIGPIPE, handler);
 
-	cerr << camera;
+	if (gui)
+	{
+	    v::MyCmdWindow	myWin(vapp, baseName, camera);
+	    vapp.run();
+	}
+	else
+	    run(camera);
     }
     catch (exception& err)
     {
 	cerr << err.what() << endl;
+	return 1;
     }
-    
+
     return 0;
 }
