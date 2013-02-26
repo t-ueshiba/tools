@@ -120,49 +120,62 @@ createFeatureCmds(const Ieee1394Camera& camera)
 		    ++ncmds;
 		}
 		
-	      // Create sliders for setting values.
-		u_int	min, max;
-		camera.getMinMax(feature[i].feature, min, max);
-		feature[i].prop[0] = min;
-		feature[i].prop[1] = max - min;
-		feature[i].prop[2] = 1;
-		featureCmds[ncmds].type	      = C_Slider;
 		featureCmds[ncmds].id	      = c_Brightness+i;
 		featureCmds[ncmds].title      = feature[i].name;
-		featureCmds[ncmds].prop       = feature[i].prop;
-		featureCmds[ncmds].attrs      = CA_None;
 		featureCmds[ncmds].gridx      = 0;
 		featureCmds[ncmds].gridy      = y;
 		featureCmds[ncmds].gridWidth  = 1;
 		featureCmds[ncmds].gridHeight = 1;
 		featureCmds[ncmds].size	      = 0;
-		if (feature[i].feature == Ieee1394Camera::WHITE_BALANCE)
+
+		if (inq & Ieee1394Camera::ReadOut)
 		{
-		    ++ncmds;
-		    ++i;
-		    ++y;
+		  // Create sliders for setting values.
+		    featureCmds[ncmds].type  = C_Slider;
+		    featureCmds[ncmds].prop  = feature[i].prop;
+		    featureCmds[ncmds].attrs = CA_None;
+
+		    u_int	min, max;
+		    camera.getMinMax(feature[i].feature, min, max);
 		    feature[i].prop[0] = min;
 		    feature[i].prop[1] = max - min;
 		    feature[i].prop[2] = 1;
-		    featureCmds[ncmds].type	  = C_Slider;
-		    featureCmds[ncmds].id	  = c_Brightness+i;
-		    featureCmds[ncmds].title      = feature[i].name;
-		    featureCmds[ncmds].prop       = feature[i].prop;
-		    featureCmds[ncmds].attrs      = CA_None;
-		    featureCmds[ncmds].gridx      = 0;
-		    featureCmds[ncmds].gridy      = y;
-		    featureCmds[ncmds].gridWidth  = 1;
-		    featureCmds[ncmds].gridHeight = 1;
-		    featureCmds[ncmds].size	  = 0;
-		    u_int	ub, vr;
-		    camera.getWhiteBalance(ub, vr);
-		    featureCmds[ncmds-1].val = ub;
-		    featureCmds[ncmds  ].val = vr;
+
+		    if (feature[i].feature == Ieee1394Camera::WHITE_BALANCE)
+		    {
+			++ncmds;
+			++i;
+			++y;
+			feature[i].prop[0]	      = min;
+			feature[i].prop[1]	      = max - min;
+			feature[i].prop[2]	      = 1;
+			featureCmds[ncmds].type	      = C_Slider;
+			featureCmds[ncmds].id	      = c_Brightness+i;
+			featureCmds[ncmds].title      = feature[i].name;
+			featureCmds[ncmds].prop	      = feature[i].prop;
+			featureCmds[ncmds].attrs      = CA_None;
+			featureCmds[ncmds].gridx      = 0;
+			featureCmds[ncmds].gridy      = y;
+			featureCmds[ncmds].gridWidth  = 1;
+			featureCmds[ncmds].gridHeight = 1;
+			featureCmds[ncmds].size	      = 0;
+			u_int	ub, vr;
+			camera.getWhiteBalance(ub, vr);
+			featureCmds[ncmds-1].val      = ub;
+			featureCmds[ncmds  ].val      = vr;
+		    }
+		    else
+			featureCmds[ncmds].val
+			    = camera.getValue(feature[i].feature);
 		}
 		else
-		    featureCmds[ncmds].val
-			= camera.getValue(feature[i].feature);
-
+		{
+		  // Create a label for setting on/off and manual/auto modes.
+		    featureCmds[ncmds].type  = C_Label;
+		    featureCmds[ncmds].prop  = noProp;
+		    featureCmds[ncmds].attrs = CA_NoBorder;
+		}
+		
 		++ncmds;
 	    }
 
