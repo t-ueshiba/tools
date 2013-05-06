@@ -131,6 +131,36 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 	  case c_Tilt_Absolute:
 	  case c_Tilt_Relative:
 	  case c_Tilt_Reset:
+	  case c_Cid_Private0:
+	  case c_Cid_Private1:
+	  case c_Cid_Private2:
+	  case c_Cid_Private3:
+	  case c_Cid_Private4:
+	  case c_Cid_Private5:
+	  case c_Cid_Private6:
+	  case c_Cid_Private7:
+	  case c_Cid_Private8:
+	  case c_Cid_Private9:
+	  case c_Cid_Private10:
+	  case c_Cid_Private11:
+	  case c_Cid_Private12:
+	  case c_Cid_Private13:
+	  case c_Cid_Private14:
+	  case c_Cid_Private15:
+	  case c_Cid_Private16:
+	  case c_Cid_Private17:
+	  case c_Cid_Private18:
+	  case c_Cid_Private19:
+	  case c_Cid_Private20:
+	  case c_Cid_Private21:
+	  case c_Cid_Private22:
+	  case c_Cid_Private23:
+	  case c_Cid_Private24:
+	  case c_Cid_Private25:
+	  case c_Cid_Private26:
+	  case c_Cid_Private27:
+	  case c_Cid_Private28:
+	  case c_Cid_Private29:
 	    _camera.setValue(V4L2Camera::uintToFeature(id), val);
 	    break;
 
