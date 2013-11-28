@@ -11,7 +11,6 @@
 
 #define DEFAULT_CAMERA_NAME	"V4L2Camera"
 #define DEFAULT_CONFIG_DIRS	".:/usr/local/etc/cameras"
-#define DEFAULT_CAMERA_DEVICE	"/dev/video0"
 
 namespace TU
 {
@@ -53,10 +52,6 @@ usage(const char* s)
     cerr << "  -c cameraName:    prefix of camera {conf|calib} file\n"
 	 << "                      (default: \""
 	 << DEFAULT_CAMERA_NAME
-	 << "\")\n"
-	 << "  -d deviceName:    device name of the camera\n"
-	 << "                      (default: \""
-	 << DEFAULT_CAMERA_DEVICE
 	 << "\")\n"
 	 << endl;
     cerr << " Other options.\n"
@@ -108,7 +103,6 @@ main(int argc, char* argv[])
   // Parse command options.
     v::App		vapp(argc, argv);
     const char*		cameraName = DEFAULT_CAMERA_NAME;
-    const char*		dev	   = DEFAULT_CAMERA_DEVICE;
     bool		gui	   = false;
     extern char*	optarg;
     for (int c; (c = getopt(argc, argv, "d:Gh")) != -1; )
@@ -116,9 +110,6 @@ main(int argc, char* argv[])
 	{
 	  case 'c':
 	    cameraName = optarg;
-	    break;
-	  case 'd':
-	    dev = optarg;
 	    break;
 	  case 'G':
 	    gui = true;
@@ -132,12 +123,14 @@ main(int argc, char* argv[])
     try
     {
       // UVCカメラのオープン．
-	V4L2Camera	camera(dev);
 	ifstream	in;
 	string		baseName = openFile(in,
 					    string(cameraName),
 					    string(DEFAULT_CONFIG_DIRS),
 					    ".conf");
+	string		dev;
+	in >> dev;
+	V4L2Camera	camera(dev.c_str());
 	in >> camera;
 	
 	BOOST_FOREACH (V4L2Camera::PixelFormat pixelFormat,
@@ -153,7 +146,7 @@ main(int argc, char* argv[])
 
 	if (gui)
 	{
-	    v::MyCmdWindow	myWin(vapp, baseName, camera);
+	    v::MyCmdWindow	myWin(vapp, baseName, dev, camera);
 	    vapp.run();
 	}
 	else

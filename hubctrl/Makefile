@@ -14,8 +14,9 @@ ifeq ($(OSTYPE), darwin)
 #  LIBS	       += -framework IOKit -framework CoreFoundation -framework CoreServices
 endif
 
+CXX		= g++
 CPPFLAGS	=
-CFLAGS		= -g
+CFLAGS		= -g -O
 NVCCFLAGS	= -g
 ifeq ($(CXX), icpc)
   CFLAGS	= -O3

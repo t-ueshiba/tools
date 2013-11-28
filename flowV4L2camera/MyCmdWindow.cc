@@ -22,11 +22,12 @@ CmdDef*		createFeatureCmds(const V4L2Camera& camera)		;
 /************************************************************************
 *  class MyCmdWindow							*
 ************************************************************************/
-MyCmdWindow::MyCmdWindow(App& parentApp,
-			 const std::string& baseName, V4L2Camera& camera)
+MyCmdWindow::MyCmdWindow(App& parentApp, const std::string& baseName,
+			 const std::string& dev, V4L2Camera& camera)
     :CmdWindow(parentApp, "V4L2 camera controller",
 	       0, Colormap::RGBColor, 16, 0, 0),
      _baseName(baseName),
+     _dev(dev),
      _camera(camera),
      _captureAndSave(camera),
      _menuCmd(*this, createMenuCmds(_camera)),
@@ -63,7 +64,7 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 
 	    ofstream	out((_baseName + ".conf").c_str());
 	    if (out)
-		out << _camera << endl;
+		out << _dev.c_str() << endl << _camera << endl;
 
 	    if (_menuCmd.getValue(c_ContinuousShot))
 		continuousShot();

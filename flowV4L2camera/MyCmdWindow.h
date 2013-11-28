@@ -18,8 +18,8 @@ namespace v
 class MyCmdWindow : public CmdWindow
 {
   public:
-    MyCmdWindow(App& parentApp,
-		const std::string& baseName, V4L2Camera& camera)	;
+    MyCmdWindow(App& parentApp, const std::string& baseName,
+		const std::string& dev, V4L2Camera& camera)		;
 
     virtual void	callback(CmdId, CmdVal)				;
     virtual void	tick()						;
@@ -30,6 +30,7 @@ class MyCmdWindow : public CmdWindow
 
   private:
     const std::string&	_baseName;
+    const std::string&	_dev;
     V4L2Camera&		_camera;
     CaptureAndSave	_captureAndSave;
     CmdPane		_menuCmd;
