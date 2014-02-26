@@ -39,6 +39,7 @@ EXTHDRS		= /usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/Vector++.h \
 		/usr/local/include/TU/functional.h \
 		/usr/local/include/TU/iterator.h \
+		/usr/local/include/TU/mmInstructions.h \
 		/usr/local/include/TU/types.h
 HDRS		=
 SRCS		= main.cc
@@ -50,5 +51,5 @@ include $(PROJECT)/lib/p.mk
 main.o: /usr/local/include/TU/Image++.h /usr/local/include/TU/Geometry++.h \
 	/usr/local/include/TU/iterator.h /usr/local/include/TU/functional.h \
 	/usr/local/include/TU/Vector++.h /usr/local/include/TU/Array++.h \
-	/usr/local/include/TU/types.h /usr/local/include/TU/Minimize.h \
-	/usr/local/include/TU/Camera++.h
+	/usr/local/include/TU/types.h /usr/local/include/TU/mmInstructions.h \
+	/usr/local/include/TU/Minimize.h /usr/local/include/TU/Camera++.h
