@@ -15,7 +15,7 @@ ifeq ($(OSTYPE), darwin)
 #  LIBS	       += -framework IOKit -framework CoreFoundation -framework CoreServices
 endif
 
-CPPFLAGS	= -DHAVE_LIBTUTOOLS__
+CPPFLAGS	= -DHAVE_LIBTUTOOLS__ -DNDEBUG
 CFLAGS		= -g
 NVCCFLAGS	= -g
 ifeq ($(CXX), icpc)

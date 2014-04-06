@@ -63,8 +63,8 @@ MyCmdWindow::MyCmdWindow(App&				parentApp,
 	SVDecomposition<double>	svd(P0);
 	Vector<double>		c = svd.Ut()[3];
 	Matrix<double>		P0inv = svd.Ut()[0]%svd.Vt()[0]/svd[0]
-					      + svd.Ut()[1]%svd.Vt()[1]/svd[1]
-					      + svd.Ut()[2]%svd.Vt()[2]/svd[2];
+				      + svd.Ut()[1]%svd.Vt()[1]/svd[1]
+				      + svd.Ut()[2]%svd.Vt()[2]/svd[2];
 	Array<Matrix33d>	F(nviews());
 	for (int j = 0; j < nviews(); ++j)
 	{
