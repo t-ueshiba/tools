@@ -5,7 +5,7 @@
 #  User customizable macros	#
 #################################
 DEST		= $(PREFIX)/bin
-INCDIRS		= -I../../stereo/corrStereo -I$(PREFIX)/include
+INCDIRS		= -I. -I$(PREFIX)/include
 
 PROGRAM		= $(shell basename $(PWD))
 LIBS		= -lTUTools++
@@ -31,17 +31,18 @@ LINKER		= $(CXX)
 #########################
 .SUFFIXES:	.cu
 SUFFIX		= .cc:sC .cu:sC .cpp:sC
-EXTHDRS		= ../../stereo/corrStereo/Rectify.h \
-		/usr/local/include/TU/Array++.h \
+EXTHDRS		= /usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/Camera++.h \
 		/usr/local/include/TU/Geometry++.h \
 		/usr/local/include/TU/Image++.h \
 		/usr/local/include/TU/Minimize.h \
+		/usr/local/include/TU/Rectify.h \
 		/usr/local/include/TU/Vector++.h \
 		/usr/local/include/TU/Warp.h \
 		/usr/local/include/TU/functional.h \
 		/usr/local/include/TU/iterator.h \
 		/usr/local/include/TU/mmInstructions.h \
+		/usr/local/include/TU/tuple.h \
 		/usr/local/include/TU/types.h
 HDRS		=
 SRCS		= main.cc
@@ -50,10 +51,10 @@ OBJS		= main.o
 include $(PROJECT)/lib/p.mk
 
 ###
-main.o: ../../stereo/corrStereo/Rectify.h /usr/local/include/TU/Warp.h \
+main.o: /usr/local/include/TU/Rectify.h /usr/local/include/TU/Warp.h \
 	/usr/local/include/TU/Image++.h /usr/local/include/TU/types.h \
 	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/Vector++.h \
 	/usr/local/include/TU/Array++.h /usr/local/include/TU/iterator.h \
 	/usr/local/include/TU/functional.h \
-	/usr/local/include/TU/mmInstructions.h \
+	/usr/local/include/TU/mmInstructions.h /usr/local/include/TU/tuple.h \
 	/usr/local/include/TU/Minimize.h /usr/local/include/TU/Camera++.h
