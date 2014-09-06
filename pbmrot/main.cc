@@ -6,7 +6,8 @@
 #  include <io.h>
 #  include <fcntl.h>
 #endif
-#include "TU/Rectify.h"
+#include "TU/Image++.h"
+#include "TU/Camera++.h"
 
 #ifndef EOF
 #  define EOF	(-1)
