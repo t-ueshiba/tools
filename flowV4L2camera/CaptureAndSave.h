@@ -2,7 +2,7 @@
  *  $Id$
  */
 #include <iostream>
-#include "TU/V4L2++.h"
+#include "TU/V4L2CameraArray.h"
 
 namespace TU
 {
@@ -15,7 +15,7 @@ class CaptureAndSave
     class KernelBase
     {
       public:
-	virtual std::ostream&	saveHeader(std::ostream& out)	const	= 0;
+	virtual std::ostream&	saveHeaders(std::ostream& out)	const	= 0;
 	virtual std::ostream&	operator ()(std::ostream& out)		= 0;
     };
 
@@ -23,26 +23,26 @@ class CaptureAndSave
     class Kernel : public KernelBase
     {
       public:
-	Kernel(V4L2Camera& camera)					;
+	Kernel(const V4L2CameraArray& cameras)				;
 	~Kernel()							{}
 	
-	virtual std::ostream&	saveHeader(std::ostream& out)	const	;
+	virtual std::ostream&	saveHeaders(std::ostream& out)	const	;
 	virtual std::ostream&	operator ()(std::ostream& out)		;
 	
       private:
-	V4L2Camera&	_camera;
-	Image<T>	_image;
+	const V4L2CameraArray&	_cameras;
+	Array<Image<T> >	_images;
     };
     
   public:
-    CaptureAndSave(V4L2Camera& camera)
-	:_kernel(0)				{ setFormat(camera); }
+    CaptureAndSave(const V4L2CameraArray& cameras)
+	:_kernel(0)				{ setFormat(cameras); }
     ~CaptureAndSave()				{ delete _kernel; }
     
-    void		setFormat(V4L2Camera& camera)			;
-    std::ostream&	saveHeader(std::ostream& out) const
+    void		setFormat(const V4L2CameraArray& cameras)	;
+    std::ostream&	saveHeaders(std::ostream& out) const
 			{
-			    return _kernel->saveHeader(out);
+			    return _kernel->saveHeaders(out);
 			}
     std::ostream&	operator ()(std::ostream& out) const
 			{
@@ -54,16 +54,19 @@ class CaptureAndSave
 };
 
 template <class T>
-CaptureAndSave::Kernel<T>::Kernel(V4L2Camera& camera)
-    :_camera(camera), _image(_camera.width(), _camera.height())
+CaptureAndSave::Kernel<T>::Kernel(const V4L2CameraArray& cameras)
+    :_cameras(cameras), _images(_cameras.size())
 {
+    for (size_t i = 0; i < _images.size(); ++i)
+	_images[i].resize(_cameras[i]->height(), _cameras[i]->width());
 }
     
 template <class T> std::ostream&
-CaptureAndSave::Kernel<T>::saveHeader(std::ostream& out) const
+CaptureAndSave::Kernel<T>::saveHeaders(std::ostream& out) const
 {
-    out << 'M' << 1 << std::endl;
-    _image.saveHeader(out);
+    out << 'M' << _images.size() << std::endl;
+    for (size_t i = 0; i < _images.size(); ++i)
+	_images[i].saveHeader(out);
 
     return out;
 }
@@ -71,8 +74,12 @@ CaptureAndSave::Kernel<T>::saveHeader(std::ostream& out) const
 template <class T> std::ostream&
 CaptureAndSave::Kernel<T>::operator ()(std::ostream& out)
 {
-    _camera.snap() >> _image;
-    _image.saveData(out);
+    for (size_t i = 0; i < _cameras.size(); ++i)
+	_cameras[i]->snap();
+    for (size_t i = 0; i < _cameras.size(); ++i)
+	*_cameras[i] >> _images[i];
+    for (size_t i = 0; i < _cameras.size(); ++i)
+	_images[i].saveData(out);
 
     return out;
 }

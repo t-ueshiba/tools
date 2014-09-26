@@ -22,23 +22,20 @@ CmdDef*		createFeatureCmds(const V4L2Camera& camera)		;
 /************************************************************************
 *  class MyCmdWindow							*
 ************************************************************************/
-MyCmdWindow::MyCmdWindow(App& parentApp, const std::string& baseName,
-			 const std::string& dev, V4L2Camera& camera)
+MyCmdWindow::MyCmdWindow(App& parentApp, const V4L2CameraArray& cameras)
     :CmdWindow(parentApp, "V4L2 camera controller",
 	       0, Colormap::RGBColor, 16, 0, 0),
-     _baseName(baseName),
-     _dev(dev),
-     _camera(camera),
-     _captureAndSave(camera),
-     _menuCmd(*this, createMenuCmds(_camera)),
-     _featureCmd(*this, createFeatureCmds(_camera)),
+     _cameras(cameras),
+     _captureAndSave(cameras),
+     _menuCmd(*this, createMenuCmds(*_cameras[0])),
+     _featureCmd(*this, createFeatureCmds(*_cameras[0])),
      _timer(*this, 0)
 {
     _menuCmd.place(0, 0, 1, 1);
     _featureCmd.place(0, 1, 1, 1);
     show();
 
-    _captureAndSave.saveHeader(std::cout);	// 画像ヘッダを出力
+    _captureAndSave.saveHeaders(std::cout);	// 画像ヘッダを出力
 
     if (_menuCmd.getValue(c_ContinuousShot))	// ボタンの初期値がtrueならば...
 	continuousShot();			// カメラからの画像出力を開始
@@ -62,9 +59,13 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 	    if (_menuCmd.getValue(c_ContinuousShot))
 		stopContinuousShot();
 
-	    ofstream	out((_baseName + ".conf").c_str());
+	    ofstream	out(_cameras.configFile().c_str());
 	    if (out)
-		out << _dev.c_str() << endl << _camera << endl;
+	    {
+		out << _cameras.size() << endl;
+		for (size_t i = 0; i < _cameras.size(); ++i)
+		    out << _cameras[i]->dev() << ' ' << *_cameras[i];
+	    }
 
 	    if (_menuCmd.getValue(c_ContinuousShot))
 		continuousShot();
@@ -86,15 +87,17 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 	    V4L2Camera::PixelFormat
 		pixelFormat = V4L2Camera::uintToPixelFormat(id);
 	    const V4L2Camera::FrameSize&
-		frameSize = _camera.availableFrameSizes(pixelFormat).first[val];
-	    u_int	w = frameSize.width.max, h = frameSize.height.max;
+		frameSize = _cameras[0]->availableFrameSizes(pixelFormat)
+					.first[val];
+	    size_t	w = frameSize.width.max, h = frameSize.height.max;
 	    V4L2Camera::FrameRateRange
 			frameRates = frameSize.availableFrameRates();
 	    const V4L2Camera::FrameRate&	frameRate = *frameRates.first;
 	    u_int	fps_n = frameRate.fps_n.min,
 			fps_d = frameRate.fps_d.max;
-	    _camera.setFormat(pixelFormat, w, h, fps_n, fps_d);
-	    _captureAndSave.setFormat(_camera);
+	    for (size_t i = 0; i < _cameras.size(); ++i)
+		_cameras[i]->setFormat(pixelFormat, w, h, fps_n, fps_d);
+	    _captureAndSave.setFormat(_cameras);
 	  }
 	    break;
 
@@ -162,7 +165,8 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 	  case c_Cid_Private27:
 	  case c_Cid_Private28:
 	  case c_Cid_Private29:
-	    _camera.setValue(V4L2Camera::uintToFeature(id), val);
+	    for (size_t i = 0; i < _cameras.size(); ++i)
+		_cameras[i]->setValue(V4L2Camera::uintToFeature(id), val);
 	    break;
 
 	  case c_ContinuousShot:
@@ -195,7 +199,8 @@ MyCmdWindow::tick()
 void
 MyCmdWindow::continuousShot()
 {
-    _camera.continuousShot();
+    for (size_t i = 0; i < _cameras.size(); ++i)
+	_cameras[i]->continuousShot();
     _timer.start(1);
 }
 
@@ -203,7 +208,8 @@ void
 MyCmdWindow::stopContinuousShot()
 {
     _timer.stop();
-    _camera.stopContinuousShot();
+    for (size_t i = 0; i < _cameras.size(); ++i)
+	_cameras[i]->stopContinuousShot();
 }
 
 }

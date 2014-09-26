@@ -18,8 +18,7 @@ namespace v
 class MyCmdWindow : public CmdWindow
 {
   public:
-    MyCmdWindow(App& parentApp, const std::string& baseName,
-		const std::string& dev, V4L2Camera& camera)		;
+    MyCmdWindow(App& parentApp, const V4L2CameraArray& cameras)		;
 
     virtual void	callback(CmdId, CmdVal)				;
     virtual void	tick()						;
@@ -29,13 +28,11 @@ class MyCmdWindow : public CmdWindow
     void		stopContinuousShot()				;
 
   private:
-    const std::string&	_baseName;
-    const std::string&	_dev;
-    V4L2Camera&		_camera;
-    CaptureAndSave	_captureAndSave;
-    CmdPane		_menuCmd;
-    CmdPane		_featureCmd;
-    Timer		_timer;
+    const V4L2CameraArray&	_cameras;
+    CaptureAndSave		_captureAndSave;
+    CmdPane			_menuCmd;
+    CmdPane			_featureCmd;
+    Timer			_timer;
 };
  
 }

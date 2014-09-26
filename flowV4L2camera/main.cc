@@ -70,12 +70,13 @@ handler(int sig)
 }
 
 static void
-run(V4L2Camera& camera)
+run(const V4L2CameraArray& cameras)
 {
-    CaptureAndSave	captureAndSave(camera);
-    captureAndSave.saveHeader(std::cout);	// 画像数とそのヘッダを出力
+    CaptureAndSave	captureAndSave(cameras);
+    captureAndSave.saveHeaders(std::cout);	// 画像数とそのヘッダを出力
 
-    camera.continuousShot();			// カメラ出力開始
+    for (size_t i = 0; i < cameras.size(); ++i)
+	cameras[i]->continuousShot();		// カメラ出力開始
 
     int		nframes = 0;
     timeval	start;
@@ -87,7 +88,8 @@ run(V4L2Camera& camera)
 	    active = false;
     }
 
-    camera.stopContinuousShot();		// カメラ出力停止
+    for (size_t i = 0; i < cameras.size(); ++i)
+	cameras[i]->stopContinuousShot();	// カメラ出力停止
 }
 
 }
@@ -103,13 +105,21 @@ main(int argc, char* argv[])
   // Parse command options.
     v::App		vapp(argc, argv);
     const char*		cameraName = DEFAULT_CAMERA_NAME;
+    const char*		configDirs = 0;
+    int			ncameras   = -1;
     bool		gui	   = false;
     extern char*	optarg;
-    for (int c; (c = getopt(argc, argv, "d:Gh")) != -1; )
+    for (int c; (c = getopt(argc, argv, "c:d:n:Gh")) != -1; )
 	switch (c)
 	{
 	  case 'c':
 	    cameraName = optarg;
+	    break;
+	  case 'd':
+	    configDirs = optarg;
+	    break;
+	  case 'n':
+	    ncameras = atoi(optarg);
 	    break;
 	  case 'G':
 	    gui = true;
@@ -122,23 +132,21 @@ main(int argc, char* argv[])
   // Main job.
     try
     {
-      // UVCカメラのオープン．
-	ifstream	in;
-	string		baseName = openFile(in,
-					    string(cameraName),
-					    string(DEFAULT_CONFIG_DIRS),
-					    ".conf");
-	string		dev;
-	in >> dev;
-	V4L2Camera	camera(dev.c_str());
-	in >> camera;
-	
-	BOOST_FOREACH (V4L2Camera::PixelFormat pixelFormat,
-		       camera.availablePixelFormats())
-	    camera.put(cerr, pixelFormat);
-	BOOST_FOREACH (V4L2Camera::Feature feature,
-		       camera.availableFeatures())
-	    camera.put(cerr, feature);
+      // V4L2カメラをオープンする．
+	V4L2CameraArray	cameras(cameraName, configDirs, ncameras);
+
+	if (cameras.size() == 0)
+	    return 0;
+
+	BOOST_FOREACH (const V4L2Camera* camera, cameras)
+	{
+	    BOOST_FOREACH (V4L2Camera::PixelFormat pixelFormat,
+			   camera->availablePixelFormats())
+		camera->put(cerr, pixelFormat);
+	    BOOST_FOREACH (V4L2Camera::Feature feature,
+			   camera->availableFeatures())
+		camera->put(cerr, feature);
+	}
 
       // signal handlerを登録する．
 	signal(SIGINT,  handler);
@@ -146,11 +154,11 @@ main(int argc, char* argv[])
 
 	if (gui)
 	{
-	    v::MyCmdWindow	myWin(vapp, baseName, dev, camera);
+	    v::MyCmdWindow	myWin(vapp, cameras);
 	    vapp.run();
 	}
 	else
-	    run(camera);
+	    run(cameras);
     }
     catch (exception& err)
     {
