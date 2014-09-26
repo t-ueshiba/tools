@@ -9,9 +9,6 @@
 #include "MyCmdWindow.h"
 #include "TU/io.h"
 
-#define DEFAULT_CAMERA_NAME	"V4L2Camera"
-#define DEFAULT_CONFIG_DIRS	".:/usr/local/etc/cameras"
-
 namespace TU
 {
 /************************************************************************
@@ -45,16 +42,21 @@ usage(const char* s)
 {
     using namespace	std;
 
-    cerr << "\nPut image stream from a UVC camera to stdout.\n"
+    cerr << "\nPut image stream from Video for Linux v.2 cameras to stdout.\n"
 	 << endl;
     cerr << " Usage: " << s << " [options]\n"
 	 << endl;
     cerr << "  -c cameraName:    prefix of camera {conf|calib} file\n"
 	 << "                      (default: \""
-	 << DEFAULT_CAMERA_NAME
+	 << TU_V4L2_DEFAULT_CAMERA_NAME
 	 << "\")\n"
+	 << "  -d configDirs:    list of directories for camera {conf|calib} file\n"
+	 << "                      (default: \""
+	 << TU_V4L2_DEFAULT_CONFIG_DIRS
+	 << "\")"
 	 << endl;
     cerr << " Other options.\n"
+	 << "  -n ncameras:      # of cameras. (default: use all cameras)\n"
 	 << "  -G:               GUI mode. (default: off)\n"
 	 << "  -h:               print this.\n"
 	 << endl;
@@ -104,7 +106,7 @@ main(int argc, char* argv[])
     
   // Parse command options.
     v::App		vapp(argc, argv);
-    const char*		cameraName = DEFAULT_CAMERA_NAME;
+    const char*		cameraName = 0;
     const char*		configDirs = 0;
     int			ncameras   = -1;
     bool		gui	   = false;
@@ -146,6 +148,7 @@ main(int argc, char* argv[])
 	    BOOST_FOREACH (V4L2Camera::Feature feature,
 			   camera->availableFeatures())
 		camera->put(cerr, feature);
+	    cerr << endl;
 	}
 
       // signal handlerを登録する．
