@@ -2,7 +2,7 @@
  *  $Id: rfctrl.h,v 1.1.1.1 2012-09-15 08:03:09 ueshiba Exp $
  */
 #include "TU/v/TUv++.h"
-#include "TU/V4L2++.h"
+#include "TU/V4L2CameraArray.h"
 
 /************************************************************************
 *  global data and definitions						*
@@ -34,6 +34,8 @@ enum
   // Camera control.
     c_ContinuousShot,
 
+    c_CameraChoice,
+    
   // Camera features.
     c_Brightness		= V4L2Camera::BRIGHTNESS,
     c_Brightness_Auto		= V4L2Camera::BRIGHTNESS_AUTO,

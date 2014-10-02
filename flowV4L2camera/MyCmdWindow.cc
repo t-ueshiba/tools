@@ -17,8 +17,10 @@ void		countTime(int& nframes, timeval& start)			;
 namespace v
 {
 CmdDef*		createMenuCmds(const V4L2Camera& camera)		;
-CmdDef*		createFeatureCmds(const V4L2Camera& camera)		;
-    
+CmdDef*		createFeatureCmds(const V4L2CameraArray& cameras)	;
+void		refreshFeatureCmds(const V4L2Camera& camera,
+				   CmdPane& cmdPane)			;
+				   
 /************************************************************************
 *  class MyCmdWindow							*
 ************************************************************************/
@@ -28,7 +30,7 @@ MyCmdWindow::MyCmdWindow(App& parentApp, const V4L2CameraArray& cameras)
      _cameras(cameras),
      _captureAndSave(cameras),
      _menuCmd(*this, createMenuCmds(*_cameras[0])),
-     _featureCmd(*this, createFeatureCmds(*_cameras[0])),
+     _featureCmd(*this, createFeatureCmds(_cameras)),
      _timer(*this, 0)
 {
     _menuCmd.place(0, 0, 1, 1);
@@ -165,10 +167,23 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 	  case c_Cid_Private27:
 	  case c_Cid_Private28:
 	  case c_Cid_Private29:
-	    for (size_t i = 0; i < _cameras.size(); ++i)
-		_cameras[i]->setValue(V4L2Camera::uintToFeature(id), val);
+	  {
+	    const size_t	n = _featureCmd.getValue(c_CameraChoice);
+	    if (n < _cameras.size())  
+		_cameras[n]->setValue(V4L2Camera::uintToFeature(id), val);
+	    else
+		for (size_t i = 0; i < _cameras.size(); ++i)
+		    _cameras[i]->setValue(V4L2Camera::uintToFeature(id), val);
+	  }
 	    break;
 
+	  case c_CameraChoice:
+	  {
+	    const size_t	n = (val < _cameras.size() ? size_t(val) : 0);
+	    refreshFeatureCmds(*_cameras[n], _featureCmd);
+	  }
+	    break;
+	  
 	  case c_ContinuousShot:
 	    if (val)
 		continuousShot();
