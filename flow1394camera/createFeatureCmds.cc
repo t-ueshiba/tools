@@ -27,6 +27,7 @@
  *  
  *  $Id: createFeatureCmds.cc 1246 2012-11-30 06:23:09Z ueshiba $
  */
+#include "TU/v/CmdPane.h"
 #include "flow1394camera.h"
 
 namespace TU
@@ -59,8 +60,11 @@ static Feature		feature[] =
     {Ieee1394Camera::TEMPERATURE,	"Temperature"	 },
     {Ieee1394Camera::ZOOM,		"Zoom"		 }
 };
-static const u_int	NFEATURES = sizeof(feature)/sizeof(feature[0]);
-static CmdDef		featureCmds[3*NFEATURES + 1];
+static const u_int		NFEATURES = sizeof(feature)/sizeof(feature[0]);
+static CmdDef			featureCmds[3*NFEATURES + 1];
+static Array<CmdDef>		cameraChoiceCmds;
+static Array<std::string>	cameraChoiceTitles;
+static size_t			idx0;
 
 /************************************************************************
 *  global functions							*
@@ -72,23 +76,73 @@ id2feature(CmdId id)
 }
 
 CmdDef*
-createFeatureCmds(const Ieee1394Camera& camera)
+createFeatureCmds(const Ieee1394CameraArray& cameras)
 {
-    u_int		ncmds = 0, y = 0;
-    for (u_int i = 0; i < NFEATURES; ++i)
+
+    cameraChoiceCmds  .resize(cameras.size() + 2);
+    cameraChoiceTitles.resize(cameras.size() + 1);
+	
+    size_t	ncmds = 0, y = 0, i = 0;
+    for (; i < cameras.size(); ++i)
     {
-	u_int	inq = camera.inquireFeatureFunction(feature[i].feature);
+	(cameraChoiceTitles[i] += "cam-") += ('0' + i);
+	    
+	cameraChoiceCmds[i].type	= C_RadioButton;
+	cameraChoiceCmds[i].id		= i;
+	cameraChoiceCmds[i].val		= 0;
+	cameraChoiceCmds[i].title	= cameraChoiceTitles[i].c_str();
+	cameraChoiceCmds[i].prop	= noProp;
+	cameraChoiceCmds[i].attrs	= CA_None;
+	cameraChoiceCmds[i].gridx	= i;
+	cameraChoiceCmds[i].gridy	= 0;
+	cameraChoiceCmds[i].gridWidth	= 1;
+	cameraChoiceCmds[i].gridHeight	= 1;
+	cameraChoiceCmds[i].size	= 0;
+    }
+    cameraChoiceTitles[i] = "All";
+    cameraChoiceCmds[i].type		= C_RadioButton;
+    cameraChoiceCmds[i].id		= i;
+    cameraChoiceCmds[i].val		= 0;
+    cameraChoiceCmds[i].title		= cameraChoiceTitles[i].c_str();
+    cameraChoiceCmds[i].prop		= noProp;
+    cameraChoiceCmds[i].attrs		= CA_None;
+    cameraChoiceCmds[i].gridx		= i;
+    cameraChoiceCmds[i].gridy		= 0;
+    cameraChoiceCmds[i].gridWidth	= 1;
+    cameraChoiceCmds[i].gridHeight	= 1;
+    cameraChoiceCmds[i].size		= 0;
+
+    cameraChoiceCmds[++i].type = C_EndOfList;
+	
+    featureCmds[ncmds].type		= C_ChoiceFrame;
+    featureCmds[ncmds].id		= c_CameraChoice;
+    featureCmds[ncmds].val		= cameras.size();
+    featureCmds[ncmds].title		= 0;
+    featureCmds[ncmds].prop		= cameraChoiceCmds.data();
+    featureCmds[ncmds].attrs		= CA_None;
+    featureCmds[ncmds].gridx		= 0;
+    featureCmds[ncmds].gridy		= y;
+    featureCmds[ncmds].gridWidth	= 1;
+    featureCmds[ncmds].gridHeight	= 1;
+    featureCmds[ncmds].size		= 0;
+
+    ++ncmds;
+    ++y;
+
+    for (size_t i = 0; i < NFEATURES; ++i)
+    {
+	u_int	inq = cameras[0]->inquireFeatureFunction(feature[i].feature);
 	if (inq & Ieee1394Camera::Presence)
 	{
-	    u_int	x = 1;
+	    size_t	x = 1;
 	    
 	    if (inq & Ieee1394Camera::OnOff)
 	    {
 	      // Create toggle button for turning on/off this feature.
 		featureCmds[ncmds].type	      = C_ToggleButton;
 		featureCmds[ncmds].id	      = c_Brightness+i+OFFSET_ONOFF;
-		featureCmds[ncmds].val	      = camera.isTurnedOn(feature[i]
-								  .feature);
+		featureCmds[ncmds].val	      = cameras[0]->isTurnedOn(
+						    feature[i].feature);
 		featureCmds[ncmds].title      = "On";
 		featureCmds[ncmds].prop       = noProp;
 		featureCmds[ncmds].attrs      = CA_None;
@@ -107,8 +161,8 @@ createFeatureCmds(const Ieee1394Camera& camera)
 		  // Create toggle button for setting manual/auto mode.
 		    featureCmds[ncmds].type	  = C_ToggleButton;
 		    featureCmds[ncmds].id	  = c_Brightness+i+OFFSET_AUTO;
-		    featureCmds[ncmds].val	  = camera.isAuto(feature[i]
-								  .feature);
+		    featureCmds[ncmds].val	  = cameras[0]->isAuto(
+							feature[i].feature);
 		    featureCmds[ncmds].title	  = "Auto";
 		    featureCmds[ncmds].prop       = noProp;
 		    featureCmds[ncmds].attrs      = CA_None;
@@ -136,7 +190,7 @@ createFeatureCmds(const Ieee1394Camera& camera)
 		    featureCmds[ncmds].attrs = CA_None;
 
 		    u_int	min, max;
-		    camera.getMinMax(feature[i].feature, min, max);
+		    cameras[0]->getMinMax(feature[i].feature, min, max);
 		    feature[i].prop[0] = min;
 		    feature[i].prop[1] = max - min;
 		    feature[i].prop[2] = 1;
@@ -160,13 +214,13 @@ createFeatureCmds(const Ieee1394Camera& camera)
 			featureCmds[ncmds].gridHeight = 1;
 			featureCmds[ncmds].size	      = 0;
 			u_int	ub, vr;
-			camera.getWhiteBalance(ub, vr);
+			cameras[0]->getWhiteBalance(ub, vr);
 			featureCmds[ncmds-1].val      = ub;
 			featureCmds[ncmds  ].val      = vr;
 		    }
 		    else
 			featureCmds[ncmds].val
-			    = camera.getValue(feature[i].feature);
+			    = cameras[0]->getValue(feature[i].feature);
 		}
 		else
 		{
@@ -187,5 +241,36 @@ createFeatureCmds(const Ieee1394Camera& camera)
     return featureCmds;
 }
  
+void
+refreshFeatureCmds(const Ieee1394Camera& camera, CmdPane& cmdPane)
+{
+    for (CmdDef* featureCmd = featureCmds + 1;
+	 featureCmd->type != C_EndOfList; ++featureCmd)
+    {
+	if (featureCmd->id >= c_Brightness + OFFSET_AUTO)
+	    cmdPane.setValue(
+		featureCmd->id,
+		int(camera.isAuto(id2feature(featureCmd->id - OFFSET_AUTO))));
+	else if (featureCmd->id >= c_Brightness + OFFSET_ONOFF)
+	    cmdPane.setValue(
+		featureCmd->id,
+		int(camera.isTurnedOn(
+			id2feature(featureCmd->id - OFFSET_ONOFF))));
+	else
+	    if (featureCmd->id == Ieee1394Camera::WHITE_BALANCE)
+	    {
+		u_int	ub, vr;
+		camera.getWhiteBalance(ub, vr);
+		cmdPane.setValue(featureCmd->id, int(ub));
+		++featureCmd;
+		cmdPane.setValue(featureCmd->id, int(vr));
+	    }
+	    else
+		cmdPane.setValue(featureCmd->id,
+				 int(camera.getValue(
+					 id2feature(featureCmd->id))));
+    }
+}
+    
 }
 }

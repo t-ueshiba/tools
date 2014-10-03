@@ -9,15 +9,18 @@
 
 namespace TU
 {
-extern bool		active;
-void			countTime(int& nframes, timeval& start)		;
+extern bool	active;
+void		countTime(int& nframes, timeval& start)			;
     
 namespace v
 {
-CmdDef*			createMenuCmds(Ieee1394Camera& camera)		;
-CmdDef*			createCaptureCmds()				;
-CmdDef*			createFeatureCmds(const Ieee1394Camera& camera)	;
-Ieee1394Camera::Feature	id2feature(v::CmdId id)				;
+CmdDef*		createMenuCmds(Ieee1394Camera& camera)			;
+CmdDef*		createCaptureCmds()					;
+CmdDef*		createFeatureCmds(const Ieee1394CameraArray& cameras)	;
+void		refreshFeatureCmds(const Ieee1394Camera& camera,
+				   CmdPane& cmdPane)			;
+Ieee1394Camera::Feature
+		id2feature(v::CmdId id)					;
     
 /************************************************************************
 *  class MyCmdWindow							*
@@ -28,7 +31,7 @@ MyCmdWindow::MyCmdWindow(App& parentApp, const Ieee1394CameraArray& cameras)
      _cameras(cameras),
      _captureAndSave(cameras),
      _menuCmd(*this, createMenuCmds(*_cameras[0])),
-     _featureCmd(*this, createFeatureCmds(*_cameras[0])),
+     _featureCmd(*this, createFeatureCmds(cameras)),
      _timer(*this, 0)
 {
     _menuCmd.place(0, 0, 1, 1);
@@ -139,19 +142,40 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 	  case c_Iris:
 	  case c_Focus:
 	  case c_Zoom:
-	    for (u_int i = 0; i < _cameras.size(); ++i)
-		_cameras[i]->setValue(id2feature(id), val);
+	  {
+	    const size_t	n = _featureCmd.getValue(c_CameraChoice);
+	    if (n < _cameras.size())  
+		_cameras[n]->setValue(id2feature(id), val);
+	    else
+		for (size_t i = 0; i < _cameras.size(); ++i)
+		    _cameras[i]->setValue(id2feature(id), val);
+	  }
 	    break;
       
 	  case c_WhiteBalance_UB:
-	    for (u_int i = 0; i < _cameras.size(); ++i)
-		_cameras[i]->setWhiteBalance(
+	  {
+	    const size_t	n = _featureCmd.getValue(c_CameraChoice);
+	    if (n < _cameras.size())  
+		_cameras[n]->setWhiteBalance(
 		    val, _featureCmd.getValue(c_WhiteBalance_VR));
+	    else
+		for (size_t i = 0; i < _cameras.size(); ++i)
+		    _cameras[i]->setWhiteBalance(
+			val, _featureCmd.getValue(c_WhiteBalance_VR));
+	  }
 	    break;
+	    
 	  case c_WhiteBalance_VR:
-	    for (u_int i = 0; i < _cameras.size(); ++i)
-		_cameras[i]->setWhiteBalance(
+	  {
+	    const size_t	n = _featureCmd.getValue(c_CameraChoice);
+	    if (n < _cameras.size())  
+		_cameras[n]->setWhiteBalance(
 		    _featureCmd.getValue(c_WhiteBalance_UB), val);
+	    else
+		for (u_int i = 0; i < _cameras.size(); ++i)
+		    _cameras[i]->setWhiteBalance(
+			_featureCmd.getValue(c_WhiteBalance_UB), val);
+	  }
 	    break;
       
 	  case c_Brightness	 + OFFSET_ONOFF:
@@ -169,12 +193,23 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 	  case c_Zoom		 + OFFSET_ONOFF:
 	  {
 	    Ieee1394Camera::Feature feature = id2feature(id - OFFSET_ONOFF);
+	    const size_t	    n = _featureCmd.getValue(c_CameraChoice);
 	    if (val)
-		for (u_int i = 0; i < _cameras.size(); ++i)
-		    _cameras[i]->turnOn(feature);
+	    {
+		if (n < _cameras.size())  
+		    _cameras[n]->turnOn(feature);
+		else
+		    for (u_int i = 0; i < _cameras.size(); ++i)
+			_cameras[i]->turnOn(feature);
+	    }
 	    else
-		for (u_int i = 0; i < _cameras.size(); ++i)
-		    _cameras[i]->turnOff(feature);
+	    {
+		if (n < _cameras.size())  
+		    _cameras[n]->turnOff(feature);
+		else
+		    for (u_int i = 0; i < _cameras.size(); ++i)
+			_cameras[i]->turnOff(feature);
+	    }
 	  }
 	    break;
       
@@ -193,24 +228,52 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 	  case c_Zoom		 + OFFSET_AUTO:
 	  {
 	    Ieee1394Camera::Feature feature = id2feature(id - OFFSET_AUTO);
+	    const size_t	    n = _featureCmd.getValue(c_CameraChoice);
 	    if (val)
-		for (u_int i = 0; i < _cameras.size(); ++i)
-		    _cameras[i]->setAutoMode(feature);
+	    {
+		if (n < _cameras.size())
+		    _cameras[n]->setAutoMode(feature);
+		else
+		    for (u_int i = 0; i < _cameras.size(); ++i)
+			_cameras[i]->setAutoMode(feature);
+	    }
 	    else
-		for (u_int i = 0; i < _cameras.size(); ++i)
+	    {
+		if (n < _cameras.size())
 		{
-		    _cameras[i]->setManualMode(feature);
+		    _cameras[n]->setManualMode(feature);
 		    if (feature == Ieee1394Camera::WHITE_BALANCE)
-			_cameras[i]->setWhiteBalance(
+			_cameras[n]->setWhiteBalance(
 			    _featureCmd.getValue(c_WhiteBalance_UB),
 			    _featureCmd.getValue(c_WhiteBalance_VR));
 		    else
-			_cameras[i]->setValue(
+			_cameras[n]->setValue(
 			    feature, _featureCmd.getValue(id - OFFSET_AUTO));
 		}
+		else
+		    for (u_int i = 0; i < _cameras.size(); ++i)
+		    {
+			_cameras[i]->setManualMode(feature);
+			if (feature == Ieee1394Camera::WHITE_BALANCE)
+			    _cameras[i]->setWhiteBalance(
+				_featureCmd.getValue(c_WhiteBalance_UB),
+				_featureCmd.getValue(c_WhiteBalance_VR));
+			else
+			    _cameras[i]->setValue(
+				feature,
+				_featureCmd.getValue(id - OFFSET_AUTO));
+		    }
+	    }
 	  }
 	    break;
 
+	  case c_CameraChoice:
+	  {
+	    const size_t	n = (val < _cameras.size() ? size_t(val) : 0);
+	    refreshFeatureCmds(*_cameras[n], _featureCmd);
+	  }
+	    break;
+	  
 	  case c_ContinuousShot:
 	    if (val)
 	    {

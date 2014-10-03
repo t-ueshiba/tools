@@ -28,7 +28,7 @@
  *  $Id: corrStereo.h 1246 2012-11-30 06:23:09Z ueshiba $
  */
 #include "TU/v/TUv++.h"
-#include "TU/Ieee1394++.h"
+#include "TU/Ieee1394CameraArray.h"
 
 /************************************************************************
 *  global data and definitions						*
@@ -48,7 +48,9 @@ enum
     c_RestoreConfig,
     c_SaveConfig,
     
-  // Camera feasures.
+    c_CameraChoice,
+    
+  // Camera features.
     c_Brightness	= Ieee1394Camera::BRIGHTNESS,
     c_AutoExposure,
     c_Sharpness,
