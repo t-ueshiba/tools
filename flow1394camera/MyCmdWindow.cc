@@ -65,7 +65,7 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 	    if (out)
 	    {
 		out << _cameras[0]->delay() << ' ' << _cameras.size() << endl;
-		for (u_int i = 0; i < _cameras.size(); ++i)
+		for (size_t i = 0; i < _cameras.size(); ++i)
 		    out << "0x" << setw(16) << setfill('0')
 			<< hex << _cameras[i]->globalUniqueId() << ' '
 			<< dec << *_cameras[i];
@@ -98,10 +98,9 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 	  case c_MONO8_1600x1200:
 	  case c_MONO16_1280x960:
 	  case c_MONO16_1600x1200:
-	    for (u_int i = 0; i < _cameras.size(); ++i)
-		_cameras[i]
-		  ->setFormatAndFrameRate(Ieee1394Camera::uintToFormat(id),
-					  Ieee1394Camera::uintToFrameRate(val));
+	    _cameras.exec(&Ieee1394Camera::setFormatAndFrameRate,
+			  Ieee1394Camera::uintToFormat(id),
+			  Ieee1394Camera::uintToFrameRate(val));
 	    _captureAndSave.setFormat(_cameras);
 	    break;
 
@@ -122,7 +121,7 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 	    u_int		u0, v0, width, height;
 	    Ieee1394Camera::PixelFormat
 		pixelFormat = modalDialog.getROI(u0, v0, width, height);
-	    for (u_int i = 0; i < _cameras.size(); ++i)
+	    for (size_t i = 0; i < _cameras.size(); ++i)
 		_cameras[i]->setFormat_7_ROI(format7, u0, v0, width, height)
 		  .setFormat_7_PixelFormat(format7, pixelFormat)
 		  .setFormatAndFrameRate(format7,
@@ -147,8 +146,8 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 	    if (n < _cameras.size())  
 		_cameras[n]->setValue(id2feature(id), val);
 	    else
-		for (size_t i = 0; i < _cameras.size(); ++i)
-		    _cameras[i]->setValue(id2feature(id), val);
+		_cameras.exec(&Ieee1394Camera::setValue,
+			      id2feature(id), u_int(val));
 	  }
 	    break;
       
@@ -159,9 +158,9 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 		_cameras[n]->setWhiteBalance(
 		    val, _featureCmd.getValue(c_WhiteBalance_VR));
 	    else
-		for (size_t i = 0; i < _cameras.size(); ++i)
-		    _cameras[i]->setWhiteBalance(
-			val, _featureCmd.getValue(c_WhiteBalance_VR));
+		_cameras.exec(&Ieee1394Camera::setWhiteBalance, 
+			      u_int(val),
+			      u_int(_featureCmd.getValue(c_WhiteBalance_VR)));
 	  }
 	    break;
 	    
@@ -172,9 +171,9 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 		_cameras[n]->setWhiteBalance(
 		    _featureCmd.getValue(c_WhiteBalance_UB), val);
 	    else
-		for (u_int i = 0; i < _cameras.size(); ++i)
-		    _cameras[i]->setWhiteBalance(
-			_featureCmd.getValue(c_WhiteBalance_UB), val);
+		_cameras.exec(&Ieee1394Camera::setWhiteBalance, 
+			      u_int(_featureCmd.getValue(c_WhiteBalance_UB)),
+			      u_int(val));
 	  }
 	    break;
       
@@ -199,16 +198,14 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 		if (n < _cameras.size())  
 		    _cameras[n]->turnOn(feature);
 		else
-		    for (u_int i = 0; i < _cameras.size(); ++i)
-			_cameras[i]->turnOn(feature);
+		    _cameras.exec(&Ieee1394Camera::turnOn, feature);
 	    }
 	    else
 	    {
 		if (n < _cameras.size())  
 		    _cameras[n]->turnOff(feature);
 		else
-		    for (u_int i = 0; i < _cameras.size(); ++i)
-			_cameras[i]->turnOff(feature);
+		    _cameras.exec(&Ieee1394Camera::turnOff, feature);
 	    }
 	  }
 	    break;
@@ -234,8 +231,7 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 		if (n < _cameras.size())
 		    _cameras[n]->setAutoMode(feature);
 		else
-		    for (u_int i = 0; i < _cameras.size(); ++i)
-			_cameras[i]->setAutoMode(feature);
+		    _cameras.exec(&Ieee1394Camera::setAutoMode, feature);
 	    }
 	    else
 	    {
@@ -251,18 +247,20 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 			    feature, _featureCmd.getValue(id - OFFSET_AUTO));
 		}
 		else
-		    for (u_int i = 0; i < _cameras.size(); ++i)
-		    {
-			_cameras[i]->setManualMode(feature);
-			if (feature == Ieee1394Camera::WHITE_BALANCE)
-			    _cameras[i]->setWhiteBalance(
-				_featureCmd.getValue(c_WhiteBalance_UB),
-				_featureCmd.getValue(c_WhiteBalance_VR));
-			else
-			    _cameras[i]->setValue(
-				feature,
-				_featureCmd.getValue(id - OFFSET_AUTO));
-		    }
+		{
+		    _cameras.exec(&Ieee1394Camera::setManualMode, feature);
+		    if (feature == Ieee1394Camera::WHITE_BALANCE)
+			_cameras.exec(&Ieee1394Camera::setWhiteBalance,
+				      u_int(_featureCmd
+					    .getValue(c_WhiteBalance_UB)),
+				      u_int(_featureCmd
+					    .getValue(c_WhiteBalance_VR)));
+		    else
+			_cameras.exec(&Ieee1394Camera::setValue,
+				      feature,
+				      u_int(_featureCmd
+					    .getValue(id - OFFSET_AUTO)));
+		}
 	    }
 	  }
 	    break;
@@ -276,17 +274,9 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 	  
 	  case c_ContinuousShot:
 	    if (val)
-	    {
-		for (u_int i = 0; i < _cameras.size(); ++i)
-		    _cameras[i]->continuousShot();
-		_timer.start(1);
-	    }
+		continuousShot();
 	    else
-	    {
-		_timer.stop();
-		for (u_int i = 0; i < _cameras.size(); ++i)
-		    _cameras[i]->stopContinuousShot();
-	    }
+		stopContinuousShot();
 	    break;
 	
 	  case c_OneShot:
@@ -295,8 +285,7 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 		stopContinuousShot();
 		_menuCmd.setValue(c_ContinuousShot, false);
 	    }
-	    for (u_int i = 0; i < _cameras.size(); ++i)
-		_cameras[i]->oneShot();
+	    _cameras.exec(&Ieee1394Camera::oneShot);
 	    tick();
 	    break;
 	}
@@ -313,8 +302,8 @@ MyCmdWindow::tick()
     if (!active)
 	app().exit();
     
-    static int			nframes = 0;
-    static struct timeval	start;
+    static int		nframes = 0;
+    static timeval	start;
     countTime(nframes, start);
 
     _captureAndSave(std::cout);
@@ -323,8 +312,7 @@ MyCmdWindow::tick()
 void
 MyCmdWindow::continuousShot()
 {
-    for (u_int i = 0; i < _cameras.size(); ++i)
-	_cameras[i]->continuousShot();
+    _cameras.exec(&Ieee1394Camera::continuousShot);
     _timer.start(1);
 }
 
@@ -332,8 +320,7 @@ void
 MyCmdWindow::stopContinuousShot()
 {
     _timer.stop();
-    for (u_int i = 0; i < _cameras.size(); ++i)
-	_cameras[i]->stopContinuousShot();
+    _cameras.exec(&Ieee1394Camera::stopContinuousShot);
 }
 
 }

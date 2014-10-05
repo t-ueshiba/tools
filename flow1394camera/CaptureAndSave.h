@@ -57,7 +57,7 @@ template <class T>
 CaptureAndSave::Kernel<T>::Kernel(const Ieee1394CameraArray& cameras)
     :_cameras(cameras), _images(_cameras.size())
 {
-    for (u_int i = 0; i < _images.size(); ++i)
+    for (size_t i = 0; i < _images.size(); ++i)
 	_images[i].resize(_cameras[i]->height(), _cameras[i]->width());
 }
     
@@ -65,7 +65,7 @@ template <class T> std::ostream&
 CaptureAndSave::Kernel<T>::saveHeaders(std::ostream& out) const
 {
     out << 'M' << _images.size() << std::endl;
-    for (u_int i = 0; i < _images.size(); ++i)
+    for (size_t i = 0; i < _images.size(); ++i)
 	_images[i].saveHeader(out);
 
     return out;
@@ -74,11 +74,10 @@ CaptureAndSave::Kernel<T>::saveHeaders(std::ostream& out) const
 template <class T> std::ostream&
 CaptureAndSave::Kernel<T>::operator ()(std::ostream& out)
 {
-    for (u_int i = 0; i < _cameras.size(); ++i)
-	_cameras[i]->snap();			// 撮影
-    for (u_int i = 0; i < _cameras.size(); ++i)
+    _cameras.exec(&Ieee1394Camera::snap);
+    for (size_t i = 0; i < _cameras.size(); ++i)
 	*_cameras[i] >> _images[i];		// カメラからの取り込み
-    for (u_int i = 0; i < _images.size(); ++i)
+    for (size_t i = 0; i < _images.size(); ++i)
 	_images[i].saveData(out);		// 書き出し
 
     return out;
