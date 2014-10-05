@@ -74,8 +74,7 @@ CaptureAndSave::Kernel<T>::saveHeaders(std::ostream& out) const
 template <class T> std::ostream&
 CaptureAndSave::Kernel<T>::operator ()(std::ostream& out)
 {
-    for (size_t i = 0; i < _cameras.size(); ++i)
-	_cameras[i]->snap();
+    _cameras.exec(&V4L2Camera::snap);
     for (size_t i = 0; i < _cameras.size(); ++i)
 	*_cameras[i] >> _images[i];
     for (size_t i = 0; i < _cameras.size(); ++i)

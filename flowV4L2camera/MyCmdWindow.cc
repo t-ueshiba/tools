@@ -12,14 +12,14 @@ namespace TU
 *  static functions							*
 ************************************************************************/
 extern bool	active;
-void		countTime(int& nframes, timeval& start)			;
+
+void	countTime(int& nframes, timeval& start)				;
 
 namespace v
 {
-CmdDef*		createMenuCmds(const V4L2Camera& camera)		;
-CmdDef*		createFeatureCmds(const V4L2CameraArray& cameras)	;
-void		refreshFeatureCmds(const V4L2Camera& camera,
-				   CmdPane& cmdPane)			;
+CmdDef*	createMenuCmds(const V4L2Camera& camera)			;
+CmdDef*	createFeatureCmds(const V4L2CameraArray& cameras)		;
+void	refreshFeatureCmds(const V4L2Camera& camera, CmdPane& cmdPane)	;
 				   
 /************************************************************************
 *  class MyCmdWindow							*
@@ -172,8 +172,8 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 	    if (n < _cameras.size())  
 		_cameras[n]->setValue(V4L2Camera::uintToFeature(id), val);
 	    else
-		for (size_t i = 0; i < _cameras.size(); ++i)
-		    _cameras[i]->setValue(V4L2Camera::uintToFeature(id), val);
+		_cameras.exec(&V4L2Camera::setValue,
+			      V4L2Camera::uintToFeature(id), int(val));
 	  }
 	    break;
 
@@ -204,8 +204,8 @@ MyCmdWindow::tick()
     if (!active)
 	app().exit();
     
-    static int			nframes = 0;
-    static struct timeval	start;
+    static int		nframes = 0;
+    static timeval	start;
     countTime(nframes, start);
 
     _captureAndSave(std::cout);
@@ -214,8 +214,7 @@ MyCmdWindow::tick()
 void
 MyCmdWindow::continuousShot()
 {
-    for (size_t i = 0; i < _cameras.size(); ++i)
-	_cameras[i]->continuousShot();
+    _cameras.exec(&V4L2Camera::continuousShot);
     _timer.start(1);
 }
 
@@ -223,8 +222,7 @@ void
 MyCmdWindow::stopContinuousShot()
 {
     _timer.stop();
-    for (size_t i = 0; i < _cameras.size(); ++i)
-	_cameras[i]->stopContinuousShot();
+    _cameras.exec(&V4L2Camera::stopContinuousShot);
 }
 
 }

@@ -75,10 +75,8 @@ static void
 run(const V4L2CameraArray& cameras)
 {
     CaptureAndSave	captureAndSave(cameras);
-    captureAndSave.saveHeaders(std::cout);	// 画像数とそのヘッダを出力
-
-    for (size_t i = 0; i < cameras.size(); ++i)
-	cameras[i]->continuousShot();		// カメラ出力開始
+    captureAndSave.saveHeaders(std::cout);		// 画像数とヘッダを出力
+    cameras.exec(&V4L2Camera::continuousShot);		// カメラ出力開始
 
     int		nframes = 0;
     timeval	start;
@@ -90,8 +88,7 @@ run(const V4L2CameraArray& cameras)
 	    active = false;
     }
 
-    for (size_t i = 0; i < cameras.size(); ++i)
-	cameras[i]->stopContinuousShot();	// カメラ出力停止
+    cameras.exec(&V4L2Camera::stopContinuousShot);	// カメラ出力停止
 }
 
 }
