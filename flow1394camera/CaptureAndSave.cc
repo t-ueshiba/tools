@@ -1,15 +1,17 @@
 /*
  *  $Id$
  */
+#include "TU/Ieee1394CameraArray.h"
 #include "CaptureAndSave.h"
 
 namespace TU
 {
 /************************************************************************
-*  CaptureAndSave							*
+*  CaptureAndSave<Ieee1394CameraArray>					*
 ************************************************************************/
-void
-CaptureAndSave::setFormat(const Ieee1394CameraArray& cameras)
+template <> void
+CaptureAndSave<Ieee1394CameraArray>::setFormat(
+    const Ieee1394CameraArray& cameras)
 {
     delete _kernel;
     _kernel = 0;

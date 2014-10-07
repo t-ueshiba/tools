@@ -2,35 +2,23 @@
  *  $Id$
  */
 #include <signal.h>
-#include <sys/time.h>
 #include <cstdlib>
 #include <iomanip>
+#include "TU/Ieee1394CameraArray.h"
 #include "MyCmdWindow.h"
 
 namespace TU
 {
+namespace v
+{
+CmdDef*	createMenuCmds(const Ieee1394Camera& camera)		;
+CmdDef*	createFeatureCmds(const Ieee1394CameraArray& cameras)	;
+}
+    
 /************************************************************************
-*  global variables and functions					*
+*  global variables							*
 ************************************************************************/
 bool	active = true;
-
-void
-countTime(int& nframes, timeval& start)
-{
-    using namespace	std;
-
-    if (nframes == 10)
-    {
-	timeval	end;
-	gettimeofday(&end, NULL);
-	double	interval = (end.tv_sec  - start.tv_sec) +
-	    (end.tv_usec - start.tv_usec) / 1.0e6;
-	cerr << nframes / interval << " frames/sec" << endl;
-	nframes = 0;
-    }
-    if (nframes++ == 0)
-	gettimeofday(&start, NULL);
-}
 
 /************************************************************************
 *  static functions							*
@@ -69,26 +57,6 @@ handler(int sig)
     
     cerr << "Signal [" << sig << "] caught!" << endl;
     active = false;
-}
-
-static void
-run(const Ieee1394CameraArray& cameras)
-{
-    CaptureAndSave	captureAndSave(cameras);
-    captureAndSave.saveHeaders(std::cout);		// 画像数とヘッダを出力
-    cameras.exec(&Ieee1394Camera::continuousShot);	// カメラ出力開始
-
-    int		nframes = 0;
-    timeval	start;
-    while (active)
-    {
-	countTime(nframes, start);
-
-	if (!captureAndSave(std::cout))
-	    active = false;
-    }
-
-    cameras.exec(&Ieee1394Camera::stopContinuousShot);	// カメラ出力停止
 }
 
 }
@@ -141,14 +109,15 @@ main(int argc, char* argv[])
 					speed, ncameras);
 	if (cameras.size() == 0)
 	    return 0;
-	for (u_int i = 0; i < cameras.size(); ++i)
-	    cerr << "camera " << i << ": uniqId = "
+	
+	BOOST_FOREACH (const Ieee1394Camera* camera, cameras)
+	    cerr << "uniqId = "
 		 << hex << setw(16) << setfill('0')
-		 << cameras[i]->globalUniqueId() << dec << endl;
+		 << camera->globalUniqueId() << dec << endl;
 
-      // トリがモードをoffにする．
-	for (u_int i = 0; i < cameras.size(); ++i)
-	    cameras[i]->turnOff(Ieee1394Camera::TRIGGER_MODE);
+      // トリガモードをOFFにする．
+	BOOST_FOREACH (Ieee1394Camera* camera, cameras)
+	    camera->turnOff(Ieee1394Camera::TRIGGER_MODE);
 	
       // signal handlerを登録する．
 	signal(SIGINT,  handler);
@@ -156,7 +125,10 @@ main(int argc, char* argv[])
 
 	if (gui)
 	{
-	    v::MyCmdWindow	myWin(vapp, cameras);
+	    v::MyCmdWindow<Ieee1394CameraArray>
+		myWin(vapp, cameras,
+		      v::createMenuCmds(*cameras[0]),
+		      v::createFeatureCmds(cameras));
 	    vapp.run();
 	}
 	else

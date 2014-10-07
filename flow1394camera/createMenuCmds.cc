@@ -123,7 +123,7 @@ static CmdDef MenuCmds[] =
 *  global functions							*
 ************************************************************************/
 CmdDef*
-createMenuCmds(Ieee1394Camera& camera)
+createMenuCmds(const Ieee1394Camera& camera)
 {
     Ieee1394Camera::Format	current_format = camera.getFormat();
     Ieee1394Camera::FrameRate	current_rate   = camera.getFrameRate();

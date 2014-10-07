@@ -1,7 +1,6 @@
 /*
  *  $Id: MyCmdWindow.cc,v 1.7 2012-06-30 20:00:51 ueshiba Exp $
  */
-#include <sys/time.h>
 #include "flow1394camera.h"
 #include "MyCmdWindow.h"
 #include "MyModalDialog.h"
@@ -9,43 +8,17 @@
 
 namespace TU
 {
-extern bool	active;
-void		countTime(int& nframes, timeval& start)			;
-    
 namespace v
 {
-CmdDef*		createMenuCmds(Ieee1394Camera& camera)			;
-CmdDef*		createCaptureCmds()					;
-CmdDef*		createFeatureCmds(const Ieee1394CameraArray& cameras)	;
-void		refreshFeatureCmds(const Ieee1394Camera& camera,
-				   CmdPane& cmdPane)			;
-Ieee1394Camera::Feature
-		id2feature(v::CmdId id)					;
+void			refreshFeatureCmds(const Ieee1394Camera& camera,
+					   CmdPane& cmdPane)		;
+Ieee1394Camera::Feature	id2feature(v::CmdId id)				;
     
 /************************************************************************
-*  class MyCmdWindow							*
+*  class MyCmdWindow<Ieee1394CameraArray>				*
 ************************************************************************/
-MyCmdWindow::MyCmdWindow(App& parentApp, const Ieee1394CameraArray& cameras)
-    :CmdWindow(parentApp, "Ieee1394 camera controller",
-	       0, Colormap::RGBColor, 16, 0, 0),
-     _cameras(cameras),
-     _captureAndSave(cameras),
-     _menuCmd(*this, createMenuCmds(*_cameras[0])),
-     _featureCmd(*this, createFeatureCmds(cameras)),
-     _timer(*this, 0)
-{
-    _menuCmd.place(0, 0, 1, 1);
-    _featureCmd.place(0, 1, 1, 1);
-    show();
-
-    _captureAndSave.saveHeaders(std::cout);	// 画像ヘッダを出力
-
-    if (_menuCmd.getValue(c_ContinuousShot))	// ボタンの初期値がtrueならば...
-	continuousShot();			// カメラからの画像出力を開始
-}
-
-void
-MyCmdWindow::callback(CmdId id, CmdVal val)
+template <> void
+MyCmdWindow<Ieee1394CameraArray>::callback(CmdId id, CmdVal val)
 {
     using namespace	std;
 
@@ -294,33 +267,6 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
     {
 	cerr << err.what();
     }
-}
-
-void
-MyCmdWindow::tick()
-{
-    if (!active)
-	app().exit();
-    
-    static int		nframes = 0;
-    static timeval	start;
-    countTime(nframes, start);
-
-    _captureAndSave(std::cout);
-}
-
-void
-MyCmdWindow::continuousShot()
-{
-    _cameras.exec(&Ieee1394Camera::continuousShot);
-    _timer.start(1);
-}
-
-void
-MyCmdWindow::stopContinuousShot()
-{
-    _timer.stop();
-    _cameras.exec(&Ieee1394Camera::stopContinuousShot);
 }
 
 }
