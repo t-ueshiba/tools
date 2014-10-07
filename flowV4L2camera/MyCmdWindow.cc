@@ -3,48 +3,19 @@
  */
 #include "flowV4L2camera.h"
 #include "MyCmdWindow.h"
-#include <sys/time.h>
 #include <fstream>
 
 namespace TU
 {
-/************************************************************************
-*  static functions							*
-************************************************************************/
-extern bool	active;
-
-void	countTime(int& nframes, timeval& start)				;
-
 namespace v
 {
-CmdDef*	createMenuCmds(const V4L2Camera& camera)			;
-CmdDef*	createFeatureCmds(const V4L2CameraArray& cameras)		;
 void	refreshFeatureCmds(const V4L2Camera& camera, CmdPane& cmdPane)	;
 				   
 /************************************************************************
-*  class MyCmdWindow							*
+*  class MyCmdWindow<V4L2CameraArray>					*
 ************************************************************************/
-MyCmdWindow::MyCmdWindow(App& parentApp, const V4L2CameraArray& cameras)
-    :CmdWindow(parentApp, "V4L2 camera controller",
-	       0, Colormap::RGBColor, 16, 0, 0),
-     _cameras(cameras),
-     _captureAndSave(cameras),
-     _menuCmd(*this, createMenuCmds(*_cameras[0])),
-     _featureCmd(*this, createFeatureCmds(_cameras)),
-     _timer(*this, 0)
-{
-    _menuCmd.place(0, 0, 1, 1);
-    _featureCmd.place(0, 1, 1, 1);
-    show();
-
-    _captureAndSave.saveHeaders(std::cout);	// 画像ヘッダを出力
-
-    if (_menuCmd.getValue(c_ContinuousShot))	// ボタンの初期値がtrueならば...
-	continuousShot();			// カメラからの画像出力を開始
-}
-
-void
-MyCmdWindow::callback(CmdId id, CmdVal val)
+template <> void
+MyCmdWindow<V4L2CameraArray>::callback(CmdId id, CmdVal val)
 {
     using namespace	std;
 
@@ -196,33 +167,6 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
     {
 	cerr << err.what();
     }
-}
-
-void
-MyCmdWindow::tick()
-{
-    if (!active)
-	app().exit();
-    
-    static int		nframes = 0;
-    static timeval	start;
-    countTime(nframes, start);
-
-    _captureAndSave(std::cout);
-}
-
-void
-MyCmdWindow::continuousShot()
-{
-    _cameras.exec(&V4L2Camera::continuousShot);
-    _timer.start(1);
-}
-
-void
-MyCmdWindow::stopContinuousShot()
-{
-    _timer.stop();
-    _cameras.exec(&V4L2Camera::stopContinuousShot);
 }
 
 }

@@ -2,37 +2,23 @@
  *  $Id$
  */
 #include <signal.h>
-#include <sys/time.h>
 #include <cstdlib>
 #include <iomanip>
-#include <boost/foreach.hpp>
+#include "TU/V4L2CameraArray.h"
 #include "MyCmdWindow.h"
-#include "TU/io.h"
 
 namespace TU
 {
+namespace v
+{
+CmdDef*	createMenuCmds(const V4L2Camera& camera)		;
+CmdDef*	createFeatureCmds(const V4L2CameraArray& cameras)	;
+}
+    
 /************************************************************************
 *  global variables and functions					*
 ************************************************************************/
 bool	active = true;
-
-void
-countTime(int& nframes, timeval& start)
-{
-    using namespace	std;
-
-    if (nframes == 10)
-    {
-	timeval	end;
-	gettimeofday(&end, NULL);
-	double	interval = (end.tv_sec  - start.tv_sec) +
-	    (end.tv_usec - start.tv_usec) / 1.0e6;
-	cerr << nframes / interval << " frames/sec" << endl;
-	nframes = 0;
-    }
-    if (nframes++ == 0)
-	gettimeofday(&start, NULL);
-}
 
 /************************************************************************
 *  static functions							*
@@ -69,26 +55,6 @@ handler(int sig)
     
     cerr << "Signal [" << sig << "] caught!" << endl;
     active = false;
-}
-
-static void
-run(const V4L2CameraArray& cameras)
-{
-    CaptureAndSave	captureAndSave(cameras);
-    captureAndSave.saveHeaders(std::cout);		// 画像数とヘッダを出力
-    cameras.exec(&V4L2Camera::continuousShot);		// カメラ出力開始
-
-    int		nframes = 0;
-    timeval	start;
-    while (active)
-    {
-	countTime(nframes, start);
-
-	if (!captureAndSave(std::cout))
-	    active = false;
-    }
-
-    cameras.exec(&V4L2Camera::stopContinuousShot);	// カメラ出力停止
 }
 
 }
@@ -154,7 +120,10 @@ main(int argc, char* argv[])
 
 	if (gui)
 	{
-	    v::MyCmdWindow	myWin(vapp, cameras);
+	    v::MyCmdWindow<V4L2CameraArray>
+		myWin(vapp, cameras,
+		      v::createMenuCmds(*cameras[0]),
+		      v::createFeatureCmds(cameras));
 	    vapp.run();
 	}
 	else
