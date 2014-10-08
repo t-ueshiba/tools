@@ -5,10 +5,10 @@
 #  User customizable macros	#
 #################################
 DEST		= $(PREFIX)/bin
-INCDIRS		= -I../../stereo/corrStereo -I$(PREFIX)/include
+INCDIRS		= -I$(PREFIX)/include
 
 PROGRAM		= $(shell basename $(PWD))
-LIBS		= -lTUStereo++ -lTUTools++
+LIBS		= -lTUTools++
 ifeq ($(OSTYPE), darwin)
   LIBS	       +=
 #  LIBS	       += -framework IOKit -framework CoreFoundation -framework CoreServices
