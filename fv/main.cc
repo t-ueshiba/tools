@@ -61,6 +61,7 @@ cerr << " Usage: " << s << " [-n #images] [-[QH24]] [-s saturation] < imageStrea
 	 << endl;
     cerr << " options.\n"
 	 << "  -n #images:     #images displayed per row\n"
+	 << "  -O:             display with 1/8 size\n"
 	 << "  -Q:             display with quater size\n"
 	 << "  -H:             display with half size\n"
 	 << "  -2:             display with double size\n"
@@ -388,7 +389,7 @@ main(int argc, char* argv[])
     v::App		vapp(argc, argv);
     u_int		ncol = 2, mul = 1, div = 1, saturation = 256;
     extern char*	optarg;
-    for (int c; (c = getopt(argc, argv, "n:42HQs:h")) !=EOF; )
+    for (int c; (c = getopt(argc, argv, "n:42HQOs:h")) !=EOF; )
 	switch (c)
 	{
 	  case 'n':
@@ -409,6 +410,10 @@ main(int argc, char* argv[])
 	  case 'Q':
 	    mul = 1;
 	    div = 4;
+	    break;
+	  case 'O':
+	    mul = 1;
+	    div = 8;
 	    break;
 	  case 's':
 	    saturation = atoi(optarg);

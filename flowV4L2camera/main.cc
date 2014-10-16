@@ -3,18 +3,12 @@
  */
 #include <signal.h>
 #include <cstdlib>
-#include <iomanip>
+#include "TU/v/vV4L2++.h"
 #include "TU/V4L2CameraArray.h"
 #include "MyCmdWindow.h"
 
 namespace TU
 {
-namespace v
-{
-CmdDef*	createMenuCmds(const V4L2Camera& camera)		;
-CmdDef*	createFeatureCmds(const V4L2CameraArray& cameras)	;
-}
-    
 /************************************************************************
 *  global variables and functions					*
 ************************************************************************/
@@ -120,10 +114,7 @@ main(int argc, char* argv[])
 
 	if (gui)
 	{
-	    v::MyCmdWindow<V4L2CameraArray>
-		myWin(vapp, cameras,
-		      v::createMenuCmds(*cameras[0]),
-		      v::createFeatureCmds(cameras));
+	    v::MyCmdWindow<V4L2CameraArray>	myWin(vapp, cameras);
 	    vapp.run();
 	}
 	else

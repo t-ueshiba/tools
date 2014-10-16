@@ -4,17 +4,12 @@
 #include <signal.h>
 #include <cstdlib>
 #include <iomanip>
+#include "TU/v/vIeee1394++.h"
 #include "TU/Ieee1394CameraArray.h"
 #include "MyCmdWindow.h"
 
 namespace TU
 {
-namespace v
-{
-CmdDef*	createMenuCmds(const Ieee1394Camera& camera)		;
-CmdDef*	createFeatureCmds(const Ieee1394CameraArray& cameras)	;
-}
-    
 /************************************************************************
 *  global variables							*
 ************************************************************************/
@@ -115,20 +110,13 @@ main(int argc, char* argv[])
 		 << hex << setw(16) << setfill('0')
 		 << camera->globalUniqueId() << dec << endl;
 
-      // トリガモードをOFFにする．
-	BOOST_FOREACH (Ieee1394Camera* camera, cameras)
-	    camera->turnOff(Ieee1394Camera::TRIGGER_MODE);
-	
       // signal handlerを登録する．
 	signal(SIGINT,  handler);
 	signal(SIGPIPE, handler);
 
 	if (gui)
 	{
-	    v::MyCmdWindow<Ieee1394CameraArray>
-		myWin(vapp, cameras,
-		      v::createMenuCmds(*cameras[0]),
-		      v::createFeatureCmds(cameras));
+	    v::MyCmdWindow<Ieee1394CameraArray>	myWin(vapp, cameras);
 	    vapp.run();
 	}
 	else

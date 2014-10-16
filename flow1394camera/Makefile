@@ -8,7 +8,7 @@ DEST		= $(PREFIX)/bin
 INCDIRS		= -I$(PREFIX)/include
 
 PROGRAM		= $(shell basename $(PWD))
-LIBS		= -lTUIeee1394++ -lTUv++ -lTUTools++ \
+LIBS		= -lTUvIeee1394++ -lTUIeee1394++ -lTUv++ -lTUTools++ \
 		  -lXaw3d -lXt -lXext -lXmu -lX11 -lraw1394
 ifeq ($(OSTYPE), darwin)
   LIBS	       += -framework IOKit -framework CoreFoundation -framework CoreServices
@@ -40,7 +40,6 @@ EXTHDRS		= /usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/Minimize.h \
 		/usr/local/include/TU/Vector++.h \
 		/usr/local/include/TU/functional.h \
-		/usr/local/include/TU/io.h \
 		/usr/local/include/TU/iterator.h \
 		/usr/local/include/TU/mmInstructions.h \
 		/usr/local/include/TU/tuple.h \
@@ -49,97 +48,54 @@ EXTHDRS		= /usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/v/CmdPane.h \
 		/usr/local/include/TU/v/CmdWindow.h \
 		/usr/local/include/TU/v/Colormap.h \
-		/usr/local/include/TU/v/Dialog.h \
-		/usr/local/include/TU/v/ModalDialog.h \
 		/usr/local/include/TU/v/TUv++.h \
 		/usr/local/include/TU/v/Timer.h \
-		/usr/local/include/TU/v/Widget-Xaw.h
+		/usr/local/include/TU/v/Widget-Xaw.h \
+		/usr/local/include/TU/v/vIeee1394++.h
 HDRS		= CaptureAndSave.h \
 		MyCmdWindow.h \
-		MyModalDialog.h \
-		flow1394camera.h
+		flowcamera.h
 SRCS		= CaptureAndSave.cc \
 		MyCmdWindow.cc \
-		MyModalDialog.cc \
-		createFeatureCmds.cc \
-		createMenuCmds.cc \
 		main.cc
 OBJS		= CaptureAndSave.o \
 		MyCmdWindow.o \
-		MyModalDialog.o \
-		createFeatureCmds.o \
-		createMenuCmds.o \
 		main.o
 
 include $(PROJECT)/lib/p.mk
 
 ###
-CaptureAndSave.o: /usr/local/include/TU/Ieee1394CameraArray.h \
-	/usr/local/include/TU/Array++.h /usr/local/include/TU/iterator.h \
-	/usr/local/include/TU/functional.h \
-	/usr/local/include/TU/mmInstructions.h /usr/local/include/TU/tuple.h \
-	/usr/local/include/TU/Ieee1394++.h /usr/local/include/TU/Image++.h \
-	/usr/local/include/TU/types.h /usr/local/include/TU/Geometry++.h \
-	/usr/local/include/TU/Vector++.h /usr/local/include/TU/Minimize.h \
-	/usr/local/include/TU/io.h CaptureAndSave.h
-MyCmdWindow.o: flow1394camera.h /usr/local/include/TU/v/TUv++.h \
-	/usr/local/include/TU/v/Colormap.h /usr/local/include/TU/Image++.h \
-	/usr/local/include/TU/types.h /usr/local/include/TU/Geometry++.h \
-	/usr/local/include/TU/Vector++.h /usr/local/include/TU/Array++.h \
-	/usr/local/include/TU/iterator.h /usr/local/include/TU/functional.h \
-	/usr/local/include/TU/mmInstructions.h /usr/local/include/TU/tuple.h \
-	/usr/local/include/TU/Minimize.h /usr/local/include/TU/List.h \
-	/usr/local/include/TU/v/Widget-Xaw.h \
-	/usr/local/include/TU/Ieee1394CameraArray.h \
-	/usr/local/include/TU/Ieee1394++.h /usr/local/include/TU/io.h \
-	MyCmdWindow.h /usr/local/include/TU/v/App.h \
-	/usr/local/include/TU/v/CmdWindow.h /usr/local/include/TU/v/CmdPane.h \
-	/usr/local/include/TU/v/Timer.h CaptureAndSave.h MyModalDialog.h \
-	/usr/local/include/TU/v/ModalDialog.h \
-	/usr/local/include/TU/v/Dialog.h
-MyModalDialog.o: MyModalDialog.h /usr/local/include/TU/Ieee1394++.h \
+CaptureAndSave.o: /usr/local/include/TU/Ieee1394++.h \
 	/usr/local/include/TU/Image++.h /usr/local/include/TU/types.h \
 	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/Vector++.h \
 	/usr/local/include/TU/Array++.h /usr/local/include/TU/iterator.h \
 	/usr/local/include/TU/functional.h \
 	/usr/local/include/TU/mmInstructions.h /usr/local/include/TU/tuple.h \
-	/usr/local/include/TU/Minimize.h \
-	/usr/local/include/TU/v/ModalDialog.h \
-	/usr/local/include/TU/v/Dialog.h /usr/local/include/TU/v/CmdPane.h \
-	/usr/local/include/TU/v/CmdWindow.h /usr/local/include/TU/v/TUv++.h \
-	/usr/local/include/TU/v/Colormap.h /usr/local/include/TU/List.h \
-	/usr/local/include/TU/v/Widget-Xaw.h
-createFeatureCmds.o: /usr/local/include/TU/v/CmdPane.h \
-	/usr/local/include/TU/v/CmdWindow.h /usr/local/include/TU/v/TUv++.h \
-	/usr/local/include/TU/v/Colormap.h /usr/local/include/TU/Image++.h \
-	/usr/local/include/TU/types.h /usr/local/include/TU/Geometry++.h \
-	/usr/local/include/TU/Vector++.h /usr/local/include/TU/Array++.h \
-	/usr/local/include/TU/iterator.h /usr/local/include/TU/functional.h \
-	/usr/local/include/TU/mmInstructions.h /usr/local/include/TU/tuple.h \
-	/usr/local/include/TU/Minimize.h /usr/local/include/TU/List.h \
-	/usr/local/include/TU/v/Widget-Xaw.h flow1394camera.h \
-	/usr/local/include/TU/Ieee1394CameraArray.h \
-	/usr/local/include/TU/Ieee1394++.h /usr/local/include/TU/io.h
-createMenuCmds.o: flow1394camera.h /usr/local/include/TU/v/TUv++.h \
-	/usr/local/include/TU/v/Colormap.h /usr/local/include/TU/Image++.h \
-	/usr/local/include/TU/types.h /usr/local/include/TU/Geometry++.h \
-	/usr/local/include/TU/Vector++.h /usr/local/include/TU/Array++.h \
-	/usr/local/include/TU/iterator.h /usr/local/include/TU/functional.h \
-	/usr/local/include/TU/mmInstructions.h /usr/local/include/TU/tuple.h \
-	/usr/local/include/TU/Minimize.h /usr/local/include/TU/List.h \
-	/usr/local/include/TU/v/Widget-Xaw.h \
-	/usr/local/include/TU/Ieee1394CameraArray.h \
-	/usr/local/include/TU/Ieee1394++.h /usr/local/include/TU/io.h
-main.o: /usr/local/include/TU/Ieee1394CameraArray.h \
+	/usr/local/include/TU/Minimize.h CaptureAndSave.h
+MyCmdWindow.o: /usr/local/include/TU/v/vIeee1394++.h \
+	/usr/local/include/TU/v/CmdPane.h /usr/local/include/TU/v/CmdWindow.h \
+	/usr/local/include/TU/v/TUv++.h /usr/local/include/TU/v/Colormap.h \
+	/usr/local/include/TU/Image++.h /usr/local/include/TU/types.h \
+	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/Vector++.h \
 	/usr/local/include/TU/Array++.h /usr/local/include/TU/iterator.h \
 	/usr/local/include/TU/functional.h \
 	/usr/local/include/TU/mmInstructions.h /usr/local/include/TU/tuple.h \
-	/usr/local/include/TU/Ieee1394++.h /usr/local/include/TU/Image++.h \
-	/usr/local/include/TU/types.h /usr/local/include/TU/Geometry++.h \
-	/usr/local/include/TU/Vector++.h /usr/local/include/TU/Minimize.h \
-	/usr/local/include/TU/io.h MyCmdWindow.h \
-	/usr/local/include/TU/v/App.h /usr/local/include/TU/v/TUv++.h \
-	/usr/local/include/TU/v/Colormap.h /usr/local/include/TU/List.h \
+	/usr/local/include/TU/Minimize.h /usr/local/include/TU/List.h \
 	/usr/local/include/TU/v/Widget-Xaw.h \
-	/usr/local/include/TU/v/CmdWindow.h /usr/local/include/TU/v/CmdPane.h \
-	/usr/local/include/TU/v/Timer.h CaptureAndSave.h
+	/usr/local/include/TU/Ieee1394++.h MyCmdWindow.h \
+	/usr/local/include/TU/v/App.h /usr/local/include/TU/v/Timer.h \
+	CaptureAndSave.h flowcamera.h
+main.o: /usr/local/include/TU/v/vIeee1394++.h \
+	/usr/local/include/TU/v/CmdPane.h /usr/local/include/TU/v/CmdWindow.h \
+	/usr/local/include/TU/v/TUv++.h /usr/local/include/TU/v/Colormap.h \
+	/usr/local/include/TU/Image++.h /usr/local/include/TU/types.h \
+	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/Vector++.h \
+	/usr/local/include/TU/Array++.h /usr/local/include/TU/iterator.h \
+	/usr/local/include/TU/functional.h \
+	/usr/local/include/TU/mmInstructions.h /usr/local/include/TU/tuple.h \
+	/usr/local/include/TU/Minimize.h /usr/local/include/TU/List.h \
+	/usr/local/include/TU/v/Widget-Xaw.h \
+	/usr/local/include/TU/Ieee1394++.h \
+	/usr/local/include/TU/Ieee1394CameraArray.h MyCmdWindow.h \
+	/usr/local/include/TU/v/App.h /usr/local/include/TU/v/Timer.h \
+	CaptureAndSave.h flowcamera.h

@@ -8,14 +8,13 @@
 namespace TU
 {
 /************************************************************************
-*  CaptureAndSave<CAMERAS>						*
+*  CaptureAndSave<CAMERA>						*
 ************************************************************************/
-template <class CAMERAS>
+template <class CAMERA>
 class CaptureAndSave
 {
   public:
-    typedef typename std::iterator_traits<
-		typename CAMERAS::value_type>::value_type	camera_type;
+    typedef CAMERA	camera_type;
 
   private:
     class KernelBase
@@ -31,23 +30,23 @@ class CaptureAndSave
     class Kernel : public KernelBase
     {
       public:
-	Kernel(const CAMERAS& cameras)					;
+	Kernel(const Array<CAMERA*>& cameras)				;
 	virtual ~Kernel()						{}
 	
 	virtual std::ostream&	saveHeaders(std::ostream& out)	const	;
 	virtual std::ostream&	operator ()(std::ostream& out)	const	;
 	
       private:
-	const CAMERAS&			_cameras;
+	const Array<CAMERA*>&		_cameras;
 	mutable Array<Image<T> >	_images;
     };
     
   public:
-    CaptureAndSave(const CAMERAS& cameras)
+    CaptureAndSave(const Array<CAMERA*>& cameras)
 	:_kernel(0)				{ setFormat(cameras); }
     ~CaptureAndSave()				{ delete _kernel; }
     
-    void		setFormat(const CAMERAS& cameras)		;
+    void		setFormat(const Array<CAMERA*>& cameras)	;
     std::ostream&	saveHeaders(std::ostream& out) const
 			{
 			    return _kernel->saveHeaders(out);
@@ -61,8 +60,8 @@ class CaptureAndSave
     KernelBase*		_kernel;
 };
 
-template <class CAMERAS> template <class T>
-CaptureAndSave<CAMERAS>::Kernel<T>::Kernel(const CAMERAS& cameras)
+template <class CAMERA> template <class T>
+CaptureAndSave<CAMERA>::Kernel<T>::Kernel(const Array<CAMERA*>& cameras)
     :_cameras(cameras), _images(_cameras.size())
 {
     typename Array<Image<T> >::iterator	image = _images.begin();
@@ -73,8 +72,8 @@ CaptureAndSave<CAMERAS>::Kernel<T>::Kernel(const CAMERAS& cameras)
     }
 }
     
-template <class CAMERAS> template <class T> std::ostream&
-CaptureAndSave<CAMERAS>::Kernel<T>::saveHeaders(std::ostream& out) const
+template <class CAMERA> template <class T> std::ostream&
+CaptureAndSave<CAMERA>::Kernel<T>::saveHeaders(std::ostream& out) const
 {
     out << 'M' << _images.size() << std::endl;
     BOOST_FOREACH (const Image<T>& image, _images)
@@ -83,10 +82,10 @@ CaptureAndSave<CAMERAS>::Kernel<T>::saveHeaders(std::ostream& out) const
     return out;
 }
     
-template <class CAMERAS> template <class T> std::ostream&
-CaptureAndSave<CAMERAS>::Kernel<T>::operator ()(std::ostream& out) const
+template <class CAMERA> template <class T> std::ostream&
+CaptureAndSave<CAMERA>::Kernel<T>::operator ()(std::ostream& out) const
 {
-    _cameras.exec(&camera_type::snap);
+    exec(_cameras, &camera_type::snap);
     typename Array<Image<T> >::iterator	image = _images.begin();
     BOOST_FOREACH (const camera_type* camera, _cameras)
     {

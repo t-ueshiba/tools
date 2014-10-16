@@ -1,16 +1,16 @@
 /*
  *  $Id$
  */
-#include "TU/V4L2CameraArray.h"
+#include "TU/V4L2++.h"
 #include "CaptureAndSave.h"
 
 namespace TU
 {
 /************************************************************************
-*  CaptureAndSave<V4L2CameraArray>					*
+*  CaptureAndSave<V4L2Camera>						*
 ************************************************************************/
 template <> void
-CaptureAndSave<V4L2CameraArray>::setFormat(const V4L2CameraArray& cameras)
+CaptureAndSave<V4L2Camera>::setFormat(const Array<V4L2Camera*>& cameras)
 {
     delete _kernel;
     _kernel = 0;
