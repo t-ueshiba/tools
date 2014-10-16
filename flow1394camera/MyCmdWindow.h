@@ -2,6 +2,7 @@
  *  $Id: MyCmdWindow.h,v 1.3 2011-01-05 02:04:50 ueshiba Exp $
  */
 #include <iterator>
+#include <fstream>
 #include "TU/v/App.h"
 #include "TU/v/CmdWindow.h"
 #include "TU/v/CmdPane.h"
@@ -60,6 +61,58 @@ MyCmdWindow<CAMERAS>::MyCmdWindow(App& parentApp, const CAMERAS& cameras)
     continuousShot();				// カメラからの画像出力を開始
 }
     
+template <class CAMERAS> void
+MyCmdWindow<CAMERAS>::callback(CmdId id, CmdVal val)
+{
+    using namespace	std;
+
+    try
+    {
+	if (handleCameraFormats(_cameras, id, val))
+	{
+	    _captureAndSave.setFormat(_cameras);
+	    return;
+	}
+	else if (handleCameraSpecialFormats(_cameras, id, val, *this))
+	{
+	    _captureAndSave.setFormat(_cameras);
+	    return;
+	}
+	else if (handleCameraFeatures(_cameras, id, val, _featureCmd))
+	    return;
+	
+	switch (id)
+	{
+	  case M_Exit:
+	    app().exit();
+	    break;
+
+	  case M_Save:
+	  {
+	    stopContinuousShot();
+
+	    ofstream	out(_cameras.configFile().c_str());
+	    if (out)
+		out << _cameras;
+
+	    continuousShot();
+	  }
+	    break;
+      
+	  case c_ContinuousShot:
+	    if (val)
+		continuousShot();
+	    else
+		stopContinuousShot();
+	    break;
+	}
+    }
+    catch (exception& err)
+    {
+	cerr << err.what();
+    }
+}
+
 template <class CAMERAS> void
 MyCmdWindow<CAMERAS>::tick()
 {
