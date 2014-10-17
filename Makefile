@@ -4,11 +4,12 @@ SUBDIR	= embedCalib		\
 	  pbmrectify		\
 	  pbmselect		\
 	  pbmrot		\
-	  flow1394camera	\
-	  fv			\
-	  rec1394camera		\
 	  pbmdecode		\
+	  fv			\
+	  flow1394camera	\
+	  rec1394camera		\
 	  flowV4L2camera	\
+	  recV4L2camera		\
 	  hubctrl
 
 TARGETS	= all install clean depend
