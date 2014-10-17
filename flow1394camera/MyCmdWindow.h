@@ -25,7 +25,7 @@ class MyCmdWindow : public CmdWindow
 		typename CAMERAS::value_type>::value_type	camera_type;
     
   public:
-    MyCmdWindow(App& parentApp, const CAMERAS& cameras)			;
+    MyCmdWindow(App& parentApp, CAMERAS& cameras)			;
 
     virtual void	callback(CmdId, CmdVal)				;
     virtual void	tick()						;
@@ -35,7 +35,7 @@ class MyCmdWindow : public CmdWindow
     void		stopContinuousShot()				;
 
   private:
-    const CAMERAS&		_cameras;
+    CAMERAS&			_cameras;
     CaptureAndSave<camera_type>	_captureAndSave;
     CmdPane			_menuCmd;
     CmdPane			_featureCmd;
@@ -43,7 +43,7 @@ class MyCmdWindow : public CmdWindow
 };
 
 template <class CAMERAS>
-MyCmdWindow<CAMERAS>::MyCmdWindow(App& parentApp, const CAMERAS& cameras)
+MyCmdWindow<CAMERAS>::MyCmdWindow(App& parentApp, CAMERAS& cameras)
     :CmdWindow(parentApp, "Multi camera controller",
 	       Colormap::RGBColor, 16, 0, 0),
      _cameras(cameras),
@@ -87,6 +87,19 @@ MyCmdWindow<CAMERAS>::callback(CmdId id, CmdVal val)
 	    app().exit();
 	    break;
 
+	  case M_Open:
+	  {
+	    stopContinuousShot();
+
+	    ifstream	in(_cameras.configFile().c_str());
+	    if (in)
+		in >> _cameras;
+	    refreshFeatureCmds(_cameras, _featureCmd);
+	    
+	    continuousShot();
+	  }
+	    break;
+      
 	  case M_Save:
 	  {
 	    stopContinuousShot();

@@ -1,9 +1,9 @@
 /*
- *  $Id$
+ *  $Id: main.cc 1215 2012-11-09 01:36:56Z ueshiba $
  */
 #include <cstdlib>
-#include "TU/v/vIeee1394++.h"
-#include "TU/Ieee1394CameraArray.h"
+#include "TU/v/vV4L2++.h"
+#include "TU/V4L2CameraArray.h"
 #include "MyCmdWindow.h"
 
 namespace TU
@@ -16,20 +16,19 @@ usage(const char* s)
 {
     using namespace	std;
     
-    cerr << "\nRecord image stream from multiple IEEE1394 cameras.\n"
+    cerr << "\nRecord image stream from multiple V4L2 cameras.\n"
 	 << endl;
     cerr << " Usage: " << s << " [options]\n"
 	 << endl;
     cerr << " configuration options.\n"
 	 << "  -c cameraName:  prefix of camera {conf|calib} file\n"
 	 << "                  (default: \""
-	 << DEFAULT_CAMERA_NAME
+	 << TU_V4L2_DEFAULT_CAMERA_NAME
 	 << "\")\n"
 	 << "  -d configDirs:  list of directories for camera {conf|calib} file\n"
 	 << "                  (default: \""
-	 << DEFAULT_CONFIG_DIRS
+	 << TU_V4L2_DEFAULT_CONFIG_DIRS
 	 << "\")\n"
-	 << "  -B:             IEEE1394b mode (default: off)\n"
 	 << "  -C:             no cameras used (movie editing only)\n"
 	 << endl;
     cerr << " display options.\n"
@@ -55,16 +54,15 @@ main(int argc, char* argv[])
     using namespace	TU;
     
     v::App		vapp(argc, argv);
-    const char*		cameraName = DEFAULT_CAMERA_NAME;
-    const char*		configDirs = DEFAULT_CONFIG_DIRS;
+    const char*		cameraName = TU_V4L2_DEFAULT_CAMERA_NAME;
+    const char*		configDirs = TU_V4L2_DEFAULT_CONFIG_DIRS;
     u_int		ncol	   = 2,
 			mul	   = 1,
 			div	   = 1;
-    Ieee1394Node::Speed	speed	   = Ieee1394Node::SPD_400M;
 
   // コマンド行の解析．
     extern char*	optarg;
-    for (int c; (c = getopt(argc, argv, "c:d:CBn:42HQh")) != -1; )
+    for (int c; (c = getopt(argc, argv, "c:d:Cn:42HQh")) != -1; )
 	switch (c)
 	{
 	  case 'c':
@@ -75,9 +73,6 @@ main(int argc, char* argv[])
 	    break;
 	  case 'C':
 	    cameraName = 0;
-	    break;
-	  case 'B':
-	    speed = Ieee1394Node::SPD_800M;
 	    break;
 	  case 'n':
 	    ncol = atoi(optarg);
@@ -105,11 +100,11 @@ main(int argc, char* argv[])
     
     try
     {
-	Ieee1394CameraArray	cameras;
+	V4L2CameraArray		cameras;
 	if (cameraName != 0)
-	    cameras.initialize(cameraName, configDirs, speed);
+	    cameras.initialize(cameraName, configDirs);
 
-	v::MyCmdWindow<Ieee1394CameraArray, u_char>
+	v::MyCmdWindow<V4L2CameraArray, u_char>
 				myWin(vapp, cameras, ncol, mul, div);
 	vapp.run();
     }
