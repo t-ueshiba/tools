@@ -98,13 +98,13 @@ MyCmdWindow<CAMERAS, PIXEL>::callback(CmdId id, CmdVal val)
 
     try
     {
-	if (handleCameraFormats(_cameras, id, val) ||
-	    handleCameraSpecialFormats(_cameras, id, val, *this))
+	if (setCameraFormat(_cameras, id, val) ||
+	    setCameraSpecialFormat(_cameras, id, val, *this))
 	{
 	    initializeMovie();
 	    return;
 	}
-	else if (handleCameraFeatures(_cameras, id, val, _featureCmd))
+	else if (setCameraFeatureValue(_cameras, id, val, _featureCmd))
 	    return;
 	
 	switch (id)

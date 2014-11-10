@@ -68,17 +68,17 @@ MyCmdWindow<CAMERAS>::callback(CmdId id, CmdVal val)
 
     try
     {
-	if (handleCameraFormats(_cameras, id, val))
+	if (setCameraFormat(_cameras, id, val))
 	{
 	    _captureAndSave.setFormat(_cameras);
 	    return;
 	}
-	else if (handleCameraSpecialFormats(_cameras, id, val, *this))
+	else if (setCameraSpecialFormat(_cameras, id, val, *this))
 	{
 	    _captureAndSave.setFormat(_cameras);
 	    return;
 	}
-	else if (handleCameraFeatures(_cameras, id, val, _featureCmd))
+	else if (setCameraFeatureValue(_cameras, id, val, _featureCmd))
 	    return;
 	
 	switch (id)
