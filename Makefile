@@ -8,9 +8,9 @@ SUBDIR	= embedCalib		\
 	  fv			\
 	  flow1394camera	\
 	  rec1394camera		\
-	  flowV4L2camera	\
-	  recV4L2camera		\
-	  hubctrl
+#	  flowV4L2camera	\
+#	  recV4L2camera		\
+#	  hubctrl
 
 TARGETS	= all install clean depend
 
