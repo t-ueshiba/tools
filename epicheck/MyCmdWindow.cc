@@ -69,7 +69,7 @@ MyCmdWindow::MyCmdWindow(App&				parentApp,
 	for (int j = 0; j < nviews(); ++j)
 	{
 	    const Matrix34d&	P1 = images[j].P;
-	    F[j] = (P1 * c).skew() * P1 * P0inv;
+	    F[j] = Vector3d(P1 * c).skew() * P1 * P0inv;
 	}
 	_canvases[i] = new MyCanvasPane(*this, i, F, images[i],
 					lineWidth, mul, div);

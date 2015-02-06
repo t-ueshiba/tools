@@ -1,37 +1,45 @@
 #
-#  $Id: Makefile,v 1.3 2012-08-30 01:14:09 ueshiba Exp $
+#  $Id$
 #
 #################################
 #  User customizable macros	#
 #################################
-DEST		= $(PREFIX)/bin
-INCDIRS		= -I../flow1394camera -I$(PREFIX)/include
-
 PROGRAM		= $(shell basename $(PWD))
-LIBS		= -lTUvV4L2++ -lTUV4L2++ -lTUv++ -lTUTools++ \
-		  -lXaw3d -lXv -lXt -lXext -lXmu -lX11
-ifeq ($(OSTYPE), darwin)
-  LIBS	       +=
-#  LIBS	       += -framework IOKit -framework CoreFoundation -framework CoreServices
-endif
+#LIBRARY		= lib$(shell basename $(PWD))
 
+VPATH		=
+
+IDLS		=
+MOCHDRS		=
+
+INCDIRS		= -I../flow1394camera -I$(PREFIX)/include
 CPPFLAGS	= -DHAVE_LIBTUTOOLS__ -DNDEBUG
 CFLAGS		= -g
 NVCCFLAGS	= -g
-ifeq ($(CXX), icpc)
+ifneq ($(findstring icpc,$(CXX)),)
   CFLAGS	= -O3
-  NVCCFLAGS	= -O		# -O2以上にするとコンパイルエラーになる．
+  NVCCFLAGS	= -O			# must < -O2
   CPPFLAGS     += -DSSE3
 endif
 CCFLAGS		= $(CFLAGS)
 
+LIBS		= -lTUvV4L2++ -lTUV4L2++ -lTUv++ -lTUTools++ \
+		  -lXaw3d -lXv -lXt -lXext -lXmu -lX11
+ifneq ($(findstring darwin,$(OSTYPE)),)
+  LIBS	       += -framework IOKit -framework CoreFoundation \
+		  -framework CoreServices
+endif
+
 LINKER		= $(CXX)
+
+BINDIR		= $(PREFIX)/bin
+LIBDIR		= $(PREFIX)/lib
+INCDIR		= $(PREFIX)/include
 
 #########################
 #  Macros set by mkmf	#
 #########################
-.SUFFIXES:	.cu
-SUFFIX		= .cc:sC .cu:sC .cpp:sC
+SUFFIX		= .cc:sC .cpp:sC .cu:sC
 EXTHDRS		= ../flow1394camera/CaptureAndSave.h \
 		../flow1394camera/MyCmdWindow.h \
 		../flow1394camera/flowcamera.h \
@@ -63,15 +71,18 @@ SRCS		= CaptureAndSave.cc \
 OBJS		= CaptureAndSave.o \
 		main.o
 
-include $(PROJECT)/lib/p.mk
-
+#include $(PROJECT)/lib/rtc.mk		# IDLHDRS, IDLSRCS, CPPFLAGS, OBJS, LIBS
+#include $(PROJECT)/lib/qt.mk		# MOCSRCS, OBJS
+#include $(PROJECT)/lib/cnoid.mk	# CPPFLAGS, LIBS, LIBDIR
+#include $(PROJECT)/lib/lib.mk		# PUBHDRS TARGHDRS
+include $(PROJECT)/lib/common.mk
 ###
 CaptureAndSave.o: /usr/local/include/TU/V4L2++.h \
 	/usr/local/include/TU/Image++.h /usr/local/include/TU/types.h \
 	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/Vector++.h \
 	/usr/local/include/TU/Array++.h /usr/local/include/TU/iterator.h \
-	/usr/local/include/TU/functional.h \
-	/usr/local/include/TU/mmInstructions.h /usr/local/include/TU/tuple.h \
+	/usr/local/include/TU/tuple.h /usr/local/include/TU/functional.h \
+	/usr/local/include/TU/mmInstructions.h \
 	/usr/local/include/TU/Minimize.h ../flow1394camera/CaptureAndSave.h
 main.o: /usr/local/include/TU/v/vV4L2++.h \
 	/usr/local/include/TU/v/CmdPane.h /usr/local/include/TU/v/CmdWindow.h \
@@ -79,8 +90,8 @@ main.o: /usr/local/include/TU/v/vV4L2++.h \
 	/usr/local/include/TU/Image++.h /usr/local/include/TU/types.h \
 	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/Vector++.h \
 	/usr/local/include/TU/Array++.h /usr/local/include/TU/iterator.h \
-	/usr/local/include/TU/functional.h \
-	/usr/local/include/TU/mmInstructions.h /usr/local/include/TU/tuple.h \
+	/usr/local/include/TU/tuple.h /usr/local/include/TU/functional.h \
+	/usr/local/include/TU/mmInstructions.h \
 	/usr/local/include/TU/Minimize.h /usr/local/include/TU/List.h \
 	/usr/local/include/TU/v/Widget-Xaw.h /usr/local/include/TU/V4L2++.h \
 	/usr/local/include/TU/V4L2CameraArray.h /usr/local/include/TU/io.h \
