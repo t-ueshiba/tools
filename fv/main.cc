@@ -76,7 +76,7 @@ namespace v
 /************************************************************************
 *  static data								*
 ************************************************************************/
-enum		{c_ContinuousShot, c_Slider, c_Cursor};
+enum		{c_ContinuousShot, c_Saturation, c_Cursor};
 static int	range[] = {1, 255, 1};
 
 static MenuDef fileMenu[] =
@@ -95,7 +95,7 @@ static CmdDef	Cmds[] =
      1, 0, 1, 1, 0},
     {C_Label,	     c_Cursor,	       0, "         ",	     noProp, CA_None,
      2, 0, 1, 1, 0},
-    {C_Slider,	     c_Slider,	     256, "Saturation:",      range, CA_None,
+    {C_Slider,	     c_Saturation,   256, "Saturation:",      range, CA_None,
      3, 0, 1, 1, 0},
     EndOfCmds
 };
@@ -290,7 +290,7 @@ MyCmdWindow::MyCmdWindow(App& parentApp, const char* name,
     
     show();
 
-    _cmd.setValue(c_Slider, int(saturation));
+    _cmd.setValue(c_Saturation, int(saturation));
     colormap().setSaturation(saturation);
     colormap().setSaturationF(saturation);
 
@@ -336,7 +336,7 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
       }
 	break;
 
-      case c_Slider:
+      case c_Saturation:
 	colormap().setSaturation(val);
 	colormap().setSaturationF(val.f());
 	for (u_int i = 0; i < _canvases.dim(); ++i)
