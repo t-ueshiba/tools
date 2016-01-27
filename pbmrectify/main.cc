@@ -70,7 +70,8 @@ doJob(const GenericImage& header, double scale)
 	  warp.initialize(Matrix33d::I(3), calib,
 			  image[0].width(), image[0].height(),
 			  image[0].width(), image[0].height());
-	  warp(image[0], rectifiedImage[0]);
+	  rectifiedImage[0].resize(warp.height(), warp.width());
+	  warp(image[0].cbegin(), rectifiedImage[0].begin());
       }
       break;
 
