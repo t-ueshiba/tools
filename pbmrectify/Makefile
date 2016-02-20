@@ -59,6 +59,7 @@ EXTHDRS		= /usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/simd/arm/cast.h \
 		/usr/local/include/TU/simd/arm/compare.h \
 		/usr/local/include/TU/simd/arm/cvt.h \
+		/usr/local/include/TU/simd/arm/dup.h \
 		/usr/local/include/TU/simd/arm/insert_extract.h \
 		/usr/local/include/TU/simd/arm/load_store.h \
 		/usr/local/include/TU/simd/arm/logical.h \
@@ -130,7 +131,8 @@ main.o: /usr/local/include/TU/Rectify.h /usr/local/include/TU/Warp.h \
 	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/Vector++.h \
 	/usr/local/include/TU/Array++.h /usr/local/include/TU/iterator.h \
 	/usr/local/include/TU/tuple.h /usr/local/include/TU/functional.h \
-	/usr/local/include/TU/pair.h /usr/local/include/TU/simd/simd.h \
+	/usr/local/include/TU/pair.h /usr/local/include/TU/Minimize.h \
+	/usr/local/include/TU/Camera++.h /usr/local/include/TU/simd/simd.h \
 	/usr/local/include/TU/simd/config.h /usr/local/include/TU/simd/vec.h \
 	/usr/local/include/TU/simd/type_traits.h \
 	/usr/local/include/TU/simd/x86/type_traits.h \
@@ -160,14 +162,16 @@ main.o: /usr/local/include/TU/Rectify.h /usr/local/include/TU/Warp.h \
 	/usr/local/include/TU/simd/bit_shift.h \
 	/usr/local/include/TU/simd/x86/bit_shift.h \
 	/usr/local/include/TU/simd/arm/bit_shift.h \
-	/usr/local/include/TU/simd/dup.h /usr/local/include/TU/simd/x86/dup.h \
+	/usr/local/include/TU/simd/dup.h /usr/local/include/TU/simd/cvt.h \
+	/usr/local/include/TU/simd/x86/cvt.h \
 	/usr/local/include/TU/simd/x86/unpack.h \
-	/usr/local/include/TU/simd/cvt.h /usr/local/include/TU/simd/x86/cvt.h \
 	/usr/local/include/TU/simd/arm/cvt.h \
 	/usr/local/include/TU/simd/logical.h \
 	/usr/local/include/TU/simd/x86/logical.h \
 	/usr/local/include/TU/simd/x86/logical_base.h \
 	/usr/local/include/TU/simd/arm/logical.h \
+	/usr/local/include/TU/simd/x86/dup.h \
+	/usr/local/include/TU/simd/arm/dup.h \
 	/usr/local/include/TU/simd/compare.h \
 	/usr/local/include/TU/simd/x86/compare.h \
 	/usr/local/include/TU/simd/arm/compare.h \
@@ -189,5 +193,4 @@ main.o: /usr/local/include/TU/Rectify.h /usr/local/include/TU/Warp.h \
 	/usr/local/include/TU/simd/cvtdown_iterator.h \
 	/usr/local/include/TU/simd/cvtup_iterator.h \
 	/usr/local/include/TU/simd/shift_iterator.h \
-	/usr/local/include/TU/simd/row_vec_iterator.h \
-	/usr/local/include/TU/Minimize.h /usr/local/include/TU/Camera++.h
+	/usr/local/include/TU/simd/row_vec_iterator.h
