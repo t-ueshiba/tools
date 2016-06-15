@@ -6,8 +6,8 @@ SUBDIR	= embedCalib		\
 	  pbmrot		\
 	  pbmdecode		\
 	  fv			\
-	  flow1394camera	\
-	  rec1394camera		\
+	  flowIIDCcamera	\
+	  recIIDCcamera		\
 	  flowV4L2camera	\
 	  recV4L2camera		\
 	  hubctrl

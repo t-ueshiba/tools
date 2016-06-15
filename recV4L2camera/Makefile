@@ -12,7 +12,7 @@ VPATH		=
 IDLS		=
 MOCHDRS		=
 
-INCDIRS		= -I../rec1394camera -I$(PREFIX)/include
+INCDIRS		= -I../recIIDCcamera -I$(PREFIX)/include
 CPPFLAGS	= -DHAVE_LIBTUTOOLS__ -DNDEBUG -DUSE_SHMDC #-DMONO_IMAGE
 CFLAGS		= -g
 NVCCFLAGS	= -g
@@ -40,9 +40,9 @@ INCDIR		= $(PREFIX)/include
 #  Macros set by mkmf	#
 #########################
 SUFFIX		= .cc:sC .cpp:sC .cu:sC
-EXTHDRS		= ../rec1394camera/MyCanvasPane.h \
-		../rec1394camera/MyCmdWindow.h \
-		../rec1394camera/reccamera.h \
+EXTHDRS		= ../recIIDCcamera/MyCanvasPane.h \
+		../recIIDCcamera/MyCmdWindow.h \
+		../recIIDCcamera/reccamera.h \
 		/usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/Geometry++.h \
 		/usr/local/include/TU/Image++.h \
@@ -98,13 +98,13 @@ main.o: /usr/local/include/TU/v/vV4L2++.h \
 	/usr/local/include/TU/List.h /usr/local/include/TU/v/Widget-Xaw.h \
 	/usr/local/include/TU/V4L2++.h \
 	/usr/local/include/TU/V4L2CameraArray.h /usr/local/include/TU/io.h \
-	../rec1394camera/MyCmdWindow.h /usr/local/include/TU/v/App.h \
+	../recIIDCcamera/MyCmdWindow.h /usr/local/include/TU/v/App.h \
 	/usr/local/include/TU/v/FileSelection.h \
 	/usr/local/include/TU/v/ModalDialog.h \
 	/usr/local/include/TU/v/Dialog.h /usr/local/include/TU/v/Timer.h \
 	/usr/local/include/TU/Movie.h /usr/local/include/TU/Manip.h \
-	../rec1394camera/MyCanvasPane.h /usr/local/include/TU/v/CanvasPane.h \
+	../recIIDCcamera/MyCanvasPane.h /usr/local/include/TU/v/CanvasPane.h \
 	/usr/local/include/TU/v/CanvasPaneDC.h /usr/local/include/TU/v/XDC.h \
 	/usr/local/include/TU/v/DC.h /usr/local/include/TU/v/Menu.h \
 	/usr/local/include/TU/v/ShmDC.h /usr/local/include/TU/v/XvDC.h \
-	../rec1394camera/reccamera.h
+	../recIIDCcamera/reccamera.h

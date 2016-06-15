@@ -2,8 +2,8 @@
  *  $Id$
  */
 #include <cstdlib>
-#include "TU/v/vIeee1394++.h"
-#include "TU/Ieee1394CameraArray.h"
+#include "TU/v/vIIDC++.h"
+#include "TU/IIDCCameraArray.h"
 #include "MyCmdWindow.h"
 
 namespace TU
@@ -16,7 +16,7 @@ usage(const char* s)
 {
     using namespace	std;
     
-    cerr << "\nRecord image stream from multiple IEEE1394 cameras.\n"
+    cerr << "\nRecord image stream from multiple IIDC cameras.\n"
 	 << endl;
     cerr << " Usage: " << s << " [options]\n"
 	 << endl;
@@ -60,7 +60,7 @@ main(int argc, char* argv[])
     u_int		ncol	   = 2,
 			mul	   = 1,
 			div	   = 1;
-    Ieee1394Node::Speed	speed	   = Ieee1394Node::SPD_400M;
+    IIDCCamera::Speed	speed	   = IIDCCamera::SPD_400M;
 
   // コマンド行の解析．
     extern char*	optarg;
@@ -77,7 +77,7 @@ main(int argc, char* argv[])
 	    cameraName = 0;
 	    break;
 	  case 'B':
-	    speed = Ieee1394Node::SPD_800M;
+	    speed = IIDCCamera::SPD_800M;
 	    break;
 	  case 'n':
 	    ncol = atoi(optarg);
@@ -105,12 +105,12 @@ main(int argc, char* argv[])
     
     try
     {
-	Ieee1394CameraArray	cameras;
+	IIDCCameraArray	cameras;
 	if (cameraName != 0)
 	    cameras.initialize(cameraName, configDirs, speed);
 
-	v::MyCmdWindow<Ieee1394CameraArray, u_char>
-				myWin(vapp, cameras, ncol, mul, div);
+	v::MyCmdWindow<IIDCCameraArray, u_char>
+			myWin(vapp, cameras, ncol, mul, div);
 	vapp.run();
     }
     catch (exception& err)

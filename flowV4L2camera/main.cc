@@ -6,6 +6,7 @@
 #include "TU/v/vV4L2++.h"
 #include "TU/V4L2CameraArray.h"
 #include "MyCmdWindow.h"
+#include <boost/foreach.hpp>
 
 namespace TU
 {

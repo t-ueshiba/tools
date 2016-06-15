@@ -4,8 +4,8 @@
 #include <signal.h>
 #include <cstdlib>
 #include <iomanip>
-#include "TU/v/vIeee1394++.h"
-#include "TU/Ieee1394CameraArray.h"
+#include "TU/v/vIIDC++.h"
+#include "TU/IIDCCameraArray.h"
 #include "MyCmdWindow.h"
 
 namespace TU
@@ -23,7 +23,7 @@ usage(const char* s)
 {
     using namespace	std;
 
-    cerr << "\nPut image stream from IEEE1394 cameras to stdout.\n"
+    cerr << "\nPut image stream from IIDC cameras to stdout.\n"
 	 << endl;
     cerr << " Usage: " << s << " [options]\n"
 	 << endl;
@@ -65,9 +65,9 @@ main(int argc, char* argv[])
     using namespace	TU;
     
     v::App		vapp(argc, argv);
-    const char*		cameraName = 0;
-    const char*		configDirs = 0;
-    Ieee1394Node::Speed	speed	   = Ieee1394Node::SPD_400M;
+    const char*		cameraName = nullptr;
+    const char*		configDirs = nullptr;
+    IIDCCamera::Speed	speed	   = IIDCCamera::SPD_400M;
     int			ncameras   = -1;
     bool		gui	   = false;
     
@@ -83,7 +83,7 @@ main(int argc, char* argv[])
 	    configDirs = optarg;
 	    break;
 	  case 'B':
-	    speed = Ieee1394Node::SPD_800M;
+	    speed = IIDCCamera::SPD_800M;
 	    break;
 	  case 'n':
 	    ncameras = atoi(optarg);
@@ -99,13 +99,12 @@ main(int argc, char* argv[])
   // Main job.
     try
     {
-      // IEEE1394カメラをオープンする．
-	Ieee1394CameraArray	cameras(cameraName, configDirs,
-					speed, ncameras);
+      // IIDCカメラをオープンする．
+	IIDCCameraArray	cameras(cameraName, configDirs, speed, ncameras);
 	if (cameras.size() == 0)
 	    return 0;
 	
-	BOOST_FOREACH (const Ieee1394Camera* camera, cameras)
+	for (const auto camera : cameras)
 	    cerr << "uniqId = "
 		 << hex << setw(16) << setfill('0')
 		 << camera->globalUniqueId() << dec << endl;
@@ -116,7 +115,7 @@ main(int argc, char* argv[])
 
 	if (gui)
 	{
-	    v::MyCmdWindow<Ieee1394CameraArray>	myWin(vapp, cameras);
+	    v::MyCmdWindow<IIDCCameraArray>	myWin(vapp, cameras);
 	    vapp.run();
 	}
 	else

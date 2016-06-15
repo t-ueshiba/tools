@@ -23,8 +23,8 @@ ifneq ($(findstring icpc,$(CXX)),)
 endif
 CCFLAGS		= $(CFLAGS)
 
-LIBS		= -lTUvIeee1394++ -lTUIeee1394++ -lTUv++ -lTUTools++ \
-		  -lXaw3d -lXt -lXext -lXmu -lX11 -lraw1394
+LIBS		= -lTUvIIDC++ -lTUIIDC++ -lTUv++ -lTUTools++ \
+		  -lXaw3d -lXt -lXext -lXmu -lX11 -lraw1394 -lusb-1.0
 ifneq ($(findstring darwin,$(OSTYPE)),)
   LIBS	       += -framework IOKit -framework CoreFoundation \
 		  -framework CoreServices
@@ -42,8 +42,8 @@ INCDIR		= $(PREFIX)/include
 SUFFIX		= .cc:sC .cpp:sC .cu:sC
 EXTHDRS		= /usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/Geometry++.h \
-		/usr/local/include/TU/Ieee1394++.h \
-		/usr/local/include/TU/Ieee1394CameraArray.h \
+		/usr/local/include/TU/IIDC++.h \
+		/usr/local/include/TU/IIDCCameraArray.h \
 		/usr/local/include/TU/Image++.h \
 		/usr/local/include/TU/List.h \
 		/usr/local/include/TU/Minimize.h \
@@ -60,7 +60,7 @@ EXTHDRS		= /usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/v/TUv++.h \
 		/usr/local/include/TU/v/Timer.h \
 		/usr/local/include/TU/v/Widget-Xaw.h \
-		/usr/local/include/TU/v/vIeee1394++.h
+		/usr/local/include/TU/v/vIIDC++.h
 HDRS		= CaptureAndSave.h \
 		MyCmdWindow.h \
 		flowcamera.h
@@ -75,14 +75,14 @@ OBJS		= CaptureAndSave.o \
 #include $(PROJECT)/lib/lib.mk		# PUBHDRS TARGHDRS
 include $(PROJECT)/lib/common.mk
 ###
-CaptureAndSave.o: /usr/local/include/TU/Ieee1394++.h \
+CaptureAndSave.o: /usr/local/include/TU/IIDC++.h \
 	/usr/local/include/TU/Image++.h /usr/local/include/TU/types.h \
 	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/Vector++.h \
 	/usr/local/include/TU/Array++.h /usr/local/include/TU/iterator.h \
 	/usr/local/include/TU/tuple.h /usr/local/include/TU/functional.h \
 	/usr/local/include/TU/pair.h /usr/local/include/TU/Minimize.h \
 	CaptureAndSave.h
-main.o: /usr/local/include/TU/v/vIeee1394++.h \
+main.o: /usr/local/include/TU/v/vIIDC++.h \
 	/usr/local/include/TU/v/CmdPane.h /usr/local/include/TU/v/CmdWindow.h \
 	/usr/local/include/TU/v/TUv++.h /usr/local/include/TU/v/Colormap.h \
 	/usr/local/include/TU/Image++.h /usr/local/include/TU/types.h \
@@ -91,7 +91,7 @@ main.o: /usr/local/include/TU/v/vIeee1394++.h \
 	/usr/local/include/TU/tuple.h /usr/local/include/TU/functional.h \
 	/usr/local/include/TU/pair.h /usr/local/include/TU/Minimize.h \
 	/usr/local/include/TU/List.h /usr/local/include/TU/v/Widget-Xaw.h \
-	/usr/local/include/TU/Ieee1394++.h \
-	/usr/local/include/TU/Ieee1394CameraArray.h MyCmdWindow.h \
+	/usr/local/include/TU/IIDC++.h \
+	/usr/local/include/TU/IIDCCameraArray.h MyCmdWindow.h \
 	/usr/local/include/TU/v/App.h /usr/local/include/TU/v/Timer.h \
 	CaptureAndSave.h flowcamera.h

@@ -3,7 +3,6 @@
  */
 #include <iterator>
 #include <iostream>
-#include <boost/foreach.hpp>
 
 namespace TU
 {
@@ -64,8 +63,8 @@ template <class CAMERA> template <class T>
 CaptureAndSave<CAMERA>::Kernel<T>::Kernel(const Array<CAMERA*>& cameras)
     :_cameras(cameras), _images(_cameras.size())
 {
-    typename Array<Image<T> >::iterator	image = _images.begin();
-    BOOST_FOREACH (const camera_type* camera, _cameras)
+    auto	image = _images.begin();
+    for (const auto camera : _cameras)
     {
 	image->resize(camera->height(), camera->width());
 	++image;
@@ -76,7 +75,7 @@ template <class CAMERA> template <class T> std::ostream&
 CaptureAndSave<CAMERA>::Kernel<T>::saveHeaders(std::ostream& out) const
 {
     out << 'M' << _images.size() << std::endl;
-    BOOST_FOREACH (const Image<T>& image, _images)
+    for (const auto& image : _images)
 	image.saveHeader(out);
 
     return out;
@@ -86,13 +85,13 @@ template <class CAMERA> template <class T> std::ostream&
 CaptureAndSave<CAMERA>::Kernel<T>::operator ()(std::ostream& out) const
 {
     exec(_cameras, &camera_type::snap);
-    typename Array<Image<T> >::iterator	image = _images.begin();
-    BOOST_FOREACH (const camera_type* camera, _cameras)
+    auto	image = _images.begin();
+    for (const auto camera : _cameras)
     {
 	*camera >> *image;
 	++image;
     }
-    BOOST_FOREACH (const Image<T>& image, _images)
+    for (const auto& image : _images)
 	image.saveData(out);
 
     return out;

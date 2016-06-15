@@ -12,7 +12,7 @@ VPATH		=
 IDLS		=
 MOCHDRS		=
 
-INCDIRS		= -I../flow1394camera -I$(PREFIX)/include
+INCDIRS		= -I../flowIIDCcamera -I$(PREFIX)/include
 CPPFLAGS	= -DHAVE_LIBTUTOOLS__ -DNDEBUG
 CFLAGS		= -g
 NVCCFLAGS	= -g
@@ -40,9 +40,9 @@ INCDIR		= $(PREFIX)/include
 #  Macros set by mkmf	#
 #########################
 SUFFIX		= .cc:sC .cpp:sC .cu:sC
-EXTHDRS		= ../flow1394camera/CaptureAndSave.h \
-		../flow1394camera/MyCmdWindow.h \
-		../flow1394camera/flowcamera.h \
+EXTHDRS		= ../flowIIDCcamera/CaptureAndSave.h \
+		../flowIIDCcamera/MyCmdWindow.h \
+		../flowIIDCcamera/flowcamera.h \
 		/usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/Geometry++.h \
 		/usr/local/include/TU/Image++.h \
@@ -83,7 +83,7 @@ CaptureAndSave.o: /usr/local/include/TU/V4L2++.h \
 	/usr/local/include/TU/Array++.h /usr/local/include/TU/iterator.h \
 	/usr/local/include/TU/tuple.h /usr/local/include/TU/functional.h \
 	/usr/local/include/TU/pair.h /usr/local/include/TU/Minimize.h \
-	../flow1394camera/CaptureAndSave.h
+	../flowIIDCcamera/CaptureAndSave.h
 main.o: /usr/local/include/TU/v/vV4L2++.h \
 	/usr/local/include/TU/v/CmdPane.h /usr/local/include/TU/v/CmdWindow.h \
 	/usr/local/include/TU/v/TUv++.h /usr/local/include/TU/v/Colormap.h \
@@ -95,6 +95,6 @@ main.o: /usr/local/include/TU/v/vV4L2++.h \
 	/usr/local/include/TU/List.h /usr/local/include/TU/v/Widget-Xaw.h \
 	/usr/local/include/TU/V4L2++.h \
 	/usr/local/include/TU/V4L2CameraArray.h /usr/local/include/TU/io.h \
-	../flow1394camera/MyCmdWindow.h /usr/local/include/TU/v/App.h \
-	/usr/local/include/TU/v/Timer.h ../flow1394camera/CaptureAndSave.h \
-	../flow1394camera/flowcamera.h
+	../flowIIDCcamera/MyCmdWindow.h /usr/local/include/TU/v/App.h \
+	/usr/local/include/TU/v/Timer.h ../flowIIDCcamera/CaptureAndSave.h \
+	../flowIIDCcamera/flowcamera.h

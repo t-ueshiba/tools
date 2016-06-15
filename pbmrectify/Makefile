@@ -50,6 +50,7 @@ EXTHDRS		= /usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/functional.h \
 		/usr/local/include/TU/iterator.h \
 		/usr/local/include/TU/pair.h \
+		/usr/local/include/TU/simd/BufTraits.h \
 		/usr/local/include/TU/simd/allocator.h \
 		/usr/local/include/TU/simd/arithmetic.h \
 		/usr/local/include/TU/simd/arm/allocator.h \
@@ -113,6 +114,7 @@ EXTHDRS		= /usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/simd/x86/unpack.h \
 		/usr/local/include/TU/simd/x86/vec.h \
 		/usr/local/include/TU/simd/x86/zero.h \
+		/usr/local/include/TU/simd/zero.h \
 		/usr/local/include/TU/simd/zero.h \
 		/usr/local/include/TU/tuple.h \
 		/usr/local/include/TU/types.h
@@ -193,4 +195,6 @@ main.o: /usr/local/include/TU/Rectify.h /usr/local/include/TU/Warp.h \
 	/usr/local/include/TU/simd/cvtdown_iterator.h \
 	/usr/local/include/TU/simd/cvtup_iterator.h \
 	/usr/local/include/TU/simd/shift_iterator.h \
-	/usr/local/include/TU/simd/row_vec_iterator.h
+	/usr/local/include/TU/simd/row_vec_iterator.h \
+	/usr/local/include/TU/simd/BufTraits.h \
+	/usr/local/include/TU/simd/zero.h
