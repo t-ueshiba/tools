@@ -31,8 +31,7 @@ class MyCmdWindow : public CmdWindow
     virtual void	tick()						;
     
   private:
-    void		continuousShot()				;
-    void		stopContinuousShot()				;
+    void		continuousShot(bool enable)			;
 
   private:
     CAMERAS&			_cameras;
@@ -58,7 +57,7 @@ MyCmdWindow<CAMERAS>::MyCmdWindow(App& parentApp, CAMERAS& cameras)
 
     _captureAndSave.saveHeaders(std::cout);	// 画像ヘッダを出力
 
-    continuousShot();				// カメラからの画像出力を開始
+    continuousShot(true);			// カメラからの画像出力を開始
 }
     
 template <class CAMERAS> void
@@ -89,34 +88,31 @@ MyCmdWindow<CAMERAS>::callback(CmdId id, CmdVal val)
 
 	  case M_Open:
 	  {
-	    stopContinuousShot();
+	    continuousShot(false);
 
 	    ifstream	in(_cameras.configFile().c_str());
 	    if (in)
 		in >> _cameras;
 	    refreshFeatureCmds(_cameras, _featureCmd);
 	    
-	    continuousShot();
+	    continuousShot(true);
 	  }
 	    break;
       
 	  case M_Save:
 	  {
-	    stopContinuousShot();
+	    continuousShot(false);
 
 	    ofstream	out(_cameras.configFile().c_str());
 	    if (out)
 		out << _cameras;
 
-	    continuousShot();
+	    continuousShot(true);
 	  }
 	    break;
       
 	  case c_ContinuousShot:
-	    if (val)
-		continuousShot();
-	    else
-		stopContinuousShot();
+	    continuousShot(val);
 	    break;
 	}
     }
@@ -140,17 +136,18 @@ MyCmdWindow<CAMERAS>::tick()
 }
 
 template <class CAMERAS> void
-MyCmdWindow<CAMERAS>::continuousShot()
+MyCmdWindow<CAMERAS>::continuousShot(bool enable)
 {
-    exec(_cameras, &camera_type::continuousShot);
-    _timer.start(1);
-}
-
-template <class CAMERAS> void
-MyCmdWindow<CAMERAS>::stopContinuousShot()
-{
-    _timer.stop();
-    exec(_cameras, &camera_type::stopContinuousShot);
+    if (enable)
+    {
+	exec(_cameras, &camera_type::continuousShot, true);
+	_timer.start(1);
+    }
+    else
+    {
+	_timer.stop();
+	exec(_cameras, &camera_type::continuousShot, false);
+    }
 }
 
 }

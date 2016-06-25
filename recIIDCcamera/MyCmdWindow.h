@@ -182,13 +182,13 @@ MyCmdWindow<CAMERAS, PIXEL>::callback(CmdId id, CmdVal val)
 	    if (val)
 	    {
 		_headIsActive = true;
-		exec(_cameras, &camera_type::continuousShot);
+		exec(_cameras, &camera_type::continuousShot, true);
 		_timer.start(1);
 	    }
 	    else
 	    {
 		_timer.stop();
-		exec(_cameras, &camera_type::stopContinuousShot);
+		exec(_cameras, &camera_type::continuousShot, false);
 	    }
 	    break;
 
@@ -443,7 +443,7 @@ MyCmdWindow<CAMERAS, PIXEL>::stopContinuousShotIfRunning()
     if (_captureCmd.getValue(c_ContinuousShot))
     {
 	_timer.stop();
-	exec(_cameras, &camera_type::stopContinuousShot);
+	exec(_cameras, &camera_type::continuousShot, false);
 	_captureCmd.setValue(c_ContinuousShot, 0);
     }
 }

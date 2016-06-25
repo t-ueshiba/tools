@@ -103,7 +103,7 @@ run(const Array<CAMERA*>& cameras)
 {
     CaptureAndSave<CAMERA>	captureAndSave(cameras);
     captureAndSave.saveHeaders(std::cout);		// 画像数とヘッダを出力
-    exec(cameras, &CAMERA::continuousShot);		// カメラ出力開始
+    exec(cameras, &CAMERA::continuousShot, true);	// カメラ出力開始
 
     int		nframes = 0;
     timeval	start;
@@ -115,7 +115,7 @@ run(const Array<CAMERA*>& cameras)
 	    active = false;
     }
 
-    exec(cameras, &CAMERA::stopContinuousShot);		// カメラ出力停止
+    exec(cameras, &CAMERA::continuousShot, false);	// カメラ出力停止
 }
 
 }	// namespace TU
