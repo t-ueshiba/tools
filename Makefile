@@ -6,6 +6,7 @@ SUBDIR	= embedCalib		\
 	  pbmrot		\
 	  pbmdecode		\
 	  fv			\
+	  reset1394		\
 	  flowIIDCcamera	\
 	  recIIDCcamera		\
 	  flowV4L2camera	\
