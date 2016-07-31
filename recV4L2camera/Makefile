@@ -14,11 +14,13 @@ MOCHDRS		=
 
 INCDIRS		= -I../recIIDCcamera -I$(PREFIX)/include
 CPPFLAGS	= -DNDEBUG -DUSE_SHMDC #-DMONO_IMAGE
-CFLAGS		= -g
-NVCCFLAGS	= -g
-ifneq ($(findstring icpc,$(CXX)),)
-  CFLAGS	= -O3
-  NVCCFLAGS	= -O			# must < -O2
+CFLAGS		= -O3
+NVCCFLAGS	= -O
+ifeq ($(shell arch),armv7l)
+  CPPFLAGS     += -DNEON
+else ifeq ($(shell arch), aarch64)
+  CPPFLAGS     += -DNEON
+else
   CPPFLAGS     += -DSSE3
 endif
 CCFLAGS		= $(CFLAGS)
