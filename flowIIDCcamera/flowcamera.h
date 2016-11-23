@@ -83,8 +83,11 @@ createMenuCmds(const CAMERA& camera)
 *  global functions							*
 ************************************************************************/
 inline void
-countTime(int& nframes, timeval& start)
+countTime()
 {
+    static int		nframes = 0;
+    static timeval	start;
+    
     if (nframes == 10)
     {
 	timeval	end;
@@ -99,23 +102,23 @@ countTime(int& nframes, timeval& start)
 }
 
 template <class CAMERA> void
-run(const Array<CAMERA*>& cameras)
+run(Array<CAMERA>& cameras)
 {
     CaptureAndSave<CAMERA>	captureAndSave(cameras);
     captureAndSave.saveHeaders(std::cout);		// 画像数とヘッダを出力
-    exec(cameras, &CAMERA::continuousShot, true);	// カメラ出力開始
+    for (auto& camera : cameras)
+	camera.continuousShot(true);			// カメラ出力開始
 
-    int		nframes = 0;
-    timeval	start;
     while (active)
     {
-	countTime(nframes, start);
+	countTime();
 
 	if (!captureAndSave(std::cout))
 	    active = false;
     }
 
-    exec(cameras, &CAMERA::continuousShot, false);	// カメラ出力停止
+    for (auto& camera : cameras)
+	camera.continuousShot(false);			// カメラ出力停止
 }
 
 }	// namespace TU

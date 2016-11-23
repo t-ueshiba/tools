@@ -3,6 +3,7 @@
  */
 #include <iterator>
 #include <iostream>
+#include <algorithm>
 
 namespace TU
 {
@@ -22,30 +23,30 @@ class CaptureAndSave
 	virtual ~KernelBase()						{}
 
 	virtual std::ostream&	saveHeaders(std::ostream& out)	const	= 0;
-	virtual std::ostream&	operator ()(std::ostream& out)	const	= 0;
+	virtual std::ostream&	operator ()(std::ostream& out)		= 0;
     };
 
     template <class T>
     class Kernel : public KernelBase
     {
       public:
-	Kernel(const Array<CAMERA*>& cameras)				;
+	Kernel(Array<CAMERA>& cameras)					;
 	virtual ~Kernel()						{}
 	
 	virtual std::ostream&	saveHeaders(std::ostream& out)	const	;
-	virtual std::ostream&	operator ()(std::ostream& out)	const	;
+	virtual std::ostream&	operator ()(std::ostream& out)		;
 	
       private:
-	const Array<CAMERA*>&		_cameras;
+	Array<CAMERA>&			_cameras;
 	mutable Array<Image<T> >	_images;
     };
     
   public:
-    CaptureAndSave(const Array<CAMERA*>& cameras)
+    CaptureAndSave(Array<CAMERA>& cameras)
 	:_kernel(0)				{ setFormat(cameras); }
     ~CaptureAndSave()				{ delete _kernel; }
     
-    void		setFormat(const Array<CAMERA*>& cameras)	;
+    void		setFormat(Array<CAMERA>& cameras)		;
     std::ostream&	saveHeaders(std::ostream& out) const
 			{
 			    return _kernel->saveHeaders(out);
@@ -60,13 +61,13 @@ class CaptureAndSave
 };
 
 template <class CAMERA> template <class T>
-CaptureAndSave<CAMERA>::Kernel<T>::Kernel(const Array<CAMERA*>& cameras)
+CaptureAndSave<CAMERA>::Kernel<T>::Kernel(Array<CAMERA>& cameras)
     :_cameras(cameras), _images(_cameras.size())
 {
     auto	image = _images.begin();
-    for (const auto camera : _cameras)
+    for (const auto& camera : _cameras)
     {
-	image->resize(camera->height(), camera->width());
+	image->resize(camera.height(), camera.width());
 	++image;
     }
 }
@@ -82,13 +83,14 @@ CaptureAndSave<CAMERA>::Kernel<T>::saveHeaders(std::ostream& out) const
 }
     
 template <class CAMERA> template <class T> std::ostream&
-CaptureAndSave<CAMERA>::Kernel<T>::operator ()(std::ostream& out) const
+CaptureAndSave<CAMERA>::Kernel<T>::operator ()(std::ostream& out)
 {
-    exec(_cameras, &camera_type::snap);
+    for (auto& camera : _cameras)
+	camera.snap();
     auto	image = _images.begin();
-    for (const auto camera : _cameras)
+    for (const auto& camera : _cameras)
     {
-	*camera >> *image;
+	camera >> *image;
 	++image;
     }
     for (const auto& image : _images)

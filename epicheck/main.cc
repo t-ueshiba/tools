@@ -15,7 +15,7 @@ namespace TU
 template <class T> static void
 restoreImages(std::istream& in, Array<Image<T> >& images)
 {
-    static u_int	n = 0;
+    static size_t	n = 0;
 
     Image<T>	image;
     if (!image.restore(in))
@@ -41,7 +41,8 @@ main(int argc, char* argv[])
     
     void		usage(const char*);
     char		*imagefile = 0, *pairfile = 0;
-    u_int		lineWidth = 1, ncol = 2, mul = 1, div = 1;
+    size_t		lineWidth = 1, ncol = 2;
+    float		zoom = 1;
     extern char		*optarg;
 
   /* Parse command line */
@@ -62,12 +63,10 @@ main(int argc, char* argv[])
 	    ncol = atoi(optarg);
 	    break;
 	  case 'H':
-	    mul = 1;
-	    div = 2;
+	    zoom = 0.5;
 	    break;
 	  case 'Q':
-	    mul = 1;
-	    div = 4;
+	    zoom = 0.25;
 	    break;
 	  case 'h':
 	    usage(argv[0]);
@@ -113,19 +112,19 @@ main(int argc, char* argv[])
 	{
 	    images.resize(argc - optind);
 	    pairs.resize(tmpPairs.nrow(), images.dim());
-	    for (u_int i = 0; i < images.dim(); ++i)
+	    for (size_t i = 0; i < images.dim(); ++i)
 	    {
-		u_int	n = atoi(argv[optind + i]);
+		size_t	n = atoi(argv[optind + i]);
 		if (n >= tmpImages.dim())
 		    throw runtime_error("Specified view is not found in input images!!");
 		images[i] = tmpImages[n];
-		for (u_int j = 0; j < pairs.nrow(); ++j)
+		for (size_t j = 0; j < pairs.nrow(); ++j)
 		    pairs[j][i] = tmpPairs[j][n];
 	    }
 	}
 
       /* Main job */
-	v::MyCmdWindow	myWin(vapp, images, pairs, lineWidth, ncol, mul, div);
+	v::MyCmdWindow	myWin(vapp, images, pairs, lineWidth, ncol, zoom);
 	vapp.run();
     }
     catch (std::exception& err)

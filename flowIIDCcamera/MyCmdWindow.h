@@ -21,8 +21,7 @@ template <class CAMERAS>
 class MyCmdWindow : public CmdWindow
 {
   public:
-    typedef typename std::iterator_traits<
-		typename CAMERAS::value_type>::value_type	camera_type;
+    typedef typename CAMERAS::value_type	camera_type;
     
   public:
     MyCmdWindow(App& parentApp, CAMERAS& cameras)			;
@@ -47,8 +46,8 @@ MyCmdWindow<CAMERAS>::MyCmdWindow(App& parentApp, CAMERAS& cameras)
 	       Colormap::RGBColor, 16, 0, 0),
      _cameras(cameras),
      _captureAndSave(cameras),
-     _menuCmd(*this, createMenuCmds(*_cameras[0])),
-     _featureCmd(*this, createFeatureCmds(_cameras)),
+     _menuCmd(*this, createMenuCmds(_cameras[0])),
+     _featureCmd(*this, createFeatureCmds(_cameras[0], _cameras.size())),
      _timer(*this, 0)
 {
     _menuCmd.place(0, 0, 1, 1);
@@ -67,17 +66,12 @@ MyCmdWindow<CAMERAS>::callback(CmdId id, CmdVal val)
 
     try
     {
-	if (setFormat(_cameras, id, val))
+	if (setFormat(_cameras, id, val, *this))
 	{
 	    _captureAndSave.setFormat(_cameras);
 	    return;
 	}
-	else if (setSpecialFormat(_cameras, id, val, *this))
-	{
-	    _captureAndSave.setFormat(_cameras);
-	    return;
-	}
-	else if (setFeatureValue(_cameras, id, val, _featureCmd))
+	else if (setFeature(_cameras, id, val, _featureCmd))
 	    return;
 	
 	switch (id)
@@ -128,9 +122,7 @@ MyCmdWindow<CAMERAS>::tick()
     if (!active)
 	app().exit();
     
-    static int		nframes = 0;
-    static timeval	start;
-    countTime(nframes, start);
+    countTime();
 
     _captureAndSave(std::cout);
 }
@@ -140,13 +132,15 @@ MyCmdWindow<CAMERAS>::continuousShot(bool enable)
 {
     if (enable)
     {
-	exec(_cameras, &camera_type::continuousShot, true);
+	for (auto& camera : _cameras)
+	    camera.continuousShot(true);
 	_timer.start(1);
     }
     else
     {
 	_timer.stop();
-	exec(_cameras, &camera_type::continuousShot, false);
+	for (auto& camera : _cameras)
+	    camera.continuousShot(false);
     }
 }
 

@@ -10,12 +10,12 @@ namespace TU
 *  CaptureAndSave<IIDCCamera>					*
 ************************************************************************/
 template <> void
-CaptureAndSave<IIDCCamera>::setFormat(const Array<IIDCCamera*>& cameras)
+CaptureAndSave<IIDCCamera>::setFormat(Array<IIDCCamera>& cameras)
 {
     delete _kernel;
     _kernel = 0;
     
-    switch (cameras[0]->pixelFormat())
+    switch (cameras[0].pixelFormat())
     {
       case IIDCCamera::MONO_8:
 	_kernel = new Kernel<u_char>(cameras);

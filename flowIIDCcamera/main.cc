@@ -5,7 +5,6 @@
 #include <cstdlib>
 #include <iomanip>
 #include "TU/v/vIIDC++.h"
-#include "TU/IIDCCameraArray.h"
 #include "MyCmdWindow.h"
 
 namespace TU
@@ -30,16 +29,15 @@ usage(const char* s)
     cerr << " Configuration options.\n"
 	 << "  -c cameraName:    prefix of camera {conf|calib} file\n"
 	 << "                      (default: \""
-	 << DEFAULT_CAMERA_NAME
+	 << IIDCCameraArray::DEFAULT_CAMERA_NAME
 	 << "\")\n"
 	 << "  -d configDirs:    list of directories for camera {conf|calib} file\n"
 	 << "                      (default: \""
-	 << DEFAULT_CONFIG_DIRS
+	 << IIDCCameraArray::DEFAULT_CONFIG_DIRS
 	 << "\")\n"
-	 << "  -B:               IEEE1394b mode. (default: off)\n"
+	 << "  -b:               IEEE1394b mode. (default: off)\n"
 	 << endl;
     cerr << " Other options.\n"
-	 << "  -n ncameras:      # of cameras. (default: use all cameras)\n"
 	 << "  -G:               GUI mode. (default: off)\n"
 	 << "  -h:               print this.\n"
 	 << endl;
@@ -65,28 +63,24 @@ main(int argc, char* argv[])
     using namespace	TU;
     
     v::App		vapp(argc, argv);
-    const char*		cameraName = nullptr;
-    const char*		configDirs = nullptr;
-    IIDCCamera::Speed	speed	   = IIDCCamera::SPD_400M;
-    int			ncameras   = -1;
-    bool		gui	   = false;
+    const char*		name  = nullptr;
+    const char*		dirs  = nullptr;
+    IIDCCamera::Speed	speed = IIDCCamera::SPD_400M;
+    bool		gui   = false;
     
   // Parse command options.
     extern char*	optarg;
-    for (int c; (c = getopt(argc, argv, "c:d:Bn:Gh")) != -1; )
+    for (int c; (c = getopt(argc, argv, "c:d:bGh")) != -1; )
 	switch (c)
 	{
 	  case 'c':
-	    cameraName = optarg;
+	    name = optarg;
 	    break;
 	  case 'd':
-	    configDirs = optarg;
+	    dirs = optarg;
 	    break;
-	  case 'B':
+	  case 'b':
 	    speed = IIDCCamera::SPD_800M;
-	    break;
-	  case 'n':
-	    ncameras = atoi(optarg);
 	    break;
 	  case 'G':
 	    gui = true;
@@ -100,14 +94,26 @@ main(int argc, char* argv[])
     try
     {
       // IIDCカメラをオープンする．
-	IIDCCameraArray	cameras(cameraName, configDirs, speed, ncameras);
-	if (cameras.size() == 0)
-	    return 0;
+	IIDCCameraArray	cameras;
+	if (optind < argc)
+	{
+	    cameras.resize(argc - optind);
+	    for (auto& camera : cameras)
+	    {
+		camera.initialize(strtoull(argv[optind], 0, 0));
+		camera.setSpeed(speed);
+	    }
+	}
+	else
+	    cameras.restore(name, dirs, speed);
 	
-	for (const auto camera : cameras)
+	if (cameras.size() == 0)
+	    throw std::runtime_error("One or more cameras must be specified!!");
+
+	for (const auto& camera : cameras)
 	    cerr << "uniqId = "
 		 << hex << setw(16) << setfill('0')
-		 << camera->globalUniqueId() << dec << endl;
+		 << camera.globalUniqueId() << dec << endl;
 
       // signal handlerを登録する．
 	signal(SIGINT,  handler);

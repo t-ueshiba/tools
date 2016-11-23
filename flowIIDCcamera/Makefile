@@ -25,11 +25,13 @@ else
 endif
 CCFLAGS		= $(CFLAGS)
 
-LIBS		= -lTUvIIDC++ -lTUIIDC++ -lTUv++ -lTUTools++ \
-		  -lXaw3d -lXt -lXext -lXmu -lX11 -lraw1394 -lusb-1.0
 ifneq ($(findstring darwin,$(OSTYPE)),)
-  LIBS	       += -framework IOKit -framework CoreFoundation \
-		  -framework CoreServices
+  LIBS		= -lusb-1.0 \
+		  -lTUvIIDC++ -lTUIIDC++ -lTUv++ -lTUTools++ \
+		  -lXaw3d -lXt -lXext -lXmu -lX11 -lraw1394
+else
+  LIBS		= -lTUvIIDC++ -lTUIIDC++ -lTUv++ -lTUTools++ \
+		  -lXaw3d -lXt -lXext -lXmu -lX11 -lraw1394 -lusb-1.0
 endif
 
 LINKER		= $(CXX)
@@ -44,12 +46,14 @@ INCDIR		= $(PREFIX)/include
 SUFFIX		= .cc:sC .cpp:sC .cu:sC
 EXTHDRS		= /usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/Geometry++.h \
+		/usr/local/include/TU/Heap.h \
 		/usr/local/include/TU/IIDC++.h \
-		/usr/local/include/TU/IIDCCameraArray.h \
+		/usr/local/include/TU/IIDCCameraUtility.h \
 		/usr/local/include/TU/Image++.h \
 		/usr/local/include/TU/List.h \
 		/usr/local/include/TU/Minimize.h \
 		/usr/local/include/TU/Vector++.h \
+		/usr/local/include/TU/algorithm.h \
 		/usr/local/include/TU/functional.h \
 		/usr/local/include/TU/iterator.h \
 		/usr/local/include/TU/pair.h \
@@ -86,14 +90,15 @@ CaptureAndSave.o: /usr/local/include/TU/IIDC++.h \
 	CaptureAndSave.h
 main.o: /usr/local/include/TU/v/vIIDC++.h \
 	/usr/local/include/TU/v/CmdPane.h /usr/local/include/TU/v/CmdWindow.h \
-	/usr/local/include/TU/v/TUv++.h /usr/local/include/TU/v/Colormap.h \
-	/usr/local/include/TU/Image++.h /usr/local/include/TU/types.h \
+	/usr/local/include/TU/v/TUv++.h /usr/local/include/TU/List.h \
 	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/Vector++.h \
 	/usr/local/include/TU/Array++.h /usr/local/include/TU/iterator.h \
 	/usr/local/include/TU/tuple.h /usr/local/include/TU/functional.h \
 	/usr/local/include/TU/pair.h /usr/local/include/TU/Minimize.h \
-	/usr/local/include/TU/List.h /usr/local/include/TU/v/Widget-Xaw.h \
-	/usr/local/include/TU/IIDC++.h \
-	/usr/local/include/TU/IIDCCameraArray.h MyCmdWindow.h \
+	/usr/local/include/TU/types.h /usr/local/include/TU/v/Widget-Xaw.h \
+	/usr/local/include/TU/v/Colormap.h /usr/local/include/TU/Image++.h \
+	/usr/local/include/TU/IIDCCameraUtility.h \
+	/usr/local/include/TU/IIDC++.h /usr/local/include/TU/algorithm.h \
+	/usr/local/include/TU/Heap.h MyCmdWindow.h \
 	/usr/local/include/TU/v/App.h /usr/local/include/TU/v/Timer.h \
 	CaptureAndSave.h flowcamera.h

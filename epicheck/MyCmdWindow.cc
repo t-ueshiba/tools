@@ -29,8 +29,8 @@ enum DrawColor
 /************************************************************************
 *  static functions							*
 ************************************************************************/
-inline u_int
-view2color(u_int view)
+inline size_t
+view2color(size_t view)
 {
     return Color_RED + (view % 6);
 }
@@ -41,10 +41,9 @@ view2color(u_int view)
 MyCmdWindow::MyCmdWindow(App&				parentApp,
 			 const Array<Image<u_char> >&	images,
 			 const Array2<Array<Point2d> >&	pairs,
-			 u_int				lineWidth,
-			 u_int				ncol,
-			 u_int				mul,
-			 u_int				div)
+			 size_t				lineWidth,
+			 size_t				ncol,
+			 float				zoom)
     :CmdWindow(parentApp, "epicheck",
 #ifdef USE_OVERLAY
 	       Colormap::IndexedColor, 16, 8, 3
@@ -72,7 +71,7 @@ MyCmdWindow::MyCmdWindow(App&				parentApp,
 	    F[j] = Vector3d(P1 * c).skew() * P1 * P0inv;
 	}
 	_canvases[i] = new MyCanvasPane(*this, i, F, images[i],
-					lineWidth, mul, div);
+					lineWidth, zoom);
 	_canvases[i]->place(i % ncol, 1 + i / ncol, 1, 1);
     }
 
@@ -103,17 +102,17 @@ MyCmdWindow::~MyCmdWindow()
 void
 MyCmdWindow::callback(CmdId id, CmdVal val)
 {
-    u_int	view  = id / MyCanvasPane::NEVENTS,
+    size_t	view  = id / MyCanvasPane::NEVENTS,
 		event = id % MyCanvasPane::NEVENTS;
-    Point2d	p(_canvases[view]->dc().dev2logU(val.u),
-		  _canvases[view]->dc().dev2logU(val.v));
+    Point2d	p(_canvases[view]->dc().dev2logU(val.u()),
+		  _canvases[view]->dc().dev2logU(val.v()));
 
     switch (event)
     {
 #ifdef USE_OVERLAY
       case 1:		// MouseButton1Drag.
       {			// Erase previously drawn epipolar lines.
-	for (int i = 0; i < nviews(); ++i)
+	for (size_t i = 0; i < nviews(); ++i)
 	{
 	    _canvases[i]->dc() << foreground(0);
 	    _canvases[i]->drawEpipolarLine(_q, view);
@@ -125,7 +124,7 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
       
       case 0:		// MouseButton1Press.
       {			// Draw epipolar lines.
-	for (int i = 0; i < nviews(); ++i)
+	for (size_t i = 0; i < nviews(); ++i)
 	{
 	    _canvases[i]->dc() << foreground(view2color(i));
 	    _canvases[i]->drawEpipolarLine(p, view);
@@ -146,7 +145,7 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 
       case 2:		// MouseButton1Release.
       {
-	  for (int i = 0; i < nviews(); ++i)
+	  for (size_t i = 0; i < nviews(); ++i)
 	      _canvases[i]->dc() << clear;
       }
         break;
@@ -154,7 +153,7 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
       case 4:		// repaintUnderlay.
       {
 	  _canvases[view]->dc() << foreground(Color_RED) << cross;
-	  for (int j = 0; j < npairs(); ++j)
+	  for (size_t j = 0; j < npairs(); ++j)
 	  {
 	      const Point2d&	q = _pairs[j][view];
 	      _canvases[view]->dc() << q;
@@ -169,7 +168,7 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
       case 2:		// MouseButton1Release.
       case 1:		// MouseButton1Drag.
       {
-	for (int i = 0; i < nviews(); ++i)
+	for (size_t i = 0; i < nviews(); ++i)
 	    _canvases[i]->repaintUnderlay();
       }
         if (event == 2)
@@ -179,7 +178,7 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
       
       case 0:		// MouseButton1Press.
       {			// Draw epipolar lines.
-	for (int i = 0; i < nviews(); ++i)
+	for (size_t i = 0; i < nviews(); ++i)
 	{
 	    _canvases[i]->dc() << foreground(_bgr[view2color(i)]);
 	    _canvases[i]->drawEpipolarLine(p, view);
@@ -200,14 +199,14 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
     
       case 4:		// repaintUnderlay.
       {
-	  for (int i = 0; i < nviews(); ++i)
+	  for (size_t i = 0; i < nviews(); ++i)
 	  {
 	      _canvases[view]->dc() << foreground(_bgr[Color_WHITE]);
-	      for (int j = 0; j < npairs(); ++j)
+	      for (size_t j = 0; j < npairs(); ++j)
 		  _canvases[view]->drawEpipolarLine(_pairs[j][i], i);
 	  }
 	  _canvases[view]->dc() << foreground(_bgr[Color_GREEN]) << cross;
-	  for (int j = 0; j < npairs(); ++j)
+	  for (size_t j = 0; j < npairs(); ++j)
 	      _canvases[view]->dc() << _pairs[j][view];
       }
         break;

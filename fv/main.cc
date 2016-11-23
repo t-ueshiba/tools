@@ -24,7 +24,7 @@ namespace TU
 static void
 restoreImages(std::istream& in, Array<GenericImage>& images)
 {
-    static u_int	n = 0;
+    static size_t	n = 0;
 
     GenericImage	image;
     if (!image.restore(in))
@@ -41,12 +41,12 @@ static void
 restoreHeaders(std::istream& in, Array<GenericImage>& images)
 {
   // 1フレームあたりの画像数を取得．
-    u_int	nviews = 0;
+    size_t	nviews = 0;
     in >> nviews >> skipl;
 
   // 画像列を確保し，ヘッダ情報を読み込む．
     images.resize(nviews);
-    for (u_int i = 0; i < images.dim(); ++i)
+    for (size_t i = 0; i < images.size(); ++i)
 	images[i].restoreHeader(in);
 }
     
@@ -77,7 +77,7 @@ namespace v
 *  static data								*
 ************************************************************************/
 enum		{c_ContinuousShot, c_Saturation, c_Cursor};
-static int	range[] = {1, 255, 1};
+static float	range[] = {1, 255, 1};
 
 static MenuDef fileMenu[] =
 {
@@ -106,18 +106,17 @@ static CmdDef	Cmds[] =
 class MyCanvasPaneBase : public CanvasPane
 {
   public:
-    MyCanvasPaneBase(Window& parentWin, const GenericImage& image,
-		     u_int mul, u_int div)				;
+    MyCanvasPaneBase(Window& parentWin,
+		     const GenericImage& image, float zoom)		;
 
     virtual std::istream&	restoreData(std::istream& in)		= 0;
     virtual std::ostream&	saveImage(std::ostream& out)	const	= 0;
 };
 
 MyCanvasPaneBase::MyCanvasPaneBase(Window& parentWin,
-				   const GenericImage& image,
-				   u_int mul, u_int div)
-    :CanvasPane(parentWin, (image.width()  * mul) / div,
-			   (image.height() * mul) / div)
+				   const GenericImage& image, float zoom)
+    :CanvasPane(parentWin, size_t(image.width()  * zoom),
+			   size_t(image.height() * zoom))
 {
 }
 
@@ -128,8 +127,7 @@ template <class T>
 class MyCanvasPane : public MyCanvasPaneBase
 {
   public:
-    MyCanvasPane(Window& parentWin, GenericImage& image,
-		 u_int mul, u_int div)					;
+    MyCanvasPane(Window& parentWin, GenericImage& image, float zoom)	;
     
     virtual std::istream&	restoreData(std::istream& in)		;
     virtual std::ostream&	saveImage(std::ostream& out)	const	;
@@ -151,10 +149,9 @@ class MyCanvasPane : public MyCanvasPaneBase
 };
 
 template <class T>
-MyCanvasPane<T>::MyCanvasPane(Window& parentWin, GenericImage& image,
-			      u_int mul, u_int div)
-    :MyCanvasPaneBase(parentWin, image, mul, div),
-     _dc(*this, image.width(), image.height(), mul, div),
+MyCanvasPane<T>::MyCanvasPane(Window& parentWin, GenericImage& image, float zoom)
+    :MyCanvasPaneBase(parentWin, image, zoom),
+     _dc(*this, image.width(), image.height(), zoom),
      _typeInfo(image.typeInfo()),
      _image((T*)image.data(), image.width(), image.height())
 {
@@ -190,8 +187,7 @@ MyCanvasPane<T>::callback(CmdId id, CmdVal val)
       case Id_MouseButton1Drag:
       case Id_MouseButton1Release:
       case Id_MouseMove:
-	parent().callback(id,
-			  CmdVal(_dc.dev2logU(val.u), _dc.dev2logV(val.v)));
+	parent().callback(id, CmdVal(_dc.dev2logU(val.u()), _dc.dev2logV(val.v())));
 	return;
     }
 
@@ -206,7 +202,7 @@ class MyCmdWindow : public CmdWindow
   public:
     MyCmdWindow(App& parentApp, const char* name,
 		Array<GenericImage>& images, bool movie,
-		u_int ncol, u_int mul, u_int div, u_int saturation)	;
+		size_t ncol, float zoom, size_t saturation)		;
     ~MyCmdWindow()							;
     
     virtual void	callback(CmdId id, CmdVal val)			;
@@ -221,64 +217,53 @@ class MyCmdWindow : public CmdWindow
 
 MyCmdWindow::MyCmdWindow(App& parentApp, const char* name,
 			 Array<GenericImage>& images, bool movie,
-			 u_int ncol, u_int mul, u_int div, u_int saturation)
+			 size_t ncol, float zoom, size_t saturation)
     :CmdWindow(parentApp, name, 0, Colormap::RGBColor, 16, 0, 0),
      _movie(movie),
      _cmd(*this, Cmds),
-     _canvases(images.dim()),
+     _canvases(images.size()),
      _timer(*this, 0)
 {
     using namespace	std;
     
     _cmd.place(0, 0, ncol, 1);
 
-    for (u_int i = 0; i < _canvases.dim(); ++i)
+    for (size_t i = 0; i < _canvases.size(); ++i)
     {
 	switch (images[i].typeInfo().type)
 	{
 	  case ImageBase::U_CHAR:
-	    _canvases[i] = new MyCanvasPane<u_char>(*this,
-						    images[i], mul, div);
+	    _canvases[i] = new MyCanvasPane<u_char>(*this, images[i], zoom);
 	    break;
 	  case ImageBase::RGB_24:
-	    _canvases[i] = new MyCanvasPane<RGB>(*this,
-						 images[i], mul, div);
+	    _canvases[i] = new MyCanvasPane<RGB>(*this, images[i], zoom);
 	    break;
 	  case ImageBase::SHORT:
-	    _canvases[i] = new MyCanvasPane<short>(*this,
-						   images[i], mul, div);
+	    _canvases[i] = new MyCanvasPane<short>(*this, images[i], zoom);
 	    break;
 	  case ImageBase::FLOAT:
-	    _canvases[i] = new MyCanvasPane<float>(*this,
-						   images[i], mul, div);
+	    _canvases[i] = new MyCanvasPane<float>(*this, images[i], zoom);
 	    break;
 	  case ImageBase::YUV_444:
-	    _canvases[i] = new MyCanvasPane<YUV444>(*this,
-						    images[i], mul, div);
+	    _canvases[i] = new MyCanvasPane<YUV444>(*this, images[i], zoom);
 	    break;
 	  case ImageBase::YUV_422:
-	    _canvases[i] = new MyCanvasPane<YUV422>(*this,
-						    images[i], mul, div);
+	    _canvases[i] = new MyCanvasPane<YUV422>(*this, images[i], zoom);
 	    break;
 	  case ImageBase::YUYV_422:
-	    _canvases[i] = new MyCanvasPane<YUYV422>(*this,
-						     images[i], mul, div);
+	    _canvases[i] = new MyCanvasPane<YUYV422>(*this, images[i], zoom);
 	    break;
 	  case ImageBase::YUV_411:
-	    _canvases[i] = new MyCanvasPane<YUV411>(*this,
-						    images[i], mul, div);
+	    _canvases[i] = new MyCanvasPane<YUV411>(*this, images[i], zoom);
 	    break;
 	  case ImageBase::BMP_8:
-	    _canvases[i] = new MyCanvasPane<u_char>(*this,
-						    images[i], mul, div);
+	    _canvases[i] = new MyCanvasPane<u_char>(*this, images[i], zoom);
 	    break;
 	  case ImageBase::BMP_24:
-	    _canvases[i] = new MyCanvasPane<BGR>(*this,
-						 images[i], mul, div);
+	    _canvases[i] = new MyCanvasPane<BGR>(*this, images[i], zoom);
 	    break;
 	  case ImageBase::BMP_32:
-	    _canvases[i] = new MyCanvasPane<BGRA>(*this,
-						  images[i], mul, div);
+	    _canvases[i] = new MyCanvasPane<BGRA>(*this, images[i], zoom);
 	    break;
 	  default:
 	    throw runtime_error("Unknown image type!!");
@@ -305,7 +290,7 @@ MyCmdWindow::MyCmdWindow(App& parentApp, const char* name,
 
 MyCmdWindow::~MyCmdWindow()
 {
-    for (u_int i = 0; i < _canvases.dim(); ++i)
+    for (size_t i = 0; i < _canvases.size(); ++i)
 	delete _canvases[i];
 }
  
@@ -328,7 +313,7 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 	FileSelection	fileSelection(*this);
 	ofstream	out;
 	if (fileSelection.open(out))
-	    for (u_int i = 0; i < _canvases.dim(); ++i)
+	    for (size_t i = 0; i < _canvases.size(); ++i)
 		_canvases[i]->saveImage(out);
 
 	if (_cmd.getValue(c_ContinuousShot))
@@ -339,7 +324,7 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
       case c_Saturation:
 	colormap().setSaturation(val);
 	colormap().setSaturationF(val.f());
-	for (u_int i = 0; i < _canvases.dim(); ++i)
+	for (size_t i = 0; i < _canvases.size(); ++i)
 	    _canvases[i]->repaintUnderlay();
 	break;
 
@@ -356,7 +341,7 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
       case Id_MouseMove:
       {
 	ostringstream	s;
-	s << '(' << val.u << ',' << val.v << ')';
+	s << '(' << val.u() << ',' << val.v() << ')';
 	_cmd.setString(c_Cursor, s.str().c_str());
       }
         break;
@@ -368,7 +353,7 @@ MyCmdWindow::tick()
 {
     using namespace	std;
     
-    for (u_int i = 0; i < _canvases.dim(); ++i)
+    for (size_t i = 0; i < _canvases.size(); ++i)
     {
 	_canvases[i]->restoreData(cin);
 	_canvases[i]->repaintUnderlay();
@@ -387,7 +372,8 @@ main(int argc, char* argv[])
     using namespace	TU;
     
     v::App		vapp(argc, argv);
-    u_int		ncol = 2, mul = 1, div = 1, saturation = 256;
+    size_t		ncol = 2, saturation = 256;
+    float		zoom = 1;
     extern char*	optarg;
     for (int c; (c = getopt(argc, argv, "n:42HQOs:h")) !=EOF; )
 	switch (c)
@@ -396,24 +382,19 @@ main(int argc, char* argv[])
 	    ncol = atoi(optarg);
 	    break;
 	  case '4':
-	    mul = 4;
-	    div = 1;
+	    zoom = 4;
 	    break;
 	  case '2':
-	    mul = 2;
-	    div = 1;
+	    zoom = 2;
 	    break;
 	  case 'H':
-	    mul = 1;
-	    div = 2;
+	    zoom = 0.5;
 	    break;
 	  case 'Q':
-	    mul = 1;
-	    div = 4;
+	    zoom = 0.25;
 	    break;
 	  case 'O':
-	    mul = 1;
-	    div = 8;
+	    zoom = 0.125;
 	    break;
 	  case 's':
 	    saturation = atoi(optarg);
@@ -447,7 +428,7 @@ main(int argc, char* argv[])
 	}
 
       // 各視点の画像サイズを表示．
-	for (u_int i = 0; i < images.dim(); ++i)
+	for (size_t i = 0; i < images.size(); ++i)
 	{
 	    cerr << i << "-th view: "
 		 << images[i].width() << 'x' << images[i].height() << " (";
@@ -495,7 +476,7 @@ main(int argc, char* argv[])
 
       // GUIオブジェクトを作り，イベントループを起動．
 	v::MyCmdWindow	myWin(vapp, "Real-time image viewer", images,
-			      (c == 'M'), ncol, mul, div, saturation);
+			      (c == 'M'), ncol, zoom, saturation);
 	vapp.run();
     }
     catch (exception& err)

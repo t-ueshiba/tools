@@ -11,16 +11,15 @@ namespace v
 *  MyCanvasPane								*
 ************************************************************************/
 MyCanvasPane::MyCanvasPane(Window&			parentWindow,
-			   int				view,
+			   size_t			view,
 			   const Array<Matrix33d>&	F,
 			   const Image<u_char>&		image,
-			   u_int			lineWidth,
-			   u_int			mul,
-			   u_int			div)
-    :CanvasPane(parentWindow, (image.width()  * mul) / div,
-			      (image.height() * mul) / div),
+			   size_t			lineWidth,
+			   float			zoom)
+    :CanvasPane(parentWindow,
+		size_t(image.width()  * zoom), size_t(image.height() * zoom)),
      _view(view), _F(F), _image(image),
-     _dc(*this, image.width(), image.height(), mul, div)
+     _dc(*this, image.width(), image.height(), zoom)
 
 {
     _dc << thickness(lineWidth);
@@ -30,7 +29,7 @@ MyCanvasPane::MyCanvasPane(Window&			parentWindow,
 }
 
 void
-MyCanvasPane::drawEpipolarLine(const Point2d& p, u_int otherView)
+MyCanvasPane::drawEpipolarLine(const Point2d& p, size_t otherView)
 {
     if (otherView != _view)
     {
@@ -40,7 +39,7 @@ MyCanvasPane::drawEpipolarLine(const Point2d& p, u_int otherView)
 }
 
 void
-MyCanvasPane::drawSelfEpipolarLine(const Point2d& p, u_int otherView)
+MyCanvasPane::drawSelfEpipolarLine(const Point2d& p, size_t otherView)
 {
     if (otherView != _view)
     {

@@ -19,23 +19,22 @@ class MyCanvasPane : public CanvasPane
     enum	{NEVENTS = 5};
     
     MyCanvasPane(Window&			parentWindow,
-		 int				view,
+		 size_t				view,
 		 const Array<Matrix33d>&	F,
 		 const Image<u_char>&		image,
-		 u_int				lineWidth,
-		 u_int				mul,
-		 u_int				div)			;
+		 size_t				lineWidth,
+		 float				zoom)			;
 
     CanvasPaneDC&	dc()						;
 
-    void	drawEpipolarLine(const Point2d&	p, u_int otherView)	;
-    void	drawSelfEpipolarLine(const Point2d& p, u_int otherView)	;
+    void	drawEpipolarLine(const Point2d&	p, size_t otherView)	;
+    void	drawSelfEpipolarLine(const Point2d& p, size_t otherView);
 
     virtual void	callback(CmdId, CmdVal)				;
     virtual void	repaintUnderlay()				;
     
   private:
-    const int			_view;
+    const size_t		_view;
     const Array<Matrix33d>	_F;
     const Image<u_char>&	_image;
 #ifdef USE_SHMDC
@@ -56,17 +55,16 @@ class MyCmdWindow : public CmdWindow
     MyCmdWindow(App&				parentApp,
 		const Array<Image<u_char> >&	images,
 		const Array2<Array<Point2d> >&	pairs,
-		u_int				lineWidth,
-		u_int				ncol,
-		u_int				mul,
-		u_int				div)			;
+		size_t				lineWidth,
+		size_t				ncol,
+		float				zoom)			;
     ~MyCmdWindow()							;
 
     virtual void	callback(CmdId, CmdVal)				;
     
   private:
-    u_int		nviews()				const	;
-    u_int		npairs()				const	;
+    size_t		nviews()				const	;
+    size_t		npairs()				const	;
 
     CmdPane				_cmd;
     Array<MyCanvasPane*>		_canvases;
@@ -75,8 +73,8 @@ class MyCmdWindow : public CmdWindow
     BGR					_bgr[8];
 };
 
-inline u_int	MyCmdWindow::nviews() const	{return _canvases.dim();}
-inline u_int	MyCmdWindow::npairs() const	{return _pairs.dim();}
+inline size_t	MyCmdWindow::nviews() const	{return _canvases.dim();}
+inline size_t	MyCmdWindow::npairs() const	{return _pairs.dim();}
  
 }
 }
