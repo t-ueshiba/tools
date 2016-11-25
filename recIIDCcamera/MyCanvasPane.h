@@ -20,14 +20,15 @@ template <class PIXEL>
 class MyCanvasPane : public CanvasPane
 {
   public:
-    MyCanvasPane(Window& parentWin, u_int width, u_int height,
+    MyCanvasPane(Window& parentWin, size_t width, size_t height,
 		 const Image<PIXEL>& image)
 	:CanvasPane(parentWin, width, height),
 	 _dc(*this, image.width(), image.height()), _image(image)	{}
     MyCanvasPane(Window& parentWin, const Image<PIXEL>& image,
-		 u_int w, u_int h, u_int mul, u_int div)
-	:CanvasPane(parentWin, (w * mul)/div, (h * mul)/div),
-	 _dc(*this, w, h, mul, div), _image(image)			{}
+		 size_t width, size_t height, float zoom)
+	:CanvasPane(parentWin,
+		    size_t(width * zoom), size_t(height * zoom)),
+	 _dc(*this, width, height, zoom), _image(image)			{}
     
     void		resize()					;
     virtual void	repaintUnderlay()				;
@@ -46,7 +47,7 @@ class MyCanvasPane : public CanvasPane
 template <class PIXEL> inline void
 MyCanvasPane<PIXEL>::resize()
 {
-    _dc.setSize(_image.width(), _image.height(), _dc.mul(), _dc.div());
+    _dc.setSize(_image.width(), _image.height(), _dc.zoom());
 }
 
 template <class PIXEL> void

@@ -22,12 +22,11 @@ template <class CAMERAS, class PIXEL>
 class MyCmdWindow : public CmdWindow
 {
   public:
-    typedef typename std::iterator_traits<
-		typename CAMERAS::value_type>::value_type	camera_type;
+    typedef typename CAMERAS::value_type	camera_type;
     
   public:
     MyCmdWindow(App& parentApp, CAMERAS& cameras,
-		u_int ncol, u_int mul, u_int div)		;
+		size_t ncol, float zoom)			;
     ~MyCmdWindow()						;
     
     virtual void	callback(CmdId, CmdVal)			;
@@ -42,9 +41,8 @@ class MyCmdWindow : public CmdWindow
     void		stopContinuousShotIfRunning()		;
 
     CAMERAS&			_cameras;
-    const u_int			_ncol;
-    const u_int			_mul;
-    const u_int			_div;
+    const size_t		_ncol;
+    const float			_zoom;
     bool			_headIsActive;
     Movie<PIXEL>		_movie;
     Array<MyCanvasPane<PIXEL>*>	_canvases;
@@ -56,22 +54,23 @@ class MyCmdWindow : public CmdWindow
  
 template <class CAMERAS, class PIXEL>
 MyCmdWindow<CAMERAS, PIXEL>::MyCmdWindow(App& parentApp, CAMERAS& cameras,
-					 u_int ncol, u_int mul, u_int div)
+					 size_t ncol, float zoom)
     :CmdWindow(parentApp,
 	       "rec1394: image streams recorder for IEEE1394 cameras",
 	       Colormap::RGBColor, 16, 0, 0),
      _cameras(cameras),
      _ncol(ncol),
-     _mul(mul),
-     _div(div),
+     _zoom(zoom),
      _headIsActive(true),
      _movie(_cameras.dim()),
      _canvases(0),
-     _menuCmd(*this, (_cameras.size() > 0 ? createMenuCmds(*_cameras[0])
-					  : createMenuCmds())),
+     _menuCmd(*this, (size(_cameras) > 0 ? createMenuCmds(*std::begin(_cameras))
+					 : createMenuCmds())),
      _captureCmd(*this, createCaptureCmds()),
-     _featureCmd(*this, (_cameras.size() > 0 ? createFeatureCmds(_cameras)
-					     : createFeatureCmds())),
+     _featureCmd(*this, (size(_cameras) > 0 ?
+			 createFeatureCmds(*std::begin(_cameras),
+					   size(_cameras)) :
+			 createFeatureCmds())),
      _timer(*this, 0)
 {
     _menuCmd.place(0, 0, _ncol, 1);
@@ -98,13 +97,12 @@ MyCmdWindow<CAMERAS, PIXEL>::callback(CmdId id, CmdVal val)
 
     try
     {
-	if (setFormat(_cameras, id, val) ||
-	    setSpecialFormat(_cameras, id, val, *this))
+	if (setFormat(_cameras, id, val, *this))
 	{
 	    initializeMovie();
 	    return;
 	}
-	else if (setFeatureValue(_cameras, id, val, _featureCmd))
+	else if (setFeature(_cameras, id, val, _featureCmd))
 	    return;
 	
 	switch (id)
@@ -182,13 +180,16 @@ MyCmdWindow<CAMERAS, PIXEL>::callback(CmdId id, CmdVal val)
 	    if (val)
 	    {
 		_headIsActive = true;
-		exec(_cameras, &camera_type::continuousShot, true);
+		for (auto& camera : _cameras)
+		    camera.continuousShot(true);
 		_timer.start(1);
 	    }
 	    else
 	    {
 		_timer.stop();
-		exec(_cameras, &camera_type::continuousShot, false);
+		_headIsActive = true;
+		for (auto& camera : _cameras)
+		    camera.continuousShot(false);
 	    }
 	    break;
 
@@ -307,9 +308,11 @@ MyCmdWindow<CAMERAS, PIXEL>::tick()
 
     if (!_captureCmd.getValue(c_PlayMovie))
     {
-	exec(_cameras, &camera_type::snap);		// カメラから画像取り込み．
-	for (size_t i = 0; i < _cameras.size(); ++i)
-	    *_cameras[i] >> _movie.image(i);		// カメラから画像転送．
+	for (auto& camera : _cameras)
+	    camera.snap();				// カメラから画像取り込み．
+	size_t	i = 0;
+	for (const auto& camera : _cameras)
+	    camera >> _movie.image(i++);		// カメラから画像転送．
     }
 
     repaintCanvases();	// 画像の表示および現フレームのhead/tail sliderへの反映．
@@ -329,9 +332,13 @@ MyCmdWindow<CAMERAS, PIXEL>::initializeMovie()
     using namespace	std;
 
   // カメラの台数分だけのビューを確保し，そのサイズを設定する．
-    Array<typename Movie<PIXEL>::Size>	sizes(_cameras.size());
-    for (size_t i = 0; i < sizes.size(); ++i)
-	sizes[i] = make_pair(_cameras[i]->width(), _cameras[i]->height());
+    Array<typename Movie<PIXEL>::Size>	sizes(size(_cameras));
+    auto				camera = std::cbegin(_cameras);
+    for (auto& size : sizes)
+    {
+	size = make_pair(camera->width(), camera->height());
+	++camera;
+    }
     _movie.setSizes(sizes);
 
     if (_movie.nviews() > 0)
@@ -371,7 +378,7 @@ MyCmdWindow<CAMERAS, PIXEL>::setCanvases()
 	{
 	    Image<PIXEL>&	image = _movie.image(i);
 	    _canvases[i] = new MyCanvasPane<PIXEL>(*this, image, image.width(),
-						   image.height(), _mul, _div);
+						   image.height(), _zoom);
 	    _canvases[i]->place(i % _ncol, 2 + i / _ncol, 1, 1);
 	}
     }
@@ -388,7 +395,7 @@ MyCmdWindow<CAMERAS, PIXEL>::setCanvases()
 template <class CAMERAS, class PIXEL> void
 MyCmdWindow<CAMERAS, PIXEL>::setNFrames()
 {
-    static int	headProp[3], tailProp[3];
+    static float	headProp[3], tailProp[3];
     
     headProp[0] = tailProp[0] = 0;		// 最初のフレーム番号
     headProp[1] = _movie.nframes() - 1;		// 最後のフレーム番号
@@ -398,7 +405,7 @@ MyCmdWindow<CAMERAS, PIXEL>::setNFrames()
     _captureCmd.setProp(c_TailMovie, tailProp);	// tail sliderに設定
 
     char	s[256];
-    sprintf(s, "%d", _movie.nframes());
+    sprintf(s, "%ld", _movie.nframes());
     _captureCmd.setString(c_NFrames, s);	// widgetにフレーム数を設定
 }
 
@@ -406,8 +413,8 @@ MyCmdWindow<CAMERAS, PIXEL>::setNFrames()
 template <class CAMERAS, class PIXEL> void
 MyCmdWindow<CAMERAS, PIXEL>::repaintCanvases()
 {
-    for (size_t i = 0; i < _canvases.size(); ++i)
-	_canvases[i]->repaintUnderlay();
+    for (auto canvas : _canvases)
+	canvas->repaintUnderlay();
 
     const int	current = _movie.currentFrame();
     if (_headIsActive)				// head sliderを操作中なら...
@@ -432,8 +439,8 @@ MyCmdWindow<CAMERAS, PIXEL>::setFrame()
 							      : c_TailMovie));
     _movie.setFrame(current);
 
-    for (size_t i = 0; i < _canvases.size(); ++i)
-	_canvases[i]->repaintUnderlay();
+    for (auto canvas : _canvases)
+	canvas->repaintUnderlay();
 }
     
 //! カメラから画像を出力中ならそれを停止する．また，現フレームをhead/tail sliderへ反映させる．
@@ -443,7 +450,8 @@ MyCmdWindow<CAMERAS, PIXEL>::stopContinuousShotIfRunning()
     if (_captureCmd.getValue(c_ContinuousShot))
     {
 	_timer.stop();
-	exec(_cameras, &camera_type::continuousShot, false);
+	for (auto& camera : _cameras)
+	    camera.continuousShot(false);
 	_captureCmd.setValue(c_ContinuousShot, 0);
     }
 }

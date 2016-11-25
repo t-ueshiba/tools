@@ -3,7 +3,6 @@
  */
 #include <cstdlib>
 #include "TU/v/vIIDC++.h"
-#include "TU/IIDCCameraArray.h"
 #include "MyCmdWindow.h"
 
 namespace TU
@@ -23,11 +22,11 @@ usage(const char* s)
     cerr << " configuration options.\n"
 	 << "  -c cameraName:  prefix of camera {conf|calib} file\n"
 	 << "                  (default: \""
-	 << DEFAULT_CAMERA_NAME
+	 << IIDCCameraArray::DEFAULT_CAMERA_NAME
 	 << "\")\n"
 	 << "  -d configDirs:  list of directories for camera {conf|calib} file\n"
 	 << "                  (default: \""
-	 << DEFAULT_CONFIG_DIRS
+	 << IIDCCameraArray::DEFAULT_CONFIG_DIRS
 	 << "\")\n"
 	 << "  -B:             IEEE1394b mode (default: off)\n"
 	 << "  -C:             no cameras used (movie editing only)\n"
@@ -55,48 +54,43 @@ main(int argc, char* argv[])
     using namespace	TU;
     
     v::App		vapp(argc, argv);
-    const char*		cameraName = DEFAULT_CAMERA_NAME;
-    const char*		configDirs = DEFAULT_CONFIG_DIRS;
-    u_int		ncol	   = 2,
-			mul	   = 1,
-			div	   = 1;
-    IIDCCamera::Speed	speed	   = IIDCCamera::SPD_400M;
+    const char*		name  = IIDCCameraArray::DEFAULT_CAMERA_NAME;
+    const char*		dirs  = nullptr;
+    u_int		ncol  = 2;
+    float		zoom  = 1;
+    IIDCCamera::Speed	speed = IIDCCamera::SPD_400M;
 
   // コマンド行の解析．
     extern char*	optarg;
-    for (int c; (c = getopt(argc, argv, "c:d:CBn:42HQh")) != -1; )
+    for (int c; (c = getopt(argc, argv, "c:d:Cbn:42HQh")) != -1; )
 	switch (c)
 	{
 	  case 'c':
-	    cameraName = optarg;
+	    name = optarg;
 	    break;
 	  case 'd':
-	    configDirs = optarg;
+	    dirs = optarg;
 	    break;
 	  case 'C':
-	    cameraName = 0;
+	    name = nullptr;
 	    break;
-	  case 'B':
+	  case 'b':
 	    speed = IIDCCamera::SPD_800M;
 	    break;
 	  case 'n':
 	    ncol = atoi(optarg);
 	    break;
 	  case '4':
-	    mul = 4;
-	    div = 1;
+	    zoom = 4;
 	    break;
 	  case '2':
-	    mul = 2;
-	    div = 1;
+	    zoom = 2;
 	    break;
 	  case 'H':
-	    mul = 1;
-	    div = 2;
+	    zoom = 0.5;
 	    break;
 	  case 'Q':
-	    mul = 1;
-	    div = 4;
+	    zoom = 0.25;
 	    break;
 	  case 'h':
 	    usage(argv[0]);
@@ -106,11 +100,19 @@ main(int argc, char* argv[])
     try
     {
 	IIDCCameraArray	cameras;
-	if (cameraName != 0)
-	    cameras.initialize(cameraName, configDirs, speed);
+	if (optind < argc)
+	{
+	    cameras.resize(argc - optind);
+	    for (auto& camera : cameras)
+	    {
+		camera.initialize(strtoull(argv[optind], 0, 0));
+		camera.setSpeed(speed);
+	    }
+	}
+	else if (!name)
+	    cameras.restore(name, dirs, speed);
 
-	v::MyCmdWindow<IIDCCameraArray, u_char>
-			myWin(vapp, cameras, ncol, mul, div);
+	v::MyCmdWindow<IIDCCameraArray, u_char>	myWin(vapp, cameras, ncol, zoom);
 	vapp.run();
     }
     catch (exception& err)
