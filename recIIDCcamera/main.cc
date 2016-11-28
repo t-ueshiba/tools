@@ -105,7 +105,7 @@ main(int argc, char* argv[])
 	    cameras.resize(argc - optind);
 	    for (auto& camera : cameras)
 	    {
-		camera.initialize(strtoull(argv[optind], 0, 0));
+		camera.initialize(strtoull(argv[optind++], 0, 0));
 		camera.setSpeed(speed);
 	    }
 	}

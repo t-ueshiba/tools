@@ -56,6 +56,8 @@ MyCmdWindow<CAMERAS>::MyCmdWindow(App& parentApp, CAMERAS& cameras)
 
     _captureAndSave.saveHeaders(std::cout);	// 画像ヘッダを出力
 
+    refreshFeatureCmds(_cameras, _featureCmd);
+    
     continuousShot(true);			// カメラからの画像出力を開始
 }
     

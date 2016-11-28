@@ -10,12 +10,12 @@ namespace TU
 *  CaptureAndSave<V4L2Camera>						*
 ************************************************************************/
 template <> void
-CaptureAndSave<V4L2Camera>::setFormat(const Array<V4L2Camera*>& cameras)
+CaptureAndSave<V4L2Camera>::setFormat(Array<V4L2Camera>& cameras)
 {
     delete _kernel;
     _kernel = 0;
     
-    switch (cameras[0]->pixelFormat())
+    switch (cameras[0].pixelFormat())
     {
       case V4L2Camera::GREY:
 	_kernel = new Kernel<u_char>(cameras);

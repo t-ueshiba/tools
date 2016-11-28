@@ -4,7 +4,6 @@
 #include <signal.h>
 #include <cstdlib>
 #include "TU/v/vV4L2++.h"
-#include "TU/V4L2CameraArray.h"
 #include "MyCmdWindow.h"
 #include <boost/foreach.hpp>
 
@@ -29,11 +28,11 @@ usage(const char* s)
 	 << endl;
     cerr << "  -c cameraName:    prefix of camera {conf|calib} file\n"
 	 << "                      (default: \""
-	 << TU_V4L2_DEFAULT_CAMERA_NAME
+	 << V4L2CameraArray::DEFAULT_CAMERA_NAME
 	 << "\")\n"
 	 << "  -d configDirs:    list of directories for camera {conf|calib} file\n"
 	 << "                      (default: \""
-	 << TU_V4L2_DEFAULT_CONFIG_DIRS
+	 << V4L2CameraArray::DEFAULT_CONFIG_DIRS
 	 << "\")"
 	 << endl;
     cerr << " Other options.\n"
@@ -59,27 +58,22 @@ handler(int sig)
 int
 main(int argc, char* argv[])
 {
-    using namespace	std;
     using namespace	TU;
     
   // Parse command options.
     v::App		vapp(argc, argv);
-    const char*		cameraName = 0;
-    const char*		configDirs = 0;
-    int			ncameras   = -1;
-    bool		gui	   = false;
+    const char*		name = nullptr;
+    const char*		dirs = nullptr;
+    bool		gui  = false;
     extern char*	optarg;
-    for (int c; (c = getopt(argc, argv, "c:d:n:Gh")) != -1; )
+    for (int c; (c = getopt(argc, argv, "c:d:Gh")) != -1; )
 	switch (c)
 	{
 	  case 'c':
-	    cameraName = optarg;
+	    name = optarg;
 	    break;
 	  case 'd':
-	    configDirs = optarg;
-	    break;
-	  case 'n':
-	    ncameras = atoi(optarg);
+	    dirs = optarg;
 	    break;
 	  case 'G':
 	    gui = true;
@@ -93,20 +87,28 @@ main(int argc, char* argv[])
     try
     {
       // V4L2カメラをオープンする．
-	V4L2CameraArray	cameras(cameraName, configDirs, ncameras);
+	V4L2CameraArray	cameras;
+	if (optind < argc)
+	{
+	    cameras.resize(argc - optind);
+	    for (auto& camera : cameras)
+		camera.initialize(argv[optind++]);
+	}
+	else
+	    cameras.restore(name, dirs);
 
 	if (cameras.size() == 0)
-	    return 0;
+	    throw std::runtime_error("One or more cameras must be specified!!");
 
-	BOOST_FOREACH (const V4L2Camera* camera, cameras)
+	BOOST_FOREACH (const auto& camera, cameras)
 	{
 	    BOOST_FOREACH (V4L2Camera::PixelFormat pixelFormat,
-			   camera->availablePixelFormats())
-		camera->put(cerr, pixelFormat);
+			   camera.availablePixelFormats())
+		camera.put(std::cerr, pixelFormat);
 	    BOOST_FOREACH (V4L2Camera::Feature feature,
-			   camera->availableFeatures())
-		camera->put(cerr, feature);
-	    cerr << endl;
+			   camera.availableFeatures())
+		camera.put(std::cerr, feature);
+	    std::cerr << std::endl;
 	}
 
       // signal handlerを登録する．
@@ -121,9 +123,9 @@ main(int argc, char* argv[])
 	else
 	    run(cameras);
     }
-    catch (exception& err)
+    catch (std::exception& err)
     {
-	cerr << err.what() << endl;
+	std::cerr << err.what() << std::endl;
 	return 1;
     }
 

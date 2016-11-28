@@ -100,7 +100,7 @@ main(int argc, char* argv[])
 	    cameras.resize(argc - optind);
 	    for (auto& camera : cameras)
 	    {
-		camera.initialize(strtoull(argv[optind], 0, 0));
+		camera.initialize(strtoull(argv[optind++], 0, 0));
 		camera.setSpeed(speed);
 	    }
 	}
@@ -109,11 +109,6 @@ main(int argc, char* argv[])
 	
 	if (cameras.size() == 0)
 	    throw std::runtime_error("One or more cameras must be specified!!");
-
-	for (const auto& camera : cameras)
-	    cerr << "uniqId = "
-		 << hex << setw(16) << setfill('0')
-		 << camera.globalUniqueId() << dec << endl;
 
       // signal handlerを登録する．
 	signal(SIGINT,  handler);
@@ -126,6 +121,8 @@ main(int argc, char* argv[])
 	}
 	else
 	    run(cameras);
+
+	std::cerr << cameras;
     }
     catch (exception& err)
     {

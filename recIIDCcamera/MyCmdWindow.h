@@ -79,6 +79,8 @@ MyCmdWindow<CAMERAS, PIXEL>::MyCmdWindow(App& parentApp, CAMERAS& cameras,
 
     show();
 
+    refreshFeatureCmds(_cameras, _featureCmd);
+    
     initializeMovie();
     _movie.setCircularMode(_captureCmd.getValue(c_CircularMode));
 }
