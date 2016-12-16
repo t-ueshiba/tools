@@ -31,10 +31,6 @@ usage(const char* s)
 	 << "                      (default: \""
 	 << IIDCCameraArray::DEFAULT_CAMERA_NAME
 	 << "\")\n"
-	 << "  -d configDirs:    list of directories for camera {conf|calib} file\n"
-	 << "                      (default: \""
-	 << IIDCCameraArray::DEFAULT_CONFIG_DIRS
-	 << "\")\n"
 	 << "  -b:               IEEE1394b mode. (default: off)\n"
 	 << endl;
     cerr << " Other options.\n"
@@ -63,21 +59,17 @@ main(int argc, char* argv[])
     using namespace	TU;
     
     v::App		vapp(argc, argv);
-    const char*		name  = nullptr;
-    const char*		dirs  = nullptr;
+    const char*		name  = IIDCCameraArray::DEFAULT_CAMERA_NAME;
     IIDCCamera::Speed	speed = IIDCCamera::SPD_400M;
     bool		gui   = false;
     
   // Parse command options.
     extern char*	optarg;
-    for (int c; (c = getopt(argc, argv, "c:d:bGh")) != -1; )
+    for (int c; (c = getopt(argc, argv, "c:bGh")) != -1; )
 	switch (c)
 	{
 	  case 'c':
 	    name = optarg;
-	    break;
-	  case 'd':
-	    dirs = optarg;
 	    break;
 	  case 'b':
 	    speed = IIDCCamera::SPD_800M;
@@ -105,7 +97,7 @@ main(int argc, char* argv[])
 	    }
 	}
 	else
-	    cameras.restore(name, dirs, speed);
+	    cameras.restore(name, speed);
 	
 	if (cameras.size() == 0)
 	    throw std::runtime_error("One or more cameras must be specified!!");
