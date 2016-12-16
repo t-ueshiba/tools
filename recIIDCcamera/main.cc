@@ -24,10 +24,6 @@ usage(const char* s)
 	 << "                  (default: \""
 	 << IIDCCameraArray::DEFAULT_CAMERA_NAME
 	 << "\")\n"
-	 << "  -d configDirs:  list of directories for camera {conf|calib} file\n"
-	 << "                  (default: \""
-	 << IIDCCameraArray::DEFAULT_CONFIG_DIRS
-	 << "\")\n"
 	 << "  -B:             IEEE1394b mode (default: off)\n"
 	 << "  -C:             no cameras used (movie editing only)\n"
 	 << endl;
@@ -55,21 +51,17 @@ main(int argc, char* argv[])
     
     v::App		vapp(argc, argv);
     const char*		name  = IIDCCameraArray::DEFAULT_CAMERA_NAME;
-    const char*		dirs  = nullptr;
     u_int		ncol  = 2;
     float		zoom  = 1;
     IIDCCamera::Speed	speed = IIDCCamera::SPD_400M;
 
   // コマンド行の解析．
     extern char*	optarg;
-    for (int c; (c = getopt(argc, argv, "c:d:Cbn:42HQh")) != -1; )
+    for (int c; (c = getopt(argc, argv, "c:Cbn:42HQh")) != -1; )
 	switch (c)
 	{
 	  case 'c':
 	    name = optarg;
-	    break;
-	  case 'd':
-	    dirs = optarg;
 	    break;
 	  case 'C':
 	    name = nullptr;
@@ -110,7 +102,7 @@ main(int argc, char* argv[])
 	    }
 	}
 	else if (!name)
-	    cameras.restore(name, dirs, speed);
+	    cameras.restore(name, speed);
 
 	v::MyCmdWindow<IIDCCameraArray, u_char>	myWin(vapp, cameras, ncol, zoom);
 	vapp.run();

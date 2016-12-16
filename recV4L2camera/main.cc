@@ -24,10 +24,6 @@ usage(const char* s)
 	 << "                  (default: \""
 	 << V4L2CameraArray::DEFAULT_CAMERA_NAME
 	 << "\")\n"
-	 << "  -d configDirs:  list of directories for camera {conf|calib} file\n"
-	 << "                  (default: \""
-	 << V4L2CameraArray::DEFAULT_CONFIG_DIRS
-	 << "\")\n"
 	 << "  -C:             no cameras used (movie editing only)\n"
 	 << endl;
     cerr << " display options.\n"
@@ -54,20 +50,16 @@ main(int argc, char* argv[])
     
     v::App		vapp(argc, argv);
     const char*		name = V4L2CameraArray::DEFAULT_CAMERA_NAME;
-    const char*		dirs = nullptr;
     u_int		ncol = 2;
     float		zoom = 1;
 
   // コマンド行の解析．
     extern char*	optarg;
-    for (int c; (c = getopt(argc, argv, "c:d:Cn:42HQh")) != -1; )
+    for (int c; (c = getopt(argc, argv, "c:Cn:42HQh")) != -1; )
 	switch (c)
 	{
 	  case 'c':
 	    name = optarg;
-	    break;
-	  case 'd':
-	    dirs = optarg;
 	    break;
 	  case 'C':
 	    name = nullptr;
@@ -102,7 +94,7 @@ main(int argc, char* argv[])
 		camera.initialize(argv[optind++]);
 	}
 	else if (name != 0)
-	    cameras.restore(name, dirs);
+	    cameras.restore(name);
 
 	v::MyCmdWindow<V4L2CameraArray, u_char>	myWin(vapp, cameras, ncol, zoom);
 	vapp.run();

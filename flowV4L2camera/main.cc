@@ -29,10 +29,6 @@ usage(const char* s)
     cerr << "  -c cameraName:    prefix of camera {conf|calib} file\n"
 	 << "                      (default: \""
 	 << V4L2CameraArray::DEFAULT_CAMERA_NAME
-	 << "\")\n"
-	 << "  -d configDirs:    list of directories for camera {conf|calib} file\n"
-	 << "                      (default: \""
-	 << V4L2CameraArray::DEFAULT_CONFIG_DIRS
 	 << "\")"
 	 << endl;
     cerr << " Other options.\n"
@@ -62,18 +58,14 @@ main(int argc, char* argv[])
     
   // Parse command options.
     v::App		vapp(argc, argv);
-    const char*		name = nullptr;
-    const char*		dirs = nullptr;
+    const char*		name = V4L2CameraArray::DEFAULT_CAMERA_NAME;
     bool		gui  = false;
     extern char*	optarg;
-    for (int c; (c = getopt(argc, argv, "c:d:Gh")) != -1; )
+    for (int c; (c = getopt(argc, argv, "c:Gh")) != -1; )
 	switch (c)
 	{
 	  case 'c':
 	    name = optarg;
-	    break;
-	  case 'd':
-	    dirs = optarg;
 	    break;
 	  case 'G':
 	    gui = true;
@@ -95,7 +87,7 @@ main(int argc, char* argv[])
 		camera.initialize(argv[optind++]);
 	}
 	else
-	    cameras.restore(name, dirs);
+	    cameras.restore(name);
 
 	if (cameras.size() == 0)
 	    throw std::runtime_error("One or more cameras must be specified!!");
