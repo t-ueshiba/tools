@@ -58,7 +58,7 @@ MyCmdWindow<CAMERAS>::MyCmdWindow(App& parentApp, CAMERAS& cameras)
 
     refreshFeatureCmds(_cameras, _featureCmd);
     
-    continuousShot(stop);			// カメラからの画像出力を開始
+    continuousShot(false);			// カメラからの画像出力を停止
 }
     
 template <class CAMERAS> void
