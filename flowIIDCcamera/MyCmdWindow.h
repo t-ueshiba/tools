@@ -84,19 +84,21 @@ MyCmdWindow<CAMERAS>::callback(CmdId id, CmdVal val)
 	    break;
 
 	  case M_Open:
-	  {
-	    continuousShot(false);
-
-	    ifstream	in(_cameras.configFile().c_str());
-	    if (in)
-		in >> _cameras;
+	    if (_menuCmd.getValue(c_ContinuousShot))
+		continuousShot(false);
+	    for (auto& camera : _cameras)
+	  	restoreCameraConfig(camera);
 	    refreshFeatureCmds(_cameras, _featureCmd);
-	    
-	    continuousShot(true);
-	  }
+	    if (_menuCmd.getValue(c_ContinuousShot))
+		continuousShot(true);
 	    break;
-      
+	    
 	  case M_Save:
+	    for (auto& camera : _cameras)
+	  	saveCameraConfig(camera);
+	    break;
+	    
+	  case M_SaveAs:
 	  {
 	    continuousShot(false);
 
