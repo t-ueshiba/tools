@@ -93,7 +93,7 @@ main(int argc, char* argv[])
 	    for (auto& camera : cameras)
 		camera.initialize(argv[optind++]);
 	}
-	else if (name != 0)
+	else if (name)
 	    cameras.restore(name);
 
 	v::MyCmdWindow<V4L2CameraArray, u_char>	myWin(vapp, cameras, ncol, zoom);

@@ -47,10 +47,12 @@ EXTHDRS		= ../flowIIDCcamera/CaptureAndSave.h \
 		../flowIIDCcamera/flowcamera.h \
 		/usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/Geometry++.h \
+		/usr/local/include/TU/Heap.h \
 		/usr/local/include/TU/Image++.h \
 		/usr/local/include/TU/List.h \
 		/usr/local/include/TU/Minimize.h \
 		/usr/local/include/TU/V4L2++.h \
+		/usr/local/include/TU/V4L2CameraArray.h \
 		/usr/local/include/TU/Vector++.h \
 		/usr/local/include/TU/functional.h \
 		/usr/local/include/TU/iterator.h \
@@ -93,6 +95,8 @@ main.o: /usr/local/include/TU/v/vV4L2++.h \
 	/usr/local/include/TU/pair.h /usr/local/include/TU/Minimize.h \
 	/usr/local/include/TU/types.h /usr/local/include/TU/v/Widget-Xaw.h \
 	/usr/local/include/TU/v/Colormap.h /usr/local/include/TU/Image++.h \
-	/usr/local/include/TU/V4L2++.h ../flowIIDCcamera/MyCmdWindow.h \
-	/usr/local/include/TU/v/App.h /usr/local/include/TU/v/Timer.h \
-	../flowIIDCcamera/CaptureAndSave.h ../flowIIDCcamera/flowcamera.h
+	/usr/local/include/TU/V4L2CameraArray.h \
+	/usr/local/include/TU/V4L2++.h /usr/local/include/TU/Heap.h \
+	../flowIIDCcamera/MyCmdWindow.h /usr/local/include/TU/v/App.h \
+	/usr/local/include/TU/v/Timer.h ../flowIIDCcamera/CaptureAndSave.h \
+	../flowIIDCcamera/flowcamera.h

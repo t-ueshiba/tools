@@ -101,7 +101,7 @@ main(int argc, char* argv[])
 		camera.setSpeed(speed);
 	    }
 	}
-	else if (!name)
+	else if (name)
 	    cameras.restore(name, speed);
 
 	v::MyCmdWindow<IIDCCameraArray, u_char>	myWin(vapp, cameras, ncol, zoom);
