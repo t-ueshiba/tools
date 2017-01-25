@@ -67,7 +67,7 @@ createMenuCmds(const CAMERA& camera)
 	 CA_None, 0, 0, 1, 1, 0},
 	{C_MenuButton,   M_Format,	   0, "Format",		 noProp,
 	 CA_None, 1, 0, 1, 1, 0},
-	{C_ToggleButton, c_ContinuousShot, 1, "Continuous shot", noProp,
+	{C_ToggleButton, c_ContinuousShot, 0, "Continuous shot", noProp,
 	 CA_None, 2, 0, 1, 1, 0},
 	EndOfCmds
     };
