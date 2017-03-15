@@ -81,7 +81,7 @@ main(int argc, char* argv[])
 	for (int i = optind; i < argc; ++i)
 	{
 	    u_int	n = atoi(argv[i]);
-	    if (n < images.dim())
+	    if (n < images.size())
 	    {
 		cerr << "Extracting " << n << "-th image..." << endl;
 		images[n].save(cout);
