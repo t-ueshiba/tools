@@ -67,7 +67,7 @@ doJob(const GenericImage& header, double scale)
 	  calib.setProjection(image[0].P);
 	  calib.setDistortion(image[0].d1, image[0].d2);
 	  Warp	warp;
-	  warp.initialize(Matrix33d::I(3), calib,
+	  warp.initialize(diag<3, double>(1), calib,
 			  image[0].width(), image[0].height(),
 			  image[0].width(), image[0].height());
 	  rectifiedImage[0].resize(warp.height(), warp.width());

@@ -54,7 +54,7 @@ class MyCmdWindow : public CmdWindow
   public:
     MyCmdWindow(App&				parentApp,
 		const Array<Image<u_char> >&	images,
-		const Array2<Array<Point2d> >&	pairs,
+		const Array2<Point2d>&		pairs,
 		size_t				lineWidth,
 		size_t				ncol,
 		float				zoom)			;
@@ -66,15 +66,15 @@ class MyCmdWindow : public CmdWindow
     size_t		nviews()				const	;
     size_t		npairs()				const	;
 
-    CmdPane				_cmd;
-    Array<MyCanvasPane*>		_canvases;
-    Point2d				_q;	// previous cursor location.
-    const Array2<Array<Point2d> >&	_pairs;
-    BGR					_bgr[8];
+    CmdPane			_cmd;
+    Array<MyCanvasPane*>	_canvases;
+    Point2d			_q;	// previous cursor location.
+    const Array2<Point2d>&	_pairs;
+    BGR				_bgr[8];
 };
 
-inline size_t	MyCmdWindow::nviews() const	{return _canvases.dim();}
-inline size_t	MyCmdWindow::npairs() const	{return _pairs.dim();}
+inline size_t	MyCmdWindow::nviews() const	{return _canvases.size();}
+inline size_t	MyCmdWindow::npairs() const	{return _pairs.size();}
  
 }
 }

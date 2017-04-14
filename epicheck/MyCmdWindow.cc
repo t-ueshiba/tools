@@ -40,7 +40,7 @@ view2color(size_t view)
 ************************************************************************/
 MyCmdWindow::MyCmdWindow(App&				parentApp,
 			 const Array<Image<u_char> >&	images,
-			 const Array2<Array<Point2d> >&	pairs,
+			 const Array2<Point2d>&		pairs,
 			 size_t				lineWidth,
 			 size_t				ncol,
 			 float				zoom)
@@ -51,7 +51,7 @@ MyCmdWindow::MyCmdWindow(App&				parentApp,
 	       Colormap::RGBColor, 16, 0, 0
 #endif
 	      ),
-     _cmd(*this, cmds), _canvases(images.dim()), _q(0, 0), _pairs(pairs)
+     _cmd(*this, cmds), _canvases(images.size()), _q({0, 0}), _pairs(pairs)
 {
     _cmd.place(0, 0, 2, 1);
     
@@ -68,7 +68,7 @@ MyCmdWindow::MyCmdWindow(App&				parentApp,
 	for (int j = 0; j < nviews(); ++j)
 	{
 	    const Matrix34d&	P1 = images[j].P;
-	    F[j] = Vector3d(P1 * c).skew() * P1 * P0inv;
+	    F[j] = skew(P1 * c) * P1 * P0inv;
 	}
 	_canvases[i] = new MyCanvasPane(*this, i, F, images[i],
 					lineWidth, zoom);
@@ -95,7 +95,7 @@ MyCmdWindow::MyCmdWindow(App&				parentApp,
 
 MyCmdWindow::~MyCmdWindow()
 {
-    for (int i = 0; i < _canvases.dim(); ++i)
+    for (int i = 0; i < _canvases.size(); ++i)
 	delete _canvases[i];
 }
 

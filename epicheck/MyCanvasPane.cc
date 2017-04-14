@@ -33,7 +33,7 @@ MyCanvasPane::drawEpipolarLine(const Point2d& p, size_t otherView)
 {
     if (otherView != _view)
     {
-	LineP2d	l = p.homogeneous() * _F[otherView];
+	LineP2d	l = homogeneous(p) * _F[otherView];
 	_dc << l;
     }
 }
@@ -43,7 +43,7 @@ MyCanvasPane::drawSelfEpipolarLine(const Point2d& p, size_t otherView)
 {
     if (otherView != _view)
     {
-	LineP2d	l = (_F[otherView][0] ^ _F[otherView][1]) ^ p.homogeneous();
+	LineP2d	l = (_F[otherView][0] ^ _F[otherView][1]) ^ homogeneous(p);
 	_dc << l;
     }
 }

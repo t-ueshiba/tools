@@ -85,7 +85,7 @@ main(int argc, char* argv[])
 	    {
 		if (n == 0)
 		    calib0 = calib;
-		calib.setRotation(calib.Rt() * calib0.Rt().trns());
+		calib.setRotation(calib.Rt() * transpose(calib0.Rt()));
 		calib.setTranslation(calib0.Rt() * (calib.t() - calib0.t()));
 	    }
 	    

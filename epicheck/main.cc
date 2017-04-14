@@ -88,20 +88,20 @@ main(int argc, char* argv[])
 	    restoreImages(cin, tmpImages);
 
       /* Read pair file. */
-	Array2<Array<Point2d> >	tmpPairs;
+	Array2<Point2d>		tmpPairs;
 	if (pairfile != 0)
 	{
 	    ifstream	in(pairfile);
 	    if (!in)
 		throw runtime_error("Cannot open the input pair file!!");
 	    in >> tmpPairs;
-	    if (tmpPairs.ncol() != tmpImages.dim())
+	    if (tmpPairs.ncol() != tmpImages.size())
 		throw runtime_error("# of frames in pair file is not equal to # of epbms!!");
 	}
 
       /* Select views. */
 	Array<Image<u_char> >	images;
-	Array2<Array<Point2d> >	pairs;
+	Array2<Point2d>		pairs;
 	extern int		optind;
 	if (optind == argc)
 	{
@@ -111,11 +111,11 @@ main(int argc, char* argv[])
 	else
 	{
 	    images.resize(argc - optind);
-	    pairs.resize(tmpPairs.nrow(), images.dim());
-	    for (size_t i = 0; i < images.dim(); ++i)
+	    pairs.resize(tmpPairs.nrow(), images.size());
+	    for (size_t i = 0; i < images.size(); ++i)
 	    {
 		size_t	n = atoi(argv[optind + i]);
-		if (n >= tmpImages.dim())
+		if (n >= tmpImages.size())
 		    throw runtime_error("Specified view is not found in input images!!");
 		images[i] = tmpImages[n];
 		for (size_t j = 0; j < pairs.nrow(); ++j)
