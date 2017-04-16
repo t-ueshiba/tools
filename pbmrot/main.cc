@@ -81,7 +81,7 @@ correctWC(Image<T>& image, const Matrix34d& P0)
     Camera<IntrinsicBase<double> >	camera0(P0), camera(image.P);
 
     camera.setTranslation(camera0.Rt() * (camera.t() - camera0.t()));
-    camera.setRotation(camera.Rt() * camera0.Rt().trns());
+    camera.setRotation(camera.Rt() * transpose(camera0.Rt()));
     image.P = camera.P();
 }
 

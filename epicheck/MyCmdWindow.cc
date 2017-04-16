@@ -104,8 +104,8 @@ MyCmdWindow::callback(CmdId id, CmdVal val)
 {
     size_t	view  = id / MyCanvasPane::NEVENTS,
 		event = id % MyCanvasPane::NEVENTS;
-    Point2d	p(_canvases[view]->dc().dev2logU(val.u()),
-		  _canvases[view]->dc().dev2logU(val.v()));
+    Point2d	p({double(_canvases[view]->dc().dev2logU(val.u())),
+		   double(_canvases[view]->dc().dev2logU(val.v()))});
 
     switch (event)
     {
