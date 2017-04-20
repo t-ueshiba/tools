@@ -14,14 +14,14 @@ MOCHDRS		=
 
 INCDIRS		= -I. -I$(PREFIX)/include
 CPPFLAGS	= -DNDEBUG
-CFLAGS		= -g #O3
+CFLAGS		= -O3
 NVCCFLAGS	= -O
 ifeq ($(shell arch),armv7l)
   CPPFLAGS     += -DNEON
 else ifeq ($(shell arch), aarch64)
   CPPFLAGS     += -DNEON
 else
-  CPPFLAGS     += -DSSE3
+  CPPFLAGS     += -DSSE4
 endif
 CCFLAGS		= $(CFLAGS)
 
