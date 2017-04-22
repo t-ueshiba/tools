@@ -21,9 +21,8 @@ ifeq ($(shell arch),armv7l)
 else ifeq ($(shell arch), aarch64)
   CPPFLAGS     += -DNEON
 else
-  CPPFLAGS     += -DSSE3
-#  CPPFLAGS     += -DAVX2
-#  CFLAGS       += -march=core-avx2
+  CPPFLAGS     += -DSSE4
+  CFLAGS       += -msse4
 endif
 CCFLAGS		= $(CFLAGS)
 
