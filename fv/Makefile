@@ -34,6 +34,8 @@ BINDIR		= $(PREFIX)/bin
 LIBDIR		= $(PREFIX)/lib
 INCDIR		= $(PREFIX)/include
 
+OTHER_DIR	= $(HOME)/projects/HRP-5P/hrp5p-calib/src/fv
+
 #########################
 #  Macros set by mkmf	#
 #########################
@@ -72,11 +74,15 @@ HDRS		=
 SRCS		= main.cc
 OBJS		= main.o
 
+OTHER_HDRS	= $(HDRS)
+OTHER_SRCS	= $(SRCS)
+
 #include $(PROJECT)/lib/rtc.mk		# IDLHDRS, IDLSRCS, CPPFLAGS, OBJS, LIBS
 #include $(PROJECT)/lib/qt.mk		# MOCSRCS, OBJS
 #include $(PROJECT)/lib/cnoid.mk	# CPPFLAGS, LIBS, LIBDIR
 #include $(PROJECT)/lib/lib.mk		# PUBHDRS TARGHDRS
 include $(PROJECT)/lib/common.mk
+include $(PROJECT)/lib/other.mk
 ###
 main.o: /usr/local/include/TU/v/App.h /usr/local/include/TU/v/TUv++.h \
 	/usr/local/include/TU/List.h /usr/local/include/TU/Geometry++.h \

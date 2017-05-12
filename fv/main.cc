@@ -6,7 +6,11 @@
 #include "TU/v/CmdWindow.h"
 #include "TU/v/CmdPane.h"
 #include "TU/v/CanvasPane.h"
-#include "TU/v/XvDC.h"
+#ifdef USE_XVDC
+#  include "TU/v/XvDC.h"
+#else
+#  include "TU/v/ShmDC.h"
+#endif
 #include "TU/v/Timer.h"
 #include "TU/v/FileSelection.h"
 #include <fstream>
