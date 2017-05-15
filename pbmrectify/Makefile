@@ -88,6 +88,7 @@ EXTHDRS		= /usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/simd/load_store.h \
 		/usr/local/include/TU/simd/logical.h \
 		/usr/local/include/TU/simd/lookup.h \
+		/usr/local/include/TU/simd/pack.h \
 		/usr/local/include/TU/simd/select.h \
 		/usr/local/include/TU/simd/shift.h \
 		/usr/local/include/TU/simd/shift_iterator.h \
@@ -116,9 +117,7 @@ EXTHDRS		= /usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/simd/x86/vec.h \
 		/usr/local/include/TU/simd/x86/zero.h \
 		/usr/local/include/TU/simd/zero.h \
-		/usr/local/include/TU/simd/zero.h \
-		/usr/local/include/TU/tuple.h \
-		/usr/local/include/TU/types.h
+		/usr/local/include/TU/tuple.h
 HDRS		=
 SRCS		= main.cc
 OBJS		= main.o
@@ -130,14 +129,13 @@ OBJS		= main.o
 include $(PROJECT)/lib/common.mk
 ###
 main.o: /usr/local/include/TU/Rectify.h /usr/local/include/TU/Warp.h \
-	/usr/local/include/TU/Image++.h /usr/local/include/TU/types.h \
-	/usr/local/include/TU/pair.h /usr/local/include/TU/Vector++.h \
-	/usr/local/include/TU/Array++.h /usr/local/include/TU/range.h \
-	/usr/local/include/TU/algorithm.h /usr/local/include/TU/iterator.h \
-	/usr/local/include/TU/tuple.h /usr/local/include/TU/Camera++.h \
-	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/Minimize.h \
-	/usr/local/include/TU/simd/simd.h /usr/local/include/TU/simd/config.h \
-	/usr/local/include/TU/simd/vec.h \
+	/usr/local/include/TU/Image++.h /usr/local/include/TU/pair.h \
+	/usr/local/include/TU/Vector++.h /usr/local/include/TU/Array++.h \
+	/usr/local/include/TU/range.h /usr/local/include/TU/algorithm.h \
+	/usr/local/include/TU/iterator.h /usr/local/include/TU/tuple.h \
+	/usr/local/include/TU/Camera++.h /usr/local/include/TU/Geometry++.h \
+	/usr/local/include/TU/Minimize.h /usr/local/include/TU/simd/simd.h \
+	/usr/local/include/TU/simd/config.h /usr/local/include/TU/simd/vec.h \
 	/usr/local/include/TU/simd/type_traits.h \
 	/usr/local/include/TU/simd/x86/type_traits.h \
 	/usr/local/include/TU/simd/arm/type_traits.h \
@@ -149,28 +147,28 @@ main.o: /usr/local/include/TU/Rectify.h /usr/local/include/TU/Warp.h \
 	/usr/local/include/TU/simd/x86/allocator.h \
 	/usr/local/include/TU/simd/arm/allocator.h \
 	/usr/local/include/TU/simd/load_store.h \
-	/usr/local/include/TU/simd/x86/load_store.h \
-	/usr/local/include/TU/simd/arm/load_store.h \
+	/usr/local/include/TU/simd/pack.h /usr/local/include/TU/simd/cvt.h \
 	/usr/local/include/TU/simd/zero.h \
 	/usr/local/include/TU/simd/x86/zero.h \
 	/usr/local/include/TU/simd/arm/zero.h \
 	/usr/local/include/TU/simd/cast.h \
 	/usr/local/include/TU/simd/x86/cast.h \
 	/usr/local/include/TU/simd/arm/cast.h \
-	/usr/local/include/TU/simd/insert_extract.h \
-	/usr/local/include/TU/simd/x86/insert_extract.h \
-	/usr/local/include/TU/simd/arm/insert_extract.h \
 	/usr/local/include/TU/simd/shift.h \
 	/usr/local/include/TU/simd/x86/shift.h \
 	/usr/local/include/TU/simd/arm/shift.h \
 	/usr/local/include/TU/simd/bit_shift.h \
 	/usr/local/include/TU/simd/x86/bit_shift.h \
 	/usr/local/include/TU/simd/arm/bit_shift.h \
-	/usr/local/include/TU/simd/dup.h /usr/local/include/TU/simd/cvt.h \
 	/usr/local/include/TU/simd/x86/cvt.h \
 	/usr/local/include/TU/simd/x86/unpack.h \
 	/usr/local/include/TU/simd/arm/cvt.h \
-	/usr/local/include/TU/simd/logical.h \
+	/usr/local/include/TU/simd/x86/load_store.h \
+	/usr/local/include/TU/simd/arm/load_store.h \
+	/usr/local/include/TU/simd/insert_extract.h \
+	/usr/local/include/TU/simd/x86/insert_extract.h \
+	/usr/local/include/TU/simd/arm/insert_extract.h \
+	/usr/local/include/TU/simd/dup.h /usr/local/include/TU/simd/logical.h \
 	/usr/local/include/TU/simd/x86/logical.h \
 	/usr/local/include/TU/simd/x86/logical_base.h \
 	/usr/local/include/TU/simd/arm/logical.h \
@@ -195,5 +193,4 @@ main.o: /usr/local/include/TU/Rectify.h /usr/local/include/TU/Warp.h \
 	/usr/local/include/TU/simd/cvtdown_iterator.h \
 	/usr/local/include/TU/simd/cvtup_iterator.h \
 	/usr/local/include/TU/simd/shift_iterator.h \
-	/usr/local/include/TU/simd/BufTraits.h \
-	/usr/local/include/TU/simd/zero.h
+	/usr/local/include/TU/simd/BufTraits.h
