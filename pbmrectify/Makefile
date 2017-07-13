@@ -58,7 +58,6 @@ EXTHDRS		= /usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/simd/BufTraits.h \
 		/usr/local/include/TU/simd/allocator.h \
 		/usr/local/include/TU/simd/arithmetic.h \
-		/usr/local/include/TU/simd/arm/allocator.h \
 		/usr/local/include/TU/simd/arm/arch.h \
 		/usr/local/include/TU/simd/arm/arithmetic.h \
 		/usr/local/include/TU/simd/arm/bit_shift.h \
@@ -84,20 +83,19 @@ EXTHDRS		= /usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/simd/cvtup_iterator.h \
 		/usr/local/include/TU/simd/dup.h \
 		/usr/local/include/TU/simd/insert_extract.h \
-		/usr/local/include/TU/simd/load_iterator.h \
 		/usr/local/include/TU/simd/load_store.h \
+		/usr/local/include/TU/simd/load_store_iterator.h \
 		/usr/local/include/TU/simd/logical.h \
 		/usr/local/include/TU/simd/lookup.h \
+		/usr/local/include/TU/simd/misc.h \
 		/usr/local/include/TU/simd/pack.h \
 		/usr/local/include/TU/simd/select.h \
 		/usr/local/include/TU/simd/shift.h \
 		/usr/local/include/TU/simd/shift_iterator.h \
 		/usr/local/include/TU/simd/simd.h \
-		/usr/local/include/TU/simd/store_iterator.h \
 		/usr/local/include/TU/simd/transform.h \
 		/usr/local/include/TU/simd/type_traits.h \
 		/usr/local/include/TU/simd/vec.h \
-		/usr/local/include/TU/simd/x86/allocator.h \
 		/usr/local/include/TU/simd/x86/arch.h \
 		/usr/local/include/TU/simd/x86/arithmetic.h \
 		/usr/local/include/TU/simd/x86/bit_shift.h \
@@ -112,6 +110,8 @@ EXTHDRS		= /usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/simd/x86/lookup.h \
 		/usr/local/include/TU/simd/x86/select.h \
 		/usr/local/include/TU/simd/x86/shift.h \
+		/usr/local/include/TU/simd/x86/shuffle.h \
+		/usr/local/include/TU/simd/x86/svml.h \
 		/usr/local/include/TU/simd/x86/type_traits.h \
 		/usr/local/include/TU/simd/x86/unpack.h \
 		/usr/local/include/TU/simd/x86/vec.h \
@@ -129,13 +129,8 @@ OBJS		= main.o
 include $(PROJECT)/lib/common.mk
 ###
 main.o: /usr/local/include/TU/Rectify.h /usr/local/include/TU/Warp.h \
-	/usr/local/include/TU/Image++.h /usr/local/include/TU/pair.h \
-	/usr/local/include/TU/Vector++.h /usr/local/include/TU/Array++.h \
-	/usr/local/include/TU/range.h /usr/local/include/TU/algorithm.h \
-	/usr/local/include/TU/iterator.h /usr/local/include/TU/tuple.h \
-	/usr/local/include/TU/Camera++.h /usr/local/include/TU/Geometry++.h \
-	/usr/local/include/TU/Minimize.h /usr/local/include/TU/simd/simd.h \
-	/usr/local/include/TU/simd/config.h /usr/local/include/TU/simd/vec.h \
+	/usr/local/include/TU/simd/simd.h /usr/local/include/TU/simd/config.h \
+	/usr/local/include/TU/simd/vec.h \
 	/usr/local/include/TU/simd/type_traits.h \
 	/usr/local/include/TU/simd/x86/type_traits.h \
 	/usr/local/include/TU/simd/arm/type_traits.h \
@@ -144,11 +139,9 @@ main.o: /usr/local/include/TU/Rectify.h /usr/local/include/TU/Warp.h \
 	/usr/local/include/TU/simd/arm/vec.h \
 	/usr/local/include/TU/simd/arm/arch.h \
 	/usr/local/include/TU/simd/allocator.h \
-	/usr/local/include/TU/simd/x86/allocator.h \
-	/usr/local/include/TU/simd/arm/allocator.h \
-	/usr/local/include/TU/simd/load_store.h \
+	/usr/local/include/TU/simd/load_store.h /usr/local/include/TU/pair.h \
 	/usr/local/include/TU/simd/pack.h /usr/local/include/TU/simd/cvt.h \
-	/usr/local/include/TU/simd/zero.h \
+	/usr/local/include/TU/tuple.h /usr/local/include/TU/simd/zero.h \
 	/usr/local/include/TU/simd/x86/zero.h \
 	/usr/local/include/TU/simd/arm/zero.h \
 	/usr/local/include/TU/simd/cast.h \
@@ -183,14 +176,20 @@ main.o: /usr/local/include/TU/Rectify.h /usr/local/include/TU/Warp.h \
 	/usr/local/include/TU/simd/arithmetic.h \
 	/usr/local/include/TU/simd/x86/arithmetic.h \
 	/usr/local/include/TU/simd/arm/arithmetic.h \
+	/usr/local/include/TU/simd/misc.h \
+	/usr/local/include/TU/simd/x86/shuffle.h \
+	/usr/local/include/TU/simd/x86/svml.h \
 	/usr/local/include/TU/simd/transform.h \
-	/usr/local/include/TU/functional.h \
+	/usr/local/include/TU/iterator.h /usr/local/include/TU/functional.h \
 	/usr/local/include/TU/simd/lookup.h \
 	/usr/local/include/TU/simd/x86/lookup.h \
 	/usr/local/include/TU/simd/arm/lookup.h \
-	/usr/local/include/TU/simd/load_iterator.h \
-	/usr/local/include/TU/simd/store_iterator.h \
+	/usr/local/include/TU/simd/load_store_iterator.h \
 	/usr/local/include/TU/simd/cvtdown_iterator.h \
 	/usr/local/include/TU/simd/cvtup_iterator.h \
 	/usr/local/include/TU/simd/shift_iterator.h \
-	/usr/local/include/TU/simd/BufTraits.h
+	/usr/local/include/TU/simd/BufTraits.h \
+	/usr/local/include/TU/Array++.h /usr/local/include/TU/range.h \
+	/usr/local/include/TU/algorithm.h /usr/local/include/TU/Image++.h \
+	/usr/local/include/TU/Vector++.h /usr/local/include/TU/Camera++.h \
+	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/Minimize.h
