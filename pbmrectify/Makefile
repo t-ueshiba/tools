@@ -55,7 +55,8 @@ EXTHDRS		= /usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/iterator.h \
 		/usr/local/include/TU/pair.h \
 		/usr/local/include/TU/range.h \
-		/usr/local/include/TU/simd/BufTraits.h \
+		/usr/local/include/TU/simd/Array++.h \
+		/usr/local/include/TU/simd/algorithm.h \
 		/usr/local/include/TU/simd/allocator.h \
 		/usr/local/include/TU/simd/arithmetic.h \
 		/usr/local/include/TU/simd/arm/arch.h \
@@ -139,9 +140,10 @@ main.o: /usr/local/include/TU/Rectify.h /usr/local/include/TU/Warp.h \
 	/usr/local/include/TU/simd/arm/vec.h \
 	/usr/local/include/TU/simd/arm/arch.h \
 	/usr/local/include/TU/simd/allocator.h \
-	/usr/local/include/TU/simd/load_store.h /usr/local/include/TU/pair.h \
-	/usr/local/include/TU/simd/pack.h /usr/local/include/TU/simd/cvt.h \
-	/usr/local/include/TU/tuple.h /usr/local/include/TU/simd/zero.h \
+	/usr/local/include/TU/simd/load_store.h \
+	/usr/local/include/TU/simd/pack.h /usr/local/include/TU/pair.h \
+	/usr/local/include/TU/simd/cvt.h /usr/local/include/TU/tuple.h \
+	/usr/local/include/TU/simd/zero.h \
 	/usr/local/include/TU/simd/x86/zero.h \
 	/usr/local/include/TU/simd/arm/zero.h \
 	/usr/local/include/TU/simd/cast.h \
@@ -188,8 +190,9 @@ main.o: /usr/local/include/TU/Rectify.h /usr/local/include/TU/Warp.h \
 	/usr/local/include/TU/simd/cvtdown_iterator.h \
 	/usr/local/include/TU/simd/cvtup_iterator.h \
 	/usr/local/include/TU/simd/shift_iterator.h \
-	/usr/local/include/TU/simd/BufTraits.h \
-	/usr/local/include/TU/Array++.h /usr/local/include/TU/range.h \
-	/usr/local/include/TU/algorithm.h /usr/local/include/TU/Image++.h \
+	/usr/local/include/TU/simd/algorithm.h \
+	/usr/local/include/TU/algorithm.h \
+	/usr/local/include/TU/simd/Array++.h /usr/local/include/TU/Array++.h \
+	/usr/local/include/TU/range.h /usr/local/include/TU/Image++.h \
 	/usr/local/include/TU/Vector++.h /usr/local/include/TU/Camera++.h \
 	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/Minimize.h
