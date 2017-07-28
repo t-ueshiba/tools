@@ -130,6 +130,7 @@ OBJS		= main.o
 include $(PROJECT)/lib/common.mk
 ###
 main.o: /usr/local/include/TU/Rectify.h /usr/local/include/TU/Warp.h \
+	/usr/local/include/TU/simd/Array++.h \
 	/usr/local/include/TU/simd/simd.h /usr/local/include/TU/simd/config.h \
 	/usr/local/include/TU/simd/vec.h \
 	/usr/local/include/TU/simd/type_traits.h \
@@ -191,8 +192,7 @@ main.o: /usr/local/include/TU/Rectify.h /usr/local/include/TU/Warp.h \
 	/usr/local/include/TU/simd/cvtup_iterator.h \
 	/usr/local/include/TU/simd/shift_iterator.h \
 	/usr/local/include/TU/simd/algorithm.h \
-	/usr/local/include/TU/algorithm.h \
-	/usr/local/include/TU/simd/Array++.h /usr/local/include/TU/Array++.h \
+	/usr/local/include/TU/algorithm.h /usr/local/include/TU/Array++.h \
 	/usr/local/include/TU/range.h /usr/local/include/TU/Image++.h \
 	/usr/local/include/TU/Vector++.h /usr/local/include/TU/Camera++.h \
 	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/Minimize.h
