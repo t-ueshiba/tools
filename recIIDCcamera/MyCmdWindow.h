@@ -64,13 +64,13 @@ MyCmdWindow<CAMERAS, PIXEL>::MyCmdWindow(App& parentApp, CAMERAS& cameras,
      _headIsActive(true),
      _movie(_cameras.size()),
      _canvases(0),
-     _menuCmd(*this, (std::size(_cameras) > 0 ?
+     _menuCmd(*this, (TU::size(_cameras) > 0 ?
 		      createMenuCmds(*std::begin(_cameras)) :
 		      createMenuCmds())),
      _captureCmd(*this, createCaptureCmds()),
-     _featureCmd(*this, (std::size(_cameras) > 0 ?
+     _featureCmd(*this, (TU::size(_cameras) > 0 ?
 			 createFeatureCmds(*std::begin(_cameras),
-					   std::size(_cameras)) :
+					   TU::size(_cameras)) :
 			 createFeatureCmds())),
      _timer(*this, 0)
 {
@@ -335,7 +335,7 @@ MyCmdWindow<CAMERAS, PIXEL>::initializeMovie()
     using namespace	std;
 
   // カメラの台数分だけのビューを確保し，そのサイズを設定する．
-    Array<typename Movie<PIXEL>::Size>	sizes(std::size(_cameras));
+    Array<typename Movie<PIXEL>::Size>	sizes(TU::size(_cameras));
     auto				camera = std::cbegin(_cameras);
     for (auto& size : sizes)
     {
