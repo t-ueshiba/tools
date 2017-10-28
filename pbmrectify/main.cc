@@ -48,7 +48,7 @@ doJob(const GenericImage& header, double scale)
     image[0].P = header.P;
     image[0].d1 = header.d1;
     image[0].d2 = header.d2;
-    if (!image[0].restoreData(cin, header.typeInfo()))
+    if (!image[0].restoreData(cin, header.format()))
 	throw runtime_error("Cannot restore data of the first image!!");
 
   // 2番目以降の画像を読み込む．
@@ -135,20 +135,20 @@ main(int argc, char* argv[])
 	    throw runtime_error("Cannot set stdout to binary mode!!"); 
 #endif
 	GenericImage	header;
-	switch (header.restoreHeader(cin).type)
+	switch (header.restoreHeader(cin).type())
 	{
-	  case ImageBase::U_CHAR:
-	  case ImageBase::SHORT:
-	  case ImageBase::FLOAT:
-	  case ImageBase::BMP_8:
+	  case ImageFormat::U_CHAR:
+	  case ImageFormat::SHORT:
+	  case ImageFormat::FLOAT:
+	  case ImageFormat::BMP_8:
 	    doJob<u_char>(header, scale);
 	    break;
-	  case ImageBase::RGB_24:
-	  case ImageBase::YUV_444:
-	  case ImageBase::YUV_422:
-	  case ImageBase::YUV_411:
-	  case ImageBase::BMP_24:
-	  case ImageBase::BMP_32:
+	  case ImageFormat::RGB_24:
+	  case ImageFormat::YUV_444:
+	  case ImageFormat::YUV_422:
+	  case ImageFormat::YUV_411:
+	  case ImageFormat::BMP_24:
+	  case ImageFormat::BMP_32:
 	    doJob<RGBA>(header, scale);
 	    break;
 	  default:
