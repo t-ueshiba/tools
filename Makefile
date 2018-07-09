@@ -9,9 +9,9 @@ SUBDIR	= embedCalib		\
 	  reset1394		\
 	  flowIIDCcamera	\
 	  recIIDCcamera		\
-#	  flowV4L2camera	\
-#	  recV4L2camera		\
-#	  hubctrl
+	  flowV4L2camera	\
+	  recV4L2camera		\
+	  hubctrl
 
 TARGETS	= all install clean depend
 
