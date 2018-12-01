@@ -40,7 +40,7 @@ main(int argc, char* argv[])
     {
 	if (idVendor == 0 || idProduct == 0 || port < 0)
 	{
-	    USBHub::listup(cout);
+	    USBDevice::listup(cout, USB_CLASS_HUB);
 	    throw runtime_error("Please specify idVendor, idProduct and port# by; -v idVendor -p idProduct -n port#");
 	}
 
@@ -50,7 +50,7 @@ main(int argc, char* argv[])
 	else
 	    hub.setLED(port, led);
 
-	USBHub::listup(cerr);
+	USBDevice::listup(cerr, USB_CLASS_HUB);
     }
     catch (exception& err)
     {

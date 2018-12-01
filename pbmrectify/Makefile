@@ -52,8 +52,6 @@ EXTHDRS		= /usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/Vector++.h \
 		/usr/local/include/TU/Warp.h \
 		/usr/local/include/TU/algorithm.h \
-		/usr/local/include/TU/cuda/iterator.h \
-		/usr/local/include/TU/cuda/tuple.h \
 		/usr/local/include/TU/functional.h \
 		/usr/local/include/TU/iterator.h \
 		/usr/local/include/TU/pair.h \
@@ -91,6 +89,7 @@ EXTHDRS		= /usr/local/include/TU/Array++.h \
 		/usr/local/include/TU/simd/load_store_iterator.h \
 		/usr/local/include/TU/simd/logical.h \
 		/usr/local/include/TU/simd/lookup.h \
+		/usr/local/include/TU/simd/map_iterator.h \
 		/usr/local/include/TU/simd/misc.h \
 		/usr/local/include/TU/simd/select.h \
 		/usr/local/include/TU/simd/shift.h \
@@ -133,9 +132,11 @@ OBJS		= main.o
 include $(PROJECT)/lib/common.mk
 ###
 main.o: /usr/local/include/TU/Rectify.h /usr/local/include/TU/Warp.h \
-	/usr/local/include/TU/simd/Array++.h \
-	/usr/local/include/TU/simd/simd.h /usr/local/include/TU/simd/config.h \
-	/usr/local/include/TU/simd/vec.h \
+	/usr/local/include/TU/simd/Array++.h /usr/local/include/TU/Array++.h \
+	/usr/local/include/TU/range.h /usr/local/include/TU/iterator.h \
+	/usr/local/include/TU/tuple.h /usr/local/include/TU/type_traits.h \
+	/usr/local/include/TU/algorithm.h /usr/local/include/TU/simd/simd.h \
+	/usr/local/include/TU/simd/config.h /usr/local/include/TU/simd/vec.h \
 	/usr/local/include/TU/simd/type_traits.h \
 	/usr/local/include/TU/simd/x86/type_traits.h \
 	/usr/local/include/TU/simd/arm/type_traits.h \
@@ -146,8 +147,6 @@ main.o: /usr/local/include/TU/Rectify.h /usr/local/include/TU/Warp.h \
 	/usr/local/include/TU/simd/allocator.h \
 	/usr/local/include/TU/simd/iterator_wrapper.h \
 	/usr/local/include/TU/simd/load_store_iterator.h \
-	/usr/local/include/TU/iterator.h /usr/local/include/TU/tuple.h \
-	/usr/local/include/TU/type_traits.h \
 	/usr/local/include/TU/simd/load_store.h \
 	/usr/local/include/TU/simd/x86/load_store.h \
 	/usr/local/include/TU/simd/arm/load_store.h \
@@ -196,9 +195,8 @@ main.o: /usr/local/include/TU/Rectify.h /usr/local/include/TU/Warp.h \
 	/usr/local/include/TU/simd/cvtdown_iterator.h \
 	/usr/local/include/TU/simd/cvtup_iterator.h \
 	/usr/local/include/TU/simd/shift_iterator.h \
-	/usr/local/include/TU/Array++.h /usr/local/include/TU/range.h \
-	/usr/local/include/TU/algorithm.h /usr/local/include/TU/cuda/tuple.h \
-	/usr/local/include/TU/cuda/iterator.h /usr/local/include/TU/Image++.h \
-	/usr/local/include/TU/pair.h /usr/local/include/TU/Manip.h \
-	/usr/local/include/TU/Camera++.h /usr/local/include/TU/Geometry++.h \
-	/usr/local/include/TU/Minimize.h /usr/local/include/TU/Vector++.h
+	/usr/local/include/TU/simd/map_iterator.h \
+	/usr/local/include/TU/Image++.h /usr/local/include/TU/pair.h \
+	/usr/local/include/TU/Manip.h /usr/local/include/TU/Camera++.h \
+	/usr/local/include/TU/Geometry++.h /usr/local/include/TU/Minimize.h \
+	/usr/local/include/TU/Vector++.h

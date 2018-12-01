@@ -73,5 +73,9 @@ main.o: /usr/local/include/TU/Image++.h /usr/local/include/TU/pair.h \
 	/usr/local/include/TU/Minimize.h /usr/local/include/TU/Vector++.h \
 	/usr/local/include/TU/Array++.h /usr/local/include/TU/range.h \
 	/usr/local/include/TU/iterator.h /usr/local/include/TU/tuple.h \
+<<<<<<< HEAD
 	/usr/local/include/TU/algorithm.h /usr/local/include/TU/cuda/tuple.h \
 	/usr/local/include/TU/cuda/iterator.h
+=======
+	/usr/local/include/TU/algorithm.h
+>>>>>>> d848d90d805a101b63d2d5f2d724c9aedf747dd6

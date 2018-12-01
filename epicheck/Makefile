@@ -92,8 +92,12 @@ MyCanvasPane.o: epicheck.h /usr/local/include/TU/v/CmdWindow.h \
 	/usr/local/include/TU/Vector++.h /usr/local/include/TU/Array++.h \
 	/usr/local/include/TU/range.h /usr/local/include/TU/iterator.h \
 	/usr/local/include/TU/tuple.h /usr/local/include/TU/type_traits.h \
+<<<<<<< HEAD
 	/usr/local/include/TU/algorithm.h /usr/local/include/TU/cuda/tuple.h \
 	/usr/local/include/TU/cuda/iterator.h \
+=======
+	/usr/local/include/TU/algorithm.h \
+>>>>>>> d848d90d805a101b63d2d5f2d724c9aedf747dd6
 	/usr/local/include/TU/v/Widget-Xaw.h \
 	/usr/local/include/TU/v/Colormap.h /usr/local/include/TU/Image++.h \
 	/usr/local/include/TU/pair.h /usr/local/include/TU/Manip.h \
@@ -107,8 +111,12 @@ MyCmdWindow.o: /usr/local/include/TU/v/App.h \
 	/usr/local/include/TU/Vector++.h /usr/local/include/TU/Array++.h \
 	/usr/local/include/TU/range.h /usr/local/include/TU/iterator.h \
 	/usr/local/include/TU/tuple.h /usr/local/include/TU/type_traits.h \
+<<<<<<< HEAD
 	/usr/local/include/TU/algorithm.h /usr/local/include/TU/cuda/tuple.h \
 	/usr/local/include/TU/cuda/iterator.h \
+=======
+	/usr/local/include/TU/algorithm.h \
+>>>>>>> d848d90d805a101b63d2d5f2d724c9aedf747dd6
 	/usr/local/include/TU/v/Widget-Xaw.h \
 	/usr/local/include/TU/v/Colormap.h /usr/local/include/TU/Image++.h \
 	/usr/local/include/TU/pair.h /usr/local/include/TU/Manip.h \
@@ -123,8 +131,11 @@ main.o: /usr/local/include/TU/v/App.h /usr/local/include/TU/v/TUv++.h \
 	/usr/local/include/TU/Array++.h /usr/local/include/TU/range.h \
 	/usr/local/include/TU/iterator.h /usr/local/include/TU/tuple.h \
 	/usr/local/include/TU/type_traits.h /usr/local/include/TU/algorithm.h \
+<<<<<<< HEAD
 	/usr/local/include/TU/cuda/tuple.h \
 	/usr/local/include/TU/cuda/iterator.h \
+=======
+>>>>>>> d848d90d805a101b63d2d5f2d724c9aedf747dd6
 	/usr/local/include/TU/v/Widget-Xaw.h \
 	/usr/local/include/TU/v/Colormap.h /usr/local/include/TU/Image++.h \
 	/usr/local/include/TU/pair.h /usr/local/include/TU/Manip.h \
