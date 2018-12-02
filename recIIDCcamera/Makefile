@@ -26,8 +26,7 @@ else
 endif
 CCFLAGS		= $(CFLAGS)
 
-LIBS		= -lTUvIIDC++ -lTUIIDC++ -lTUXv++ -lTUv++ -lTUTools++ \
-		  -lXaw3d -lXv -lXt -lXext -lXmu -lX11 -lraw1394 -lusb-1.0
+LIBS		= -lTUvIIDC++ -lTUIIDC++ -lTUXv++ -lTUv++ -lTUTools++
 ifneq ($(findstring darwin,$(OSTYPE)),)
   LIBS	       += -framework IOKit -framework CoreFoundation \
 		  -framework CoreServices
