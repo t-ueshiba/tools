@@ -31,7 +31,6 @@ usage(const char* s)
 	 << "                      (default: \""
 	 << IIDCCameraArray::DEFAULT_CAMERA_NAME
 	 << "\")\n"
-	 << "  -b:               IEEE1394b mode. (default: off)\n"
 	 << endl;
     cerr << " Other options.\n"
 	 << "  -G:               GUI mode. (default: off)\n"
@@ -60,19 +59,15 @@ main(int argc, char* argv[])
     
     v::App		vapp(argc, argv);
     const char*		name  = IIDCCameraArray::DEFAULT_CAMERA_NAME;
-    IIDCCamera::Speed	speed = IIDCCamera::SPD_400M;
     bool		gui   = false;
     
   // Parse command options.
     extern char*	optarg;
-    for (int c; (c = getopt(argc, argv, "c:bGh")) != -1; )
+    for (int c; (c = getopt(argc, argv, "c:Gh")) != -1; )
 	switch (c)
 	{
 	  case 'c':
 	    name = optarg;
-	    break;
-	  case 'b':
-	    speed = IIDCCamera::SPD_800M;
 	    break;
 	  case 'G':
 	    gui = true;
@@ -86,18 +81,15 @@ main(int argc, char* argv[])
     try
     {
       // IIDCカメラをオープンする．
-	IIDCCameraArray	cameras;
+	IIDCCameraArray	cameras(name);
 	if (optind < argc)
 	{
 	    cameras.resize(argc - optind);
 	    for (auto& camera : cameras)
-	    {
 		camera.initialize(strtoull(argv[optind++], 0, 0));
-		camera.setSpeed(speed);
-	    }
 	}
 	else
-	    cameras.restore(name, speed);
+	    cameras.restore();
 	
 	if (cameras.size() == 0)
 	    throw std::runtime_error("One or more cameras must be specified!!");

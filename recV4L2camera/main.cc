@@ -86,15 +86,15 @@ main(int argc, char* argv[])
     
     try
     {
-	V4L2CameraArray		cameras;
+	V4L2CameraArray		cameras(name);
 	if (optind < argc)
 	{
 	    cameras.resize(argc - optind);
 	    for (auto& camera : cameras)
 		camera.initialize(argv[optind++]);
 	}
-	else if (name)
-	    cameras.restore(name);
+	else
+	    cameras.restore();
 
 	v::MyCmdWindow<V4L2CameraArray, u_char>	myWin(vapp, cameras, ncol, zoom);
 	vapp.run();

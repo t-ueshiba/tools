@@ -53,11 +53,10 @@ main(int argc, char* argv[])
     const char*		name  = IIDCCameraArray::DEFAULT_CAMERA_NAME;
     u_int		ncol  = 2;
     float		zoom  = 1;
-    IIDCCamera::Speed	speed = IIDCCamera::SPD_400M;
 
   // コマンド行の解析．
     extern char*	optarg;
-    for (int c; (c = getopt(argc, argv, "c:Cbn:42HQh")) != -1; )
+    for (int c; (c = getopt(argc, argv, "c:Cn:42HQh")) != -1; )
 	switch (c)
 	{
 	  case 'c':
@@ -65,9 +64,6 @@ main(int argc, char* argv[])
 	    break;
 	  case 'C':
 	    name = nullptr;
-	    break;
-	  case 'b':
-	    speed = IIDCCamera::SPD_800M;
 	    break;
 	  case 'n':
 	    ncol = atoi(optarg);
@@ -91,18 +87,15 @@ main(int argc, char* argv[])
     
     try
     {
-	IIDCCameraArray	cameras;
+	IIDCCameraArray	cameras(name);
 	if (optind < argc)
 	{
 	    cameras.resize(argc - optind);
 	    for (auto& camera : cameras)
-	    {
 		camera.initialize(strtoull(argv[optind++], 0, 0));
-		camera.setSpeed(speed);
-	    }
 	}
-	else if (name)
-	    cameras.restore(name, speed);
+	else
+	    cameras.restore();
 
 	v::MyCmdWindow<IIDCCameraArray, u_char>	myWin(vapp, cameras, ncol, zoom);
 	vapp.run();

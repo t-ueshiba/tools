@@ -79,7 +79,7 @@ main(int argc, char* argv[])
     try
     {
       // V4L2カメラをオープンする．
-	V4L2CameraArray	cameras;
+	V4L2CameraArray	cameras(name);
 	if (optind < argc)
 	{
 	    cameras.resize(argc - optind);
@@ -87,7 +87,7 @@ main(int argc, char* argv[])
 		camera.initialize(argv[optind++]);
 	}
 	else
-	    cameras.restore(name);
+	    cameras.restore();
 
 	if (cameras.size() == 0)
 	    throw std::runtime_error("One or more cameras must be specified!!");
