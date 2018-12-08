@@ -1,0 +1,3088 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		5C93CC0EC8CE40A6AACA4166 /* ZERO_CHECK */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 5F6182DE83A941419AE1F526 /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */;
+			buildPhases = (
+				38C993729B304E2E9F2D97EB /* CMake Rules */,
+			);
+			dependencies = (
+			);
+			name = ZERO_CHECK;
+			productName = ZERO_CHECK;
+		};
+		AF485CE6AFC74BC29B23C412 /* install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 13EED4B1A4DF40B1B3CBB2CE /* Build configuration list for PBXAggregateTarget "install" */;
+			buildPhases = (
+				C36AF15C1BE74D848F7D4B9F /* CMake PostBuild Rules */,
+			);
+			dependencies = (
+				51D3FD6886E24D9184AE8D9E /* PBXTargetDependency */,
+			);
+			name = install;
+			productName = install;
+		};
+		EF3EDFB1CA9545D29155AABE /* ALL_BUILD */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = AD34765D72644971B4362111 /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */;
+			buildPhases = (
+				D5AAD60A1A694AE8854BEB54 /* CMake Rules */,
+			);
+			dependencies = (
+				E990558E476C4CBC90D41E23 /* PBXTargetDependency */,
+				D72C37737EC84FE7800ACAAB /* PBXTargetDependency */,
+				D46A3A6D80A0401BA399C59C /* PBXTargetDependency */,
+				BEB8D8DD563940B59F16200D /* PBXTargetDependency */,
+				403777F6A2D243AEAF568A84 /* PBXTargetDependency */,
+				6988B958A76649D6A17ADACC /* PBXTargetDependency */,
+				C4F3705A2D15451B995A67D2 /* PBXTargetDependency */,
+				9FDE949DADE04DF097B8FEBF /* PBXTargetDependency */,
+				D47A04D7CE3841198E3AA029 /* PBXTargetDependency */,
+				5347FA6DBE054073A1106E7C /* PBXTargetDependency */,
+				B9429E86F0E048908DC9A4B7 /* PBXTargetDependency */,
+			);
+			name = ALL_BUILD;
+			productName = ALL_BUILD;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		0A7A469E4880480FA4DF3E29 /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = 31D8BE1F3D014732971FFF3C /* main.cc */; };
+		0D4AE2FC40BD47039660232E /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40E04E5F798D4E3A9ED83F75 /* main.cc */; };
+		15B551713E87400DBF42272C /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = 49423164C711454FA58AB5AE /* main.cc */; };
+		1FEEBA946A0448CBA21FEE2A /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = F440F744CA65412AA66728FB /* main.cc */; };
+		27C1B6B174EA46BBA4DA4D9A /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC61D2AC9A4302AB597763 /* main.cc */; };
+		43122C2831BE4DBCB123321D /* MyCmdWindow.cc in Sources */ = {isa = PBXBuildFile; fileRef = 3E3FAEF66C864C8A8CFD9A32 /* MyCmdWindow.cc */; };
+		4AF81892262747CEBC8AB47C /* CaptureAndSave.cc in Sources */ = {isa = PBXBuildFile; fileRef = FC91B85BCA7A4064A2D5DF4C /* CaptureAndSave.cc */; };
+		5B8522AE1C684E1E87617495 /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = 879AEEFA7F324F3997521A02 /* main.cc */; };
+		5EB4CDAE6ACB4727B8DE40F2 /* MyCanvasPane.cc in Sources */ = {isa = PBXBuildFile; fileRef = FBD52A083C1D4E538FA4493C /* MyCanvasPane.cc */; };
+		9370E13B11DA4ACD8036A0FE /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = D623BCF22F8F4C389F11EC08 /* main.cc */; };
+		A858CC43B4164B2786B4E643 /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = F7E35C961D6D4ACC933ED863 /* main.cc */; };
+		D1AE633C57BF497AA10C9756 /* usage.cc in Sources */ = {isa = PBXBuildFile; fileRef = 611B9F60DB034D0385238446 /* usage.cc */; };
+		E912C27EB93C47808E600EF6 /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = 34A7509779D14D9787A7456B /* main.cc */; };
+		FE8277DD457749E1849B8EF5 /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = C576FEEC287B458A8C30319E /* main.cc */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1B1E6EDA070640F28C74E41A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 768CC67FE8D74C4E85872CEC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 82CE72CC4264407C937A57E2;
+			remoteInfo = pbmrot;
+		};
+		41EFBF1509394C8AB559C745 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 768CC67FE8D74C4E85872CEC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 891994A15579478DA256519D;
+			remoteInfo = pbmrectify;
+		};
+		62FD8FA027FD4F168FA866A7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 768CC67FE8D74C4E85872CEC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 129A7D6CC727430A86C269D1;
+			remoteInfo = fv;
+		};
+		7EC3E45A71C243E68E471103 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 768CC67FE8D74C4E85872CEC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E70F0B9C49E9498EBB85C5E1;
+			remoteInfo = pbmdecode;
+		};
+		82E507AB9C7240589828EBB8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 768CC67FE8D74C4E85872CEC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EAF78798638A462FACE0DA21;
+			remoteInfo = epicheck;
+		};
+		91EA10EA2F244458BB6A21E0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 768CC67FE8D74C4E85872CEC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C1C60F3D02954A40BDB978F4;
+			remoteInfo = pbmheader;
+		};
+		AE5903B449A84C08ADED71F9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 768CC67FE8D74C4E85872CEC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EF3EDFB1CA9545D29155AABE;
+			remoteInfo = ALL_BUILD;
+		};
+		B08CB382E60C426FB2E75509 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 768CC67FE8D74C4E85872CEC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CD8FD49A123F43D1BFEF92AE;
+			remoteInfo = recIIDCcamera;
+		};
+		D9BA0FFEDCDD466D9A42234A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 768CC67FE8D74C4E85872CEC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA32FE875BB2477CACE4CADB;
+			remoteInfo = pbmselect;
+		};
+		DEFCB3EAA6A64BFE8DC0DE53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 768CC67FE8D74C4E85872CEC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5C93CC0EC8CE40A6AACA4166;
+			remoteInfo = ZERO_CHECK;
+		};
+		F8B5D6F7F3B546C0AF617656 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 768CC67FE8D74C4E85872CEC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8317DBBEDC2A4D07B02F3EBD;
+			remoteInfo = embedCalib;
+		};
+		F987321178534A9AB8F9C4A0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 768CC67FE8D74C4E85872CEC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5C3231B19E224F9F9ABFBA44;
+			remoteInfo = flowIIDCcamera;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		03D170CCBCBE45188B15C150 /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = flowIIDCcamera/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		0D594A5434E84C539F233240 /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = recIIDCcamera/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		18F9BB19EADF470696FB953A /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = epicheck/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		1C3F2F179C524018A815186E /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = pbmdecode/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		23E7F6EEA6514E0F936F360C /* pbmselect */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = pbmselect; sourceTree = BUILT_PRODUCTS_DIR; };
+		31D8BE1F3D014732971FFF3C /* main.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = main.cc; path = recIIDCcamera/main.cc; sourceTree = SOURCE_ROOT; };
+		33FAED83596946F4BE6F975F /* pbmrot */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = pbmrot; sourceTree = BUILT_PRODUCTS_DIR; };
+		345A19E30648411490251C2C /* pbmrectify */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = pbmrectify; sourceTree = BUILT_PRODUCTS_DIR; };
+		34A7509779D14D9787A7456B /* main.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = main.cc; path = pbmrectify/main.cc; sourceTree = SOURCE_ROOT; };
+		3B8D6A8C5A9448919CD0DCFC /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = pbmrot/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		3E3FAEF66C864C8A8CFD9A32 /* MyCmdWindow.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = MyCmdWindow.cc; path = epicheck/MyCmdWindow.cc; sourceTree = SOURCE_ROOT; };
+		40E04E5F798D4E3A9ED83F75 /* main.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = main.cc; path = pbmheader/main.cc; sourceTree = SOURCE_ROOT; };
+		41EC148C67AA407A91B41C17 /* epicheck */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = epicheck; sourceTree = BUILT_PRODUCTS_DIR; };
+		48F303058A2D4817B888DC52 /* pbmdecode */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = pbmdecode; sourceTree = BUILT_PRODUCTS_DIR; };
+		49423164C711454FA58AB5AE /* main.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = main.cc; path = fv/main.cc; sourceTree = SOURCE_ROOT; };
+		49B5B15B73484146AE3181A0 /* embedCalib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = embedCalib; sourceTree = BUILT_PRODUCTS_DIR; };
+		4AA046DF05B048128C95BEC7 /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = pbmheader/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		611B9F60DB034D0385238446 /* usage.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = usage.cc; path = epicheck/usage.cc; sourceTree = SOURCE_ROOT; };
+		61AC5CB34D784C4ABE9E6E6D /* pbmheader */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = pbmheader; sourceTree = BUILT_PRODUCTS_DIR; };
+		773B4EC473394F87A92BE52C /* flowIIDCcamera */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = flowIIDCcamera; sourceTree = BUILT_PRODUCTS_DIR; };
+		838B3FC17F60482E9701ACB2 /* recIIDCcamera */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = recIIDCcamera; sourceTree = BUILT_PRODUCTS_DIR; };
+		879AEEFA7F324F3997521A02 /* main.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = main.cc; path = epicheck/main.cc; sourceTree = SOURCE_ROOT; };
+		8EEC61D2AC9A4302AB597763 /* main.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = main.cc; path = pbmrot/main.cc; sourceTree = SOURCE_ROOT; };
+		940DCB9BA12C48E78E8C7B32 /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		95508681FDD649408CB7F2D9 /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = fv/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		9DCE3A87E04F4D39BB90AEAA /* fv */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = fv; sourceTree = BUILT_PRODUCTS_DIR; };
+		B57933A1D7BB4295B989DE84 /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = pbmselect/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		B681120957084156B19323A4 /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = pbmrectify/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		C576FEEC287B458A8C30319E /* main.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = main.cc; path = pbmselect/main.cc; sourceTree = SOURCE_ROOT; };
+		D623BCF22F8F4C389F11EC08 /* main.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = main.cc; path = embedCalib/main.cc; sourceTree = SOURCE_ROOT; };
+		EA19DB33B7B841BAA199F4F2 /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = embedCalib/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		F440F744CA65412AA66728FB /* main.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = main.cc; path = pbmdecode/main.cc; sourceTree = SOURCE_ROOT; };
+		F7E35C961D6D4ACC933ED863 /* main.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = main.cc; path = flowIIDCcamera/main.cc; sourceTree = SOURCE_ROOT; };
+		FBD52A083C1D4E538FA4493C /* MyCanvasPane.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = MyCanvasPane.cc; path = epicheck/MyCanvasPane.cc; sourceTree = SOURCE_ROOT; };
+		FC91B85BCA7A4064A2D5DF4C /* CaptureAndSave.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CaptureAndSave.cc; path = flowIIDCcamera/CaptureAndSave.cc; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0A973141BADB4D2FB4ECA62A /* CMake Rules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "CMake Rules";
+			sourceTree = "<group>";
+		};
+		0BB33C3711C842698FD0ACBE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				49B5B15B73484146AE3181A0 /* embedCalib */,
+				41EC148C67AA407A91B41C17 /* epicheck */,
+				773B4EC473394F87A92BE52C /* flowIIDCcamera */,
+				9DCE3A87E04F4D39BB90AEAA /* fv */,
+				48F303058A2D4817B888DC52 /* pbmdecode */,
+				61AC5CB34D784C4ABE9E6E6D /* pbmheader */,
+				345A19E30648411490251C2C /* pbmrectify */,
+				33FAED83596946F4BE6F975F /* pbmrot */,
+				23E7F6EEA6514E0F936F360C /* pbmselect */,
+				838B3FC17F60482E9701ACB2 /* recIIDCcamera */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		194E978FCCBD44FFAB2C1526 /* pbmdecode */ = {
+			isa = PBXGroup;
+			children = (
+				27881F85B48F484C9D8888EA /* Source Files */,
+				1C3F2F179C524018A815186E /* CMakeLists.txt */,
+			);
+			name = pbmdecode;
+			sourceTree = "<group>";
+		};
+		1CAACC6D3B5F4326995F543D /* embedCalib */ = {
+			isa = PBXGroup;
+			children = (
+				A287AF92FE1643B599FCBB02 /* Source Files */,
+				EA19DB33B7B841BAA199F4F2 /* CMakeLists.txt */,
+			);
+			name = embedCalib;
+			sourceTree = "<group>";
+		};
+		2426755ACDB94E8084C904C8 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				40E04E5F798D4E3A9ED83F75 /* main.cc */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		27881F85B48F484C9D8888EA /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				F440F744CA65412AA66728FB /* main.cc */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		371E0D29B75F436C89C1870B /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				34A7509779D14D9787A7456B /* main.cc */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		3748B497997D49CBAF4ED0B3 /* ALL_BUILD */ = {
+			isa = PBXGroup;
+			children = (
+				0A973141BADB4D2FB4ECA62A /* CMake Rules */,
+				940DCB9BA12C48E78E8C7B32 /* CMakeLists.txt */,
+			);
+			name = ALL_BUILD;
+			sourceTree = "<group>";
+		};
+		45CB1D83B16C4AF9AEF34364 /* epicheck */ = {
+			isa = PBXGroup;
+			children = (
+				A0058C43EDA74077A86F40A5 /* Source Files */,
+				18F9BB19EADF470696FB953A /* CMakeLists.txt */,
+			);
+			name = epicheck;
+			sourceTree = "<group>";
+		};
+		5A32AAF25C854CD39511A8E5 /* fv */ = {
+			isa = PBXGroup;
+			children = (
+				6B24360415614958867895C0 /* Source Files */,
+				95508681FDD649408CB7F2D9 /* CMakeLists.txt */,
+			);
+			name = fv;
+			sourceTree = "<group>";
+		};
+		5C3DA51E363F47F7835E2E3A /* pbmrot */ = {
+			isa = PBXGroup;
+			children = (
+				E2D63BB89FCE46AA8C5EE213 /* Source Files */,
+				3B8D6A8C5A9448919CD0DCFC /* CMakeLists.txt */,
+			);
+			name = pbmrot;
+			sourceTree = "<group>";
+		};
+		64D0B33860924CFDAC700F9C /* recIIDCcamera */ = {
+			isa = PBXGroup;
+			children = (
+				F5BDD000ED0A4B99B498FDCF /* Source Files */,
+				0D594A5434E84C539F233240 /* CMakeLists.txt */,
+			);
+			name = recIIDCcamera;
+			sourceTree = "<group>";
+		};
+		650E7BD18A63489BA32039CF /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				FC91B85BCA7A4064A2D5DF4C /* CaptureAndSave.cc */,
+				F7E35C961D6D4ACC933ED863 /* main.cc */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		69F53A826DB341C79DAB929D /* flowIIDCcamera */ = {
+			isa = PBXGroup;
+			children = (
+				650E7BD18A63489BA32039CF /* Source Files */,
+				03D170CCBCBE45188B15C150 /* CMakeLists.txt */,
+			);
+			name = flowIIDCcamera;
+			sourceTree = "<group>";
+		};
+		6B24360415614958867895C0 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				49423164C711454FA58AB5AE /* main.cc */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		82691C56F87B4B9DA763B833 /* pbmheader */ = {
+			isa = PBXGroup;
+			children = (
+				2426755ACDB94E8084C904C8 /* Source Files */,
+				4AA046DF05B048128C95BEC7 /* CMakeLists.txt */,
+			);
+			name = pbmheader;
+			sourceTree = "<group>";
+		};
+		90E88B32401D43BAA68B6C90 /* pbmrectify */ = {
+			isa = PBXGroup;
+			children = (
+				371E0D29B75F436C89C1870B /* Source Files */,
+				B681120957084156B19323A4 /* CMakeLists.txt */,
+			);
+			name = pbmrectify;
+			sourceTree = "<group>";
+		};
+		A0058C43EDA74077A86F40A5 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				FBD52A083C1D4E538FA4493C /* MyCanvasPane.cc */,
+				3E3FAEF66C864C8A8CFD9A32 /* MyCmdWindow.cc */,
+				879AEEFA7F324F3997521A02 /* main.cc */,
+				611B9F60DB034D0385238446 /* usage.cc */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		A287AF92FE1643B599FCBB02 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				D623BCF22F8F4C389F11EC08 /* main.cc */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		E21C1687702141ACA175A5D2 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				C576FEEC287B458A8C30319E /* main.cc */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		E2D63BB89FCE46AA8C5EE213 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				8EEC61D2AC9A4302AB597763 /* main.cc */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		EDC5F644360946ED803AC957 /* pbmselect */ = {
+			isa = PBXGroup;
+			children = (
+				E21C1687702141ACA175A5D2 /* Source Files */,
+				B57933A1D7BB4295B989DE84 /* CMakeLists.txt */,
+			);
+			name = pbmselect;
+			sourceTree = "<group>";
+		};
+		F5BDD000ED0A4B99B498FDCF /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				31D8BE1F3D014732971FFF3C /* main.cc */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		F87695C59C2046388BE760C5 = {
+			isa = PBXGroup;
+			children = (
+				3748B497997D49CBAF4ED0B3 /* ALL_BUILD */,
+				1CAACC6D3B5F4326995F543D /* embedCalib */,
+				45CB1D83B16C4AF9AEF34364 /* epicheck */,
+				82691C56F87B4B9DA763B833 /* pbmheader */,
+				90E88B32401D43BAA68B6C90 /* pbmrectify */,
+				EDC5F644360946ED803AC957 /* pbmselect */,
+				5C3DA51E363F47F7835E2E3A /* pbmrot */,
+				194E978FCCBD44FFAB2C1526 /* pbmdecode */,
+				5A32AAF25C854CD39511A8E5 /* fv */,
+				69F53A826DB341C79DAB929D /* flowIIDCcamera */,
+				64D0B33860924CFDAC700F9C /* recIIDCcamera */,
+				0BB33C3711C842698FD0ACBE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		129A7D6CC727430A86C269D1 /* fv */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 817F7577182046E59E8B470B /* Build configuration list for PBXNativeTarget "fv" */;
+			buildPhases = (
+				70593A1B20DD4C75AECFF05C /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = fv;
+			productName = fv;
+			productReference = 9DCE3A87E04F4D39BB90AEAA /* fv */;
+			productType = "com.apple.product-type.tool";
+		};
+		5C3231B19E224F9F9ABFBA44 /* flowIIDCcamera */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C509E31FB2C543CC88331B4B /* Build configuration list for PBXNativeTarget "flowIIDCcamera" */;
+			buildPhases = (
+				E4349D8FAFBA4A4387A3070E /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = flowIIDCcamera;
+			productName = flowIIDCcamera;
+			productReference = 773B4EC473394F87A92BE52C /* flowIIDCcamera */;
+			productType = "com.apple.product-type.tool";
+		};
+		82CE72CC4264407C937A57E2 /* pbmrot */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DCFBA47EF32D4F63A113A8CE /* Build configuration list for PBXNativeTarget "pbmrot" */;
+			buildPhases = (
+				F0B008D746874CCF992339B2 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = pbmrot;
+			productName = pbmrot;
+			productReference = 33FAED83596946F4BE6F975F /* pbmrot */;
+			productType = "com.apple.product-type.tool";
+		};
+		8317DBBEDC2A4D07B02F3EBD /* embedCalib */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3598CB1EC13E40E29CC89A63 /* Build configuration list for PBXNativeTarget "embedCalib" */;
+			buildPhases = (
+				1F04C5B83D3443549A53B357 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = embedCalib;
+			productName = embedCalib;
+			productReference = 49B5B15B73484146AE3181A0 /* embedCalib */;
+			productType = "com.apple.product-type.tool";
+		};
+		891994A15579478DA256519D /* pbmrectify */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 76437817351942F08424D28F /* Build configuration list for PBXNativeTarget "pbmrectify" */;
+			buildPhases = (
+				70ACE01D03A743C889B4A32E /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = pbmrectify;
+			productName = pbmrectify;
+			productReference = 345A19E30648411490251C2C /* pbmrectify */;
+			productType = "com.apple.product-type.tool";
+		};
+		AA32FE875BB2477CACE4CADB /* pbmselect */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1A2A6F49AAAF46ECBA839B9B /* Build configuration list for PBXNativeTarget "pbmselect" */;
+			buildPhases = (
+				A1E5F736CE70480EBDA6BA9B /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = pbmselect;
+			productName = pbmselect;
+			productReference = 23E7F6EEA6514E0F936F360C /* pbmselect */;
+			productType = "com.apple.product-type.tool";
+		};
+		C1C60F3D02954A40BDB978F4 /* pbmheader */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F5FE0A3FC5F344ADB37A66D1 /* Build configuration list for PBXNativeTarget "pbmheader" */;
+			buildPhases = (
+				21BA8C00447443BDAC7F49E7 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = pbmheader;
+			productName = pbmheader;
+			productReference = 61AC5CB34D784C4ABE9E6E6D /* pbmheader */;
+			productType = "com.apple.product-type.tool";
+		};
+		CD8FD49A123F43D1BFEF92AE /* recIIDCcamera */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 35B814778174475F86044AE4 /* Build configuration list for PBXNativeTarget "recIIDCcamera" */;
+			buildPhases = (
+				84EBE539F27E46A3BC9B61B6 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = recIIDCcamera;
+			productName = recIIDCcamera;
+			productReference = 838B3FC17F60482E9701ACB2 /* recIIDCcamera */;
+			productType = "com.apple.product-type.tool";
+		};
+		E70F0B9C49E9498EBB85C5E1 /* pbmdecode */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6DC528DC7EEB434EBDCBA905 /* Build configuration list for PBXNativeTarget "pbmdecode" */;
+			buildPhases = (
+				27DF9CE8BC4542C798B48924 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = pbmdecode;
+			productName = pbmdecode;
+			productReference = 48F303058A2D4817B888DC52 /* pbmdecode */;
+			productType = "com.apple.product-type.tool";
+		};
+		EAF78798638A462FACE0DA21 /* epicheck */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 524B0B496228464CA683316B /* Build configuration list for PBXNativeTarget "epicheck" */;
+			buildPhases = (
+				4F4DAB6ABBF2434A94D2B2E7 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = epicheck;
+			productName = epicheck;
+			productReference = 41EC148C67AA407A91B41C17 /* epicheck */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		768CC67FE8D74C4E85872CEC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1010;
+			};
+			buildConfigurationList = DD355009A90E4711BCD213C1 /* Build configuration list for PBXProject "Tools" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F87695C59C2046388BE760C5;
+			projectDirPath = ../;
+			projectRoot = "";
+			targets = (
+				EF3EDFB1CA9545D29155AABE /* ALL_BUILD */,
+				5C93CC0EC8CE40A6AACA4166 /* ZERO_CHECK */,
+				8317DBBEDC2A4D07B02F3EBD /* embedCalib */,
+				EAF78798638A462FACE0DA21 /* epicheck */,
+				5C3231B19E224F9F9ABFBA44 /* flowIIDCcamera */,
+				129A7D6CC727430A86C269D1 /* fv */,
+				AF485CE6AFC74BC29B23C412 /* install */,
+				E70F0B9C49E9498EBB85C5E1 /* pbmdecode */,
+				C1C60F3D02954A40BDB978F4 /* pbmheader */,
+				891994A15579478DA256519D /* pbmrectify */,
+				82CE72CC4264407C937A57E2 /* pbmrot */,
+				AA32FE875BB2477CACE4CADB /* pbmselect */,
+				CD8FD49A123F43D1BFEF92AE /* recIIDCcamera */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		38C993729B304E2E9F2D97EB /* CMake Rules */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "CMake Rules";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "make -C /Users/ueshiba/tools/Xcode -f /Users/ueshiba/tools/Xcode/CMakeScripts/ZERO_CHECK_cmakeRulesBuildPhase.make$CONFIGURATION all";
+			showEnvVarsInLog = 0;
+		};
+		C36AF15C1BE74D848F7D4B9F /* CMake PostBuild Rules */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "CMake PostBuild Rules";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "make -C /Users/ueshiba/tools/Xcode -f /Users/ueshiba/tools/Xcode/CMakeScripts/install_postBuildPhase.make$CONFIGURATION all";
+			showEnvVarsInLog = 0;
+		};
+		D5AAD60A1A694AE8854BEB54 /* CMake Rules */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "CMake Rules";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "make -C /Users/ueshiba/tools/Xcode -f /Users/ueshiba/tools/Xcode/CMakeScripts/ALL_BUILD_cmakeRulesBuildPhase.make$CONFIGURATION all";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1F04C5B83D3443549A53B357 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9370E13B11DA4ACD8036A0FE /* main.cc in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		21BA8C00447443BDAC7F49E7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0D4AE2FC40BD47039660232E /* main.cc in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		27DF9CE8BC4542C798B48924 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1FEEBA946A0448CBA21FEE2A /* main.cc in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F4DAB6ABBF2434A94D2B2E7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5EB4CDAE6ACB4727B8DE40F2 /* MyCanvasPane.cc in Sources */,
+				43122C2831BE4DBCB123321D /* MyCmdWindow.cc in Sources */,
+				5B8522AE1C684E1E87617495 /* main.cc in Sources */,
+				D1AE633C57BF497AA10C9756 /* usage.cc in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		70593A1B20DD4C75AECFF05C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				15B551713E87400DBF42272C /* main.cc in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		70ACE01D03A743C889B4A32E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E912C27EB93C47808E600EF6 /* main.cc in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84EBE539F27E46A3BC9B61B6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0A7A469E4880480FA4DF3E29 /* main.cc in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A1E5F736CE70480EBDA6BA9B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FE8277DD457749E1849B8EF5 /* main.cc in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E4349D8FAFBA4A4387A3070E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4AF81892262747CEBC8AB47C /* CaptureAndSave.cc in Sources */,
+				A858CC43B4164B2786B4E643 /* main.cc in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F0B008D746874CCF992339B2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				27C1B6B174EA46BBA4DA4D9A /* main.cc in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		403777F6A2D243AEAF568A84 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 891994A15579478DA256519D /* pbmrectify */;
+			targetProxy = 41EFBF1509394C8AB559C745 /* PBXContainerItemProxy */;
+		};
+		51D3FD6886E24D9184AE8D9E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EF3EDFB1CA9545D29155AABE /* ALL_BUILD */;
+			targetProxy = AE5903B449A84C08ADED71F9 /* PBXContainerItemProxy */;
+		};
+		5347FA6DBE054073A1106E7C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5C3231B19E224F9F9ABFBA44 /* flowIIDCcamera */;
+			targetProxy = F987321178534A9AB8F9C4A0 /* PBXContainerItemProxy */;
+		};
+		6988B958A76649D6A17ADACC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA32FE875BB2477CACE4CADB /* pbmselect */;
+			targetProxy = D9BA0FFEDCDD466D9A42234A /* PBXContainerItemProxy */;
+		};
+		9FDE949DADE04DF097B8FEBF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E70F0B9C49E9498EBB85C5E1 /* pbmdecode */;
+			targetProxy = 7EC3E45A71C243E68E471103 /* PBXContainerItemProxy */;
+		};
+		B9429E86F0E048908DC9A4B7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CD8FD49A123F43D1BFEF92AE /* recIIDCcamera */;
+			targetProxy = B08CB382E60C426FB2E75509 /* PBXContainerItemProxy */;
+		};
+		BEB8D8DD563940B59F16200D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C1C60F3D02954A40BDB978F4 /* pbmheader */;
+			targetProxy = 91EA10EA2F244458BB6A21E0 /* PBXContainerItemProxy */;
+		};
+		C4F3705A2D15451B995A67D2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 82CE72CC4264407C937A57E2 /* pbmrot */;
+			targetProxy = 1B1E6EDA070640F28C74E41A /* PBXContainerItemProxy */;
+		};
+		D46A3A6D80A0401BA399C59C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EAF78798638A462FACE0DA21 /* epicheck */;
+			targetProxy = 82E507AB9C7240589828EBB8 /* PBXContainerItemProxy */;
+		};
+		D47A04D7CE3841198E3AA029 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 129A7D6CC727430A86C269D1 /* fv */;
+			targetProxy = 62FD8FA027FD4F168FA866A7 /* PBXContainerItemProxy */;
+		};
+		D72C37737EC84FE7800ACAAB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8317DBBEDC2A4D07B02F3EBD /* embedCalib */;
+			targetProxy = F8B5D6F7F3B546C0AF617656 /* PBXContainerItemProxy */;
+		};
+		E990558E476C4CBC90D41E23 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5C93CC0EC8CE40A6AACA4166 /* ZERO_CHECK */;
+			targetProxy = DEFCB3EAA6A64BFE8DC0DE53 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		071AF68797A548D6B66571C8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/Debug;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = pbmheader;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/pbmheader;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = Debug;
+		};
+		12EBCE3668E94A4EA4C8C4A6 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk;
+				SYMROOT = /Users/ueshiba/tools/Xcode/build;
+			};
+			name = RelWithDebInfo;
+		};
+		13A417DBDA644072BFE318FB /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/MinSizeRel;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-DNDEBUG",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = embedCalib;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/embedCalib;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = MinSizeRel;
+		};
+		1DB1E8F252AA44339AE7758D /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = MinSizeRel;
+		};
+		239060FB32D0422B9F9DA712 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/Debug;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					/opt/X11/include,
+				);
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUv++",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = fv;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/fv;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = Debug;
+		};
+		2436C2AE32CB4C7085E59075 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/Release;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					/opt/X11/include,
+				);
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-Wall",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUvIIDC++",
+					"-lTUIIDC++",
+					"-lTUv++",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = recIIDCcamera;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/recIIDCcamera;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = Release;
+		};
+		25070C2A05D84118878516D7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/Release;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-Wall",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = pbmheader;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/pbmheader;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = Release;
+		};
+		254DB60E66CB48CEA02980FD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/Release;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-Wall",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = pbmrot;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/pbmrot;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = Release;
+		};
+		2A9B2E1BAAED44BB97C2FB2D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = Debug;
+		};
+		2E119BDDA7D6449E9D5D8220 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/MinSizeRel;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					/opt/X11/include,
+				);
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-DNDEBUG",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUv++",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = fv;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/fv;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = MinSizeRel;
+		};
+		36123A69ACC54B02911C2D14 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/MinSizeRel;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					/opt/X11/include,
+				);
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-DNDEBUG",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUvIIDC++",
+					"-lTUIIDC++",
+					"-lTUv++",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = recIIDCcamera;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/recIIDCcamera;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = MinSizeRel;
+		};
+		3AE33421028B452698428B8F /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/MinSizeRel;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					/opt/X11/include,
+				);
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-DNDEBUG",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUvIIDC++",
+					"-lTUIIDC++",
+					"-lTUv++",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = flowIIDCcamera;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/flowIIDCcamera;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = MinSizeRel;
+		};
+		4956CD2834174253AF5A1780 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/MinSizeRel;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-DNDEBUG",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = pbmheader;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/pbmheader;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = MinSizeRel;
+		};
+		4C671E1FFEA0439DA2704BDE /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/RelWithDebInfo;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-DNDEBUG",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = pbmrectify;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/pbmrectify;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = RelWithDebInfo;
+		};
+		545516F5E5A54EB1ACE4B77E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/Release;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-Wall",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = pbmdecode;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/pbmdecode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = Release;
+		};
+		574303C247BB4D4DA608FBCF /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = RelWithDebInfo;
+		};
+		57962F5479BD40DEA9E494EB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/Release;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-Wall",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = pbmselect;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/pbmselect;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = Release;
+		};
+		598E3F7C779041939A3B9A50 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = install;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = MinSizeRel;
+		};
+		59C2EDFD34E84079A143DFB1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/Debug;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = pbmselect;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/pbmselect;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = Debug;
+		};
+		60852018F27244958EF2497B /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/MinSizeRel;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-DNDEBUG",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = pbmrectify;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/pbmrectify;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = MinSizeRel;
+		};
+		60EF331CE1F945E4936F3D8C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/Release;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					/opt/X11/include,
+				);
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-Wall",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUvIIDC++",
+					"-lTUIIDC++",
+					"-lTUv++",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = flowIIDCcamera;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/flowIIDCcamera;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = Release;
+		};
+		7099A2F07CE4455897EC6361 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = Release;
+		};
+		70DDD98379BB4007AEFA2241 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = RelWithDebInfo;
+		};
+		733113860184427CA2468682 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/RelWithDebInfo;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-DNDEBUG",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = pbmheader;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/pbmheader;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = RelWithDebInfo;
+		};
+		784B760F4E914120A970BC02 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/Release;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					/opt/X11/include,
+				);
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-Wall",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUv++",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = fv;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/fv;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = Release;
+		};
+		7D8AE6616FC44E7AA5101221 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/MinSizeRel;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					/opt/X11/include,
+				);
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-DNDEBUG",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUv++",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = epicheck;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/epicheck;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = MinSizeRel;
+		};
+		7E2C293CB7334FE4ACF7BFCA /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = install;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = RelWithDebInfo;
+		};
+		81F45173E645447881B812BB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/Debug;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = pbmrot;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/pbmrot;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = Debug;
+		};
+		827B6A3F53A7412EAAEC6000 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/MinSizeRel;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-DNDEBUG",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = pbmdecode;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/pbmdecode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = MinSizeRel;
+		};
+		82AAC2AE9E094FFFAB7F4F93 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = install;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = Debug;
+		};
+		8473E0D514754F62B8B8CC62 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = install;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = Release;
+		};
+		8D0404F2E863489A8678E434 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = Release;
+		};
+		905FA95C99D14E9FB413F9FF /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/RelWithDebInfo;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-DNDEBUG",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = pbmselect;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/pbmselect;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = RelWithDebInfo;
+		};
+		90D0CFD0A23640E9A49A379A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/Release;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-Wall",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = pbmrectify;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/pbmrectify;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = Release;
+		};
+		93F818EE7D8E41839097BD76 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/Debug;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					/opt/X11/include,
+				);
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUv++",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = epicheck;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/epicheck;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = Debug;
+		};
+		9A856F1F3E09471BAB10BE8F /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/RelWithDebInfo;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-DNDEBUG",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = pbmrot;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/pbmrot;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = RelWithDebInfo;
+		};
+		A2DD702940B243668B376ED7 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/RelWithDebInfo;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					/opt/X11/include,
+				);
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-DNDEBUG",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUv++",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = fv;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/fv;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = RelWithDebInfo;
+		};
+		A88D9956D0B9492A903FB99F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/Debug;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					/opt/X11/include,
+				);
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUvIIDC++",
+					"-lTUIIDC++",
+					"-lTUv++",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = flowIIDCcamera;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/flowIIDCcamera;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = Debug;
+		};
+		C193A8B93A034006ABBE9172 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/Release;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					/opt/X11/include,
+				);
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-Wall",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUv++",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = epicheck;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/epicheck;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = Release;
+		};
+		C69B080229AB40FAB80974E7 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/RelWithDebInfo;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-DNDEBUG",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = embedCalib;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/embedCalib;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = RelWithDebInfo;
+		};
+		CBB83118299441A29CDC235F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/Debug;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = pbmrectify;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/pbmrectify;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = Debug;
+		};
+		CD925F7E9F7A4AB3AACD1025 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/RelWithDebInfo;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					/opt/X11/include,
+				);
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-DNDEBUG",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUvIIDC++",
+					"-lTUIIDC++",
+					"-lTUv++",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = recIIDCcamera;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/recIIDCcamera;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = RelWithDebInfo;
+		};
+		D5685163704E400DA592989C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/Release;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-Wall",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = embedCalib;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/embedCalib;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = Release;
+		};
+		D69F93A6D1464E99B9E498AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/Debug;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = embedCalib;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/embedCalib;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = Debug;
+		};
+		D956590C566843EEA43EF28F /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = MinSizeRel;
+		};
+		DC5825FCF9EE43609F69B25F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/Debug;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					/opt/X11/include,
+				);
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUvIIDC++",
+					"-lTUIIDC++",
+					"-lTUv++",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = recIIDCcamera;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/recIIDCcamera;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = Debug;
+		};
+		E2945E4E7A8A47ED8FCEEC85 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/RelWithDebInfo;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					/opt/X11/include,
+				);
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-DNDEBUG",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUvIIDC++",
+					"-lTUIIDC++",
+					"-lTUv++",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = flowIIDCcamera;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/flowIIDCcamera;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = RelWithDebInfo;
+		};
+		E6579DF5601545499F5F72BB /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/MinSizeRel;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-DNDEBUG",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = pbmselect;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/pbmselect;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = MinSizeRel;
+		};
+		E6DEF5C92C2C42CAA6A72F3A /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/RelWithDebInfo;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					/opt/X11/include,
+				);
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-DNDEBUG",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUv++",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = epicheck;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/epicheck;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = RelWithDebInfo;
+		};
+		E763DBDBDB1F4C33B4508D0A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk;
+				SYMROOT = /Users/ueshiba/tools/Xcode/build;
+			};
+			name = Debug;
+		};
+		E8A2DC802A3D49BB92FAC549 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk;
+				SYMROOT = /Users/ueshiba/tools/Xcode/build;
+			};
+			name = MinSizeRel;
+		};
+		ED628CA0B75E43238A67FE81 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/MinSizeRel;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-DNDEBUG",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = pbmrot;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/pbmrot;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = MinSizeRel;
+		};
+		F1A465F1465E4136A5D0D49C /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/RelWithDebInfo;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"-DNDEBUG",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = pbmdecode;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/pbmdecode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = RelWithDebInfo;
+		};
+		F4824283304D45198D37E260 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = Debug;
+		};
+		F676CD19CB4943F3B2F6D54B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/ueshiba/tools/Xcode/bin/Debug;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					NDEBUG,
+					AVX2,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-mavx2",
+					"'-std=c++14'",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lTUTools++",
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = pbmdecode;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/ueshiba/tools/Xcode/pbmdecode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = Debug;
+		};
+		F6DEA2C35B36418FB2874D51 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk;
+				SYMROOT = /Users/ueshiba/tools/Xcode/build;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		13EED4B1A4DF40B1B3CBB2CE /* Build configuration list for PBXAggregateTarget "install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82AAC2AE9E094FFFAB7F4F93 /* Debug */,
+				8473E0D514754F62B8B8CC62 /* Release */,
+				598E3F7C779041939A3B9A50 /* MinSizeRel */,
+				7E2C293CB7334FE4ACF7BFCA /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		1A2A6F49AAAF46ECBA839B9B /* Build configuration list for PBXNativeTarget "pbmselect" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				59C2EDFD34E84079A143DFB1 /* Debug */,
+				57962F5479BD40DEA9E494EB /* Release */,
+				E6579DF5601545499F5F72BB /* MinSizeRel */,
+				905FA95C99D14E9FB413F9FF /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		3598CB1EC13E40E29CC89A63 /* Build configuration list for PBXNativeTarget "embedCalib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D69F93A6D1464E99B9E498AD /* Debug */,
+				D5685163704E400DA592989C /* Release */,
+				13A417DBDA644072BFE318FB /* MinSizeRel */,
+				C69B080229AB40FAB80974E7 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		35B814778174475F86044AE4 /* Build configuration list for PBXNativeTarget "recIIDCcamera" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DC5825FCF9EE43609F69B25F /* Debug */,
+				2436C2AE32CB4C7085E59075 /* Release */,
+				36123A69ACC54B02911C2D14 /* MinSizeRel */,
+				CD925F7E9F7A4AB3AACD1025 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		524B0B496228464CA683316B /* Build configuration list for PBXNativeTarget "epicheck" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				93F818EE7D8E41839097BD76 /* Debug */,
+				C193A8B93A034006ABBE9172 /* Release */,
+				7D8AE6616FC44E7AA5101221 /* MinSizeRel */,
+				E6DEF5C92C2C42CAA6A72F3A /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		5F6182DE83A941419AE1F526 /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F4824283304D45198D37E260 /* Debug */,
+				7099A2F07CE4455897EC6361 /* Release */,
+				D956590C566843EEA43EF28F /* MinSizeRel */,
+				574303C247BB4D4DA608FBCF /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		6DC528DC7EEB434EBDCBA905 /* Build configuration list for PBXNativeTarget "pbmdecode" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F676CD19CB4943F3B2F6D54B /* Debug */,
+				545516F5E5A54EB1ACE4B77E /* Release */,
+				827B6A3F53A7412EAAEC6000 /* MinSizeRel */,
+				F1A465F1465E4136A5D0D49C /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		76437817351942F08424D28F /* Build configuration list for PBXNativeTarget "pbmrectify" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CBB83118299441A29CDC235F /* Debug */,
+				90D0CFD0A23640E9A49A379A /* Release */,
+				60852018F27244958EF2497B /* MinSizeRel */,
+				4C671E1FFEA0439DA2704BDE /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		817F7577182046E59E8B470B /* Build configuration list for PBXNativeTarget "fv" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				239060FB32D0422B9F9DA712 /* Debug */,
+				784B760F4E914120A970BC02 /* Release */,
+				2E119BDDA7D6449E9D5D8220 /* MinSizeRel */,
+				A2DD702940B243668B376ED7 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		AD34765D72644971B4362111 /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2A9B2E1BAAED44BB97C2FB2D /* Debug */,
+				8D0404F2E863489A8678E434 /* Release */,
+				1DB1E8F252AA44339AE7758D /* MinSizeRel */,
+				70DDD98379BB4007AEFA2241 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C509E31FB2C543CC88331B4B /* Build configuration list for PBXNativeTarget "flowIIDCcamera" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A88D9956D0B9492A903FB99F /* Debug */,
+				60EF331CE1F945E4936F3D8C /* Release */,
+				3AE33421028B452698428B8F /* MinSizeRel */,
+				E2945E4E7A8A47ED8FCEEC85 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		DCFBA47EF32D4F63A113A8CE /* Build configuration list for PBXNativeTarget "pbmrot" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				81F45173E645447881B812BB /* Debug */,
+				254DB60E66CB48CEA02980FD /* Release */,
+				ED628CA0B75E43238A67FE81 /* MinSizeRel */,
+				9A856F1F3E09471BAB10BE8F /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		DD355009A90E4711BCD213C1 /* Build configuration list for PBXProject "Tools" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E763DBDBDB1F4C33B4508D0A /* Debug */,
+				F6DEA2C35B36418FB2874D51 /* Release */,
+				E8A2DC802A3D49BB92FAC549 /* MinSizeRel */,
+				12EBCE3668E94A4EA4C8C4A6 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F5FE0A3FC5F344ADB37A66D1 /* Build configuration list for PBXNativeTarget "pbmheader" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				071AF68797A548D6B66571C8 /* Debug */,
+				25070C2A05D84118878516D7 /* Release */,
+				4956CD2834174253AF5A1780 /* MinSizeRel */,
+				733113860184427CA2468682 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 768CC67FE8D74C4E85872CEC /* Project object */;
+}
