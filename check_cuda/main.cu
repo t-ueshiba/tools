@@ -13,18 +13,19 @@ main()
 	return rc; /* Failure */
     }
 
-    const float		min_cc = 3.0;
-    if ((dP.major + 0.1*dP.minor) < min_cc)
+    const auto	min_cc = 4.0;
+    const auto	arch = 10*dP.major + dP.minor;
+    if (0.1*arch < min_cc)
     {
 	std::cerr << "Compute Capability " << min_cc
 		  << " or higher required: " << dP.major << '.' << dP.minor
 		  << " found."
 		  << std::endl;
 
-	return 1; /* Failure */
+	return -1; /* Failure */
     }
 
-    std::cout << dP.major << dP.minor;
+    std::cout << arch;
 
     return 0;
 }
